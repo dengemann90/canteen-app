@@ -1,3 +1,4 @@
+
 <template>
 <main>
   <router-view></router-view>
@@ -7,6 +8,16 @@
 
 <script>
 import TheNavigation from './components/nav/TheNavigation.vue';
+import { createStore } from 'idb-keyval';
+
+(function init() {
+    // App ist running now
+
+    let dbNameUser = createStore('User DB', 'user data');
+    console.log("DB User created!" + dbNameUser.name);
+    let dbNameApp = createStore('App DB', 'app data');
+    console.log("DB User created!" + dbNameApp.name);
+    })();
 
 export default {
 components: {
