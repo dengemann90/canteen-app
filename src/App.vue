@@ -69,6 +69,6 @@ p.capital {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    background-color: red;
+    /* background-color: red; */
 }
 </style>
