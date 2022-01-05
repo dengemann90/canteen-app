@@ -1,39 +1,42 @@
 <template>
-    <li>
-        <div @click="descriptionVisible = !descriptionVisible">
-        <h3>{{name}}</h3>
-        <p>{{price}}</p>
-        <p>{{label}}</p>
-        <div>
-            <i @click.stop="updateFavorite" class="fas regular fa-heart" :class="{active: isFavorite}"></i>
-        </div>
-        <section v-if="descriptionVisible">
-            <p>{{description}}</p>
-        </section>
-        </div>
-    </li>
+  <li>
+    <div @click="descriptionVisible = !descriptionVisible">
+      <h3>{{ name }}</h3>
+      <p>{{ price }}</p>
+      <p>{{ label }}</p>
+      <div>
+        <i
+          @click.stop="updateFavorite"
+          class="fas regular fa-heart"
+          :class="{ active: isFavorite }"
+        ></i>
+      </div>
+      <section v-if="descriptionVisible">
+        <p>{{ description }}</p>
+      </section>
+    </div>
+  </li>
 </template>
 
 <script>
 export default {
-    props: ['id', 'name', 'price', 'label', 'description', 'isFavorite'],
-    emits: ['change-favorite-status'],
-    data(){
-        return{
-            descriptionVisible:false
-        };
+  props: ["id", "name", "price", "label", "description", "isFavorite"],
+  emits: ["change-favorite-status"],
+  data() {
+    return {
+      descriptionVisible: false,
+      favorites:[1,3]
+    };
+  },
+  methods: {
+    updateFavorite() {
+      this.$emit("change-favorite-status", this.id);
     },
-    methods:{
-        updateFavorite(){
-            this.$emit('change-favorite-status', this.id)
-        }
-    }
-    
-}
+  },
+};
 </script>
 
 <style scoped>
-
 li {
   margin: 1rem 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
@@ -58,14 +61,14 @@ button {
   background-color: #383838;
 }
 
-.fas.fa-heart:hover{
-    color:red;
+.fas.fa-heart:hover {
+  color: red;
 }
-.fas.fa-heart{
-    color: rgba(248, 191, 191, 0.596);
+.fas.fa-heart {
+  color: rgba(248, 191, 191, 0.596);
 }
 
-.fas.fa-heart.active{
-    color: red;
+.fas.fa-heart.active {
+  color: red;
 }
 </style>
