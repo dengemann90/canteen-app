@@ -20,12 +20,23 @@
 
 <script>
 export default {
-  props: ["id", "name", "price", "label", "description", "isFavorite"],
+  props: ["id", "name", "price", "label", "description", "favorites"],
   emits: ["change-favorite-status"],
+  computed:{
+    isFavorite(){
+      const posId = this.favorites.indexOf(this.id);
+       if (posId === -1) {
+        console.log("dish with id " + this.id + " is not a favorite");
+        return false;
+      } else {
+        console.log("dish with id " + this.id + " is a favorite");
+        return true;
+      }
+    }
+  },
   data() {
     return {
-      descriptionVisible: false,
-      favorites:[1,3]
+      descriptionVisible: false
     };
   },
   methods: {

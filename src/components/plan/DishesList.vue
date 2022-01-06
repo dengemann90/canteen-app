@@ -8,7 +8,7 @@
       :price="dish.price"
       :label="dish.label"
       :description="dish.description"
-      :isFavorite="dish.isFavorite"
+      :favorites="favorites"
       @change-favorite-status="changeFavoriteStatus"
     ></dish-item>
   </ul>
@@ -30,66 +30,54 @@ export default {
   },
   methods: {
     changeFavoriteStatus(id) {
-      const identifiedDish = this.dishes.find((dish) => dish.id === id);
-      identifiedDish.isFavorite = !identifiedDish.isFavorite;
-
       const posId = this.favorites.indexOf(id);
       if (posId === -1) {
+        console.log("old internal favorites: " + this.favorites)
         this.favorites.push(id);
         console.log("dish with id " + id + " added to favorites");
+        console.log("updated internal favorites: " + this.favorites)
       } else {
-        this.favorites.pop(id);
+        console.log("old internal favorites: " + this.favorites)
+        this.favorites.splice(posId, 1);
         console.log("dish with id " + id + " deleted from favorites");
+        console.log("updated internal favorites: " + this.favorites)
       }
-      const favorites = Array.from(this.favorites);
+      let updateFavoritesDB = Array.from(this.favorites);
+      console.log('neues Array favorites DB: ' + updateFavoritesDB);
 
-      set("favorites", favorites)
+      set("favorites", updateFavoritesDB)
         .then(() => {
           console.log("favorites updated in indexedDB");
+        }).then(() => {
+          this.getFavorites();
         })
         .catch(console.warn);
     },
-    matchDishes() {
-      let dishesDB = [];
-      let favoritesDB = [];
+    getFavorites() {
+      get("favorites")
+        .then((data) => {
+          if (!data) {
+            console.log("no favorites in indexedDB");
+            return;
+          }
+          this.favorites = data;
+          console.log("favorites loaded from indexedDB");
+        })
+        .catch(console.warn);
+    },
+    getDishes() {
       get("dishes")
         .then((data) => {
-          dishesDB = data;
+          this.dishes = data;
           console.log("dishes loaded from indexedDB");
         })
-        .then(() => {
-          get("favorites")
-            .then((data) => {
-              if (!data) {
-                this.dishes = dishesDB;
-                console.log("no favorites in indexedDB");
-                return;
-              }
-              favoritesDB = data;
-              this.favorites = data;
-              console.log("favorites loaded from indexedDB");
-            })
-            .then(() => {
-              dishesDB.forEach((dish) => {
-                const posId = favoritesDB.indexOf(dish.id);
-                if (posId === -1) {
-                  dish.isFavorite = false;
-                } else {
-                  dish.isFavorite = true;
-                }
-              });
-              this.dishes = dishesDB;
-            });
-        })
         .catch(console.warn);
-    },
+    }
   },
   mounted() {
-    this.matchDishes();
-  },
-  beforeUnmount() {
-    this.matchDishes();
-  },
+    this.getFavorites();
+    this.getDishes();
+  }
 };
 </script>
 
