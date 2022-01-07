@@ -1,5 +1,5 @@
 <template>
-<dish-list-date-selector></dish-list-date-selector>
+  <dish-list-date-selector></dish-list-date-selector>
   <ul>
     <dish-item
       v-for="dish in dishes"
@@ -17,14 +17,13 @@
 
 <script>
 import DishItem from "./DishItem.vue";
-import DishListDateSelector from "./DishListDateSelector.vue";
 import { get, set } from "idb-keyval";
 
 export default {
   components: {
-    DishItem,
-    DishListDateSelector
+    DishItem
   },
+  props: ["date"],
   data() {
     return {
       dishes: [],
@@ -35,23 +34,24 @@ export default {
     changeFavoriteStatus(id) {
       const posId = this.favorites.indexOf(id);
       if (posId === -1) {
-        console.log("old internal favorites: " + this.favorites)
+        console.log("old internal favorites: " + this.favorites);
         this.favorites.push(id);
         console.log("dish with id " + id + " added to favorites");
-        console.log("updated internal favorites: " + this.favorites)
+        console.log("updated internal favorites: " + this.favorites);
       } else {
-        console.log("old internal favorites: " + this.favorites)
+        console.log("old internal favorites: " + this.favorites);
         this.favorites.splice(posId, 1);
         console.log("dish with id " + id + " deleted from favorites");
-        console.log("updated internal favorites: " + this.favorites)
+        console.log("updated internal favorites: " + this.favorites);
       }
       let updateFavoritesDB = Array.from(this.favorites);
-      console.log('neues Array favorites DB: ' + updateFavoritesDB);
+      console.log("neues Array favorites DB: " + updateFavoritesDB);
 
       set("favorites", updateFavoritesDB)
         .then(() => {
           console.log("favorites updated in indexedDB");
-        }).then(() => {
+        })
+        .then(() => {
           this.getFavorites();
         })
         .catch(console.warn);
@@ -71,16 +71,24 @@ export default {
     getDishes() {
       get("dishes")
         .then((data) => {
-          this.dishes = data;
+          let result = data.find((request) => request.date === this.date);
+          this.dishes = result.dishes;
+          console.log("props date" +  this.date);
           console.log("dishes loaded from indexedDB");
+          console.log(result.dishes)
         })
         .catch(console.warn);
+    },
+  },
+  watch:{
+    date(){
+       this.getDishes();
     }
   },
   mounted() {
     this.getFavorites();
     this.getDishes();
-  }
+  },
 };
 </script>
 

@@ -8,7 +8,11 @@
 <script>
 import TheNavigation from "./components/nav/TheNavigation.vue";
 import { set, get } from "idb-keyval";
+import addDays from "date-fns/addDays";
 
+let dateNow = Intl.DateTimeFormat().format(Date.now());
+let previousDay = Intl.DateTimeFormat().format(addDays(Date.now(),-1));
+let nextDay = Intl.DateTimeFormat().format(addDays(Date.now(),1));
 let fakeDishesLoaded = null;
 set("dbCreated", true);
 get("dishes").then((data) => {
@@ -17,13 +21,15 @@ get("dishes").then((data) => {
 
 if (!fakeDishesLoaded) {
   //Fake data Dishes
-  set("dishes", [
+  set("dishes", [{
+    date: previousDay,
+    dishes:[
     {
       id: 1,
       name: "vegetarische Pizza",
       price: "3,5€",
       label: "vegetarisch",
-      description: "Vegetarische Pizza mit Tomaten, Brokuli und Mozzarella",
+      description: "Vegetarische Pizza mit Tomaten, Brokkoli und Mozzarella",
     },
     {
       id: 2,
@@ -37,7 +43,7 @@ if (!fakeDishesLoaded) {
       name: "vegetarische Pizza",
       price: "3,5€",
       label: "vegetarisch",
-      description: "Vegetarische Pizza mit Tomaten, Brokuli und Mozzarella",
+      description: "Vegetarische Pizza mit Tomaten, Brokkoli und Mozzarella",
     },
     {
       id: 4,
@@ -45,7 +51,74 @@ if (!fakeDishesLoaded) {
       price: "2,5€",
       label: "vegetarisch",
       description: "gelbes Curry mit Tofu und frischem Gemüse",
+    }
+  ]},
+  {
+  date:dateNow,
+  dishes:[
+    {
+      id: 5,
+      name: "vegetarische Suppe",
+      price: "1,5€",
+      label: "vegetarisch",
+      description: "Suppe mit Champignongs",
     },
+    {
+      id: 6,
+      name: "Burger",
+      price: "4,5€",
+      label: "fleisch",
+      description: "Rindfleisch mit Gemüse ",
+    },
+    {
+      id: 7,
+      name: "Nudeln",
+      price: "2,5€",
+      label: "vegetarisch",
+      description: "Nudeln mit Tomatensoße",
+    },
+    {
+      id: 8,
+      name: "Salat",
+      price: "2,5€",
+      label: "vegetarisch",
+      description: "Salat mit Süßkartoffeln und frischem Gemüse",
+    },
+  ]
+  },
+   {
+  date:nextDay,
+  dishes:[
+    {
+      id: 9,
+      name: "Schwäbische Käsespätzle",
+      price: "2,95€",
+      label: "vegetarisch",
+      description: "Schwäbische Käsespätzle mit Zwiebel-Rahm-Schmelze",
+    },
+    {
+      id: 10,
+      name: "Chili con Soja",
+      price: "1,90€",
+      label: "vegan",
+      description: "Chili con Soja mit frischem Gemüse ",
+    },
+    {
+      id: 11,
+      name: "Zwei Schwarzwurzelmedaillons",
+      price: "1,55€",
+      label: "vegetarisch",
+      description: "Zwei Schwarzwurzelmedaillons an Tomaten-Ingwer-Sauce",
+    },
+    {
+      id: 12,
+      name: "Eine gebackene Hähnchenbrust",
+      price: "1,55€",
+      label: "Fleisch",
+      description: "Eine gebackene Hähnchenbrust im Knuspermantel an Estragon-Senf-Sauce",
+    },
+  ]
+  }
   ]);
 }
 

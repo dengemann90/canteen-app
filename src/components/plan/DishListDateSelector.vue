@@ -2,12 +2,19 @@
    <div class="container_all">
     <p><i class="fas fa-angle-left" @click="previousDay" ></i>  {{date}} <i class="fas solid fa-angle-right" @click="nextDay" ></i> </p>
     </div>
+    <dish-list 
+        :date = "date"
+    ></dish-list>
 </template>
 
 <script>
 import addDays from "date-fns/addDays";
 import parse from "date-fns/parse";
+import DishList from "./DishesList.vue"
 export default {
+    components: {
+        DishList
+    },
   data() {
     return {
       date: Intl.DateTimeFormat().format(Date.now()),
@@ -22,10 +29,7 @@ export default {
       let parsedDate = parse(this.date, "dd.MM.yyyy", Date.now());
       this.date = Intl.DateTimeFormat().format(addDays(parsedDate, -1));
     },
-  },
-  mounted() {
-    this.nextDay();
-  },
+  }
 };
 </script>
 
