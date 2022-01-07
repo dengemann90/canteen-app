@@ -1,4 +1,5 @@
 <template>
+<dish-list-date-selector></dish-list-date-selector>
   <ul>
     <dish-item
       v-for="dish in dishes"
@@ -16,11 +17,13 @@
 
 <script>
 import DishItem from "./DishItem.vue";
+import DishListDateSelector from "./DishListDateSelector.vue";
 import { get, set } from "idb-keyval";
 
 export default {
   components: {
     DishItem,
+    DishListDateSelector
   },
   data() {
     return {
