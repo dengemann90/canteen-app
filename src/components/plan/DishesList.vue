@@ -1,5 +1,4 @@
 <template>
-  <dish-list-date-selector></dish-list-date-selector>
   <ul>
     <dish-item
       v-for="dish in dishes"
@@ -21,9 +20,9 @@ import { get, set } from "idb-keyval";
 
 export default {
   components: {
-    DishItem
+    DishItem,
   },
-  props: ["date"],
+  props: ["dateSelected"],
   data() {
     return {
       dishes: [],
@@ -71,19 +70,21 @@ export default {
     getDishes() {
       get("dishes")
         .then((data) => {
-          let result = data.find((request) => request.date === this.date);
+          let result = data.find(
+            (request) => request.date === this.dateSelected
+          );
           this.dishes = result.dishes;
-          console.log("props date" +  this.date);
+          console.log("props date " + this.dateSelected);
           console.log("dishes loaded from indexedDB");
-          console.log(result.dishes)
+          console.log(result.dishes);
         })
         .catch(console.warn);
     },
   },
-  watch:{
-    date(){
-       this.getDishes();
-    }
+  watch: {
+    dateSelected() {
+      this.getDishes();
+    },
   },
   mounted() {
     this.getFavorites();

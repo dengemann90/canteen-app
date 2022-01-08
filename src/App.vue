@@ -11,8 +11,8 @@ import { set, get } from "idb-keyval";
 import addDays from "date-fns/addDays";
 
 let dateNow = Intl.DateTimeFormat().format(Date.now());
-let previousDay = Intl.DateTimeFormat().format(addDays(Date.now(),-1));
-let nextDay = Intl.DateTimeFormat().format(addDays(Date.now(),1));
+let tomorrow = Intl.DateTimeFormat().format(addDays(Date.now(),1));
+let dayAfterTomorrow = Intl.DateTimeFormat().format(addDays(Date.now(),2));
 let fakeDishesLoaded = null;
 set("dbCreated", true);
 get("dishes").then((data) => {
@@ -22,7 +22,7 @@ get("dishes").then((data) => {
 if (!fakeDishesLoaded) {
   //Fake data Dishes
   set("dishes", [{
-    date: previousDay,
+    date: dateNow,
     dishes:[
     {
       id: 1,
@@ -54,7 +54,7 @@ if (!fakeDishesLoaded) {
     }
   ]},
   {
-  date:dateNow,
+  date:tomorrow,
   dishes:[
     {
       id: 5,
@@ -87,7 +87,7 @@ if (!fakeDishesLoaded) {
   ]
   },
    {
-  date:nextDay,
+  date:dayAfterTomorrow,
   dishes:[
     {
       id: 9,
