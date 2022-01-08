@@ -1,8 +1,8 @@
 <template>
   <li>
     <div @click="descriptionVisible = !descriptionVisible">
-      <h3>{{ name }}</h3>
-      <p>{{ price }} €</p>
+      <h3>{{ dishItem.name }}</h3>
+      <p>{{ dishItem.prices.students}} €</p>
       <div>
         <i
           @click.stop="updateFavorite"
@@ -11,7 +11,7 @@
         ></i>
       </div>
       <section v-if="descriptionVisible">
-        <p>{{ notes[0] }}</p>
+        <p>{{ dishItem.notes[0] }}</p>
         <p>{{ isVegetarienVegan }}</p>
         <p>{{ additionalInformation }}</p>
       </section>
@@ -21,32 +21,32 @@
 
 <script>
 export default {
-  props: ["id", "name", "price", "notes", "favorites"],
+  props: ["dishItem", "favorites"],
   emits: ["change-favorite-status"],
   computed: {
     isFavorite() {
-      const posId = this.favorites.indexOf(this.id);
+      const posId = this.favorites.indexOf(this.dishItem.id);
       if (posId === -1) {
-        console.log("dish with id " + this.id + " is not a favorite");
+        console.log("dish with id " + this.dishItem.id + " is not a favorite");
         return false;
       } else {
-        console.log("dish with id " + this.id + " is a favorite");
+        console.log("dish with id " + this.dishItem.id + " is a favorite");
         return true;
       }
     },
     isVegetarienVegan(){
-      if(this.notes[1] === 'vegetarisch' || this.notes[1] === 'vegan'){
-        return this.notes[1];
+      if(this.dishItem.notes[1] === 'vegetarisch' || this.dishItem.notes[1] === 'vegan'){
+        return this.dishItem.notes[1];
       } else{
         return null;
       }
     },
     additionalInformation() {
-      let notesLength = this.notes.length;
+      let notesLength = this.dishItem.notes.length;
       let information = "";
       let startingIndex = this.isVegetarienVegan? 2:1;
 
-      for (const [i, v] of this.notes.entries()) {
+      for (const [i, v] of this.dishItem.notes.entries()) {
         if (i >= startingIndex && i < notesLength) {
           if (i === notesLength - 1) {
             information = information + v;
@@ -65,9 +65,12 @@ export default {
   },
   methods: {
     updateFavorite() {
-      this.$emit("change-favorite-status", this.id);
+      this.$emit("change-favorite-status", this.dishItem.id);
     },
   },
+  mounted(){
+    console.log("mounted dish objects: " + this.dishItem);
+  }
 };
 </script>
 

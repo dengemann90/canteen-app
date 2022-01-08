@@ -3,10 +3,7 @@
     <dish-item
       v-for="dish in dishes"
       :key="dish.id"
-      :id="dish.id"
-      :name="dish.name"
-      :price="dish.prices.students"
-      :notes="dish.notes"  
+      :dish-item="dish"
       :favorites="favorites"
       @change-favorite-status="changeFavoriteStatus"
     ></dish-item>
