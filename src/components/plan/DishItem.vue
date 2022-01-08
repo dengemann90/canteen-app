@@ -2,8 +2,7 @@
   <li>
     <div @click="descriptionVisible = !descriptionVisible">
       <h3>{{ name }}</h3>
-      <p>{{ price }}</p>
-      <p>{{ label }}</p>
+      <p>{{ price }} €</p>
       <div>
         <i
           @click.stop="updateFavorite"
@@ -12,7 +11,9 @@
         ></i>
       </div>
       <section v-if="descriptionVisible">
-        <p>{{ description }}</p>
+        <p>{{ notes[0] }}</p>
+        <p>{{ isVegetarienVegan }}</p>
+        <p>{{ additionalInformation }}</p>
       </section>
     </div>
   </li>
@@ -20,19 +21,42 @@
 
 <script>
 export default {
-  props: ["id", "name", "price", "label", "description", "favorites"],
+  props: ["id", "name", "price", "notes", "favorites"],
   emits: ["change-favorite-status"],
-  computed:{
-    isFavorite(){
+  computed: {
+    isFavorite() {
       const posId = this.favorites.indexOf(this.id);
-       if (posId === -1) {
+      if (posId === -1) {
         console.log("dish with id " + this.id + " is not a favorite");
         return false;
       } else {
         console.log("dish with id " + this.id + " is a favorite");
         return true;
       }
-    }
+    },
+    isVegetarienVegan(){
+      if(this.notes[1] === 'vegetarisch' || this.notes[1] === 'vegan'){
+        return this.notes[1];
+      } else{
+        return null;
+      }
+    },
+    additionalInformation() {
+      let notesLength = this.notes.length;
+      let information = "";
+      let startingIndex = this.isVegetarienVegan? 2:1;
+
+      for (const [i, v] of this.notes.entries()) {
+        if (i >= startingIndex && i < notesLength) {
+          if (i === notesLength - 1) {
+            information = information + v;
+          } else {
+            information = information + v + ", ";
+          }
+        }
+      }
+      return information;
+    },
   },
   data() {
     return {

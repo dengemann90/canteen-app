@@ -24,99 +24,239 @@ if (!fakeDishesLoaded) {
   set("dishes", [{
     date: dateNow,
     dishes:[
-    {
-      id: 1,
-      name: "vegetarische Pizza",
-      price: "3,5€",
-      label: "vegetarisch",
-      description: "Vegetarische Pizza mit Tomaten, Brokkoli und Mozzarella",
-    },
-    {
-      id: 2,
-      name: "Curry Tofu",
-      price: "2,5€",
-      label: "vegetarisch",
-      description: "gelbes Curry mit Tofu und frischem Gemüse",
-    },
-    {
-      id: 3,
-      name: "vegetarische Pizza",
-      price: "3,5€",
-      label: "vegetarisch",
-      description: "Vegetarische Pizza mit Tomaten, Brokkoli und Mozzarella",
-    },
-    {
-      id: 4,
-      name: "Curry Tofu",
-      price: "2,5€",
-      label: "vegetarisch",
-      description: "gelbes Curry mit Tofu und frischem Gemüse",
-    }
+   {
+      "id":4655104,
+      "name":"Doppelte Salatschale",
+      "category":"Salate",
+      "prices":{
+         "students":3.15,
+         "employees":6.3,
+         "pupils":null,
+         "others":6.95
+      },
+      "notes":[
+         "grün (Ampel)",
+         "vegan",
+         "Süßungsmittel",
+         "Sellerie"
+      ]
+   },
+   {
+      "id":4655114,
+      "name":"Schwäbische Käsespätzle mit Zwiebel-Rahm-Schmelze",
+      "category":"Essen",
+      "prices":{
+         "students":2.95,
+         "employees":5.9,
+         "pupils":null,
+         "others":6.5
+      },
+      "notes":[
+         "gelb (Ampel)",
+         "vegetarisch",
+         "bio",
+         "Weizen",
+         "Eier",
+         "Milch und Milchprodukte (inkl. Laktose)"
+      ]
+   },
+   {
+      "id":4655115,
+      "name":"Chili con Soja mit frischem Gemüse",
+      "category":"Essen",
+      "prices":{
+         "students":1.9,
+         "employees":3.8,
+         "pupils":null,
+         "others":4.2
+      },
+      "notes":[
+         "grün (Ampel)",
+         "vegan",
+         "Klimaessen",
+         "Sellerie",
+         "Soja",
+         "Antioxidationsmittel"
+      ]
+   },
+   {
+      "id":4655117,
+      "name":"Zwei Schwarzwurzelmedaillons an Tomaten-Ingwer-Sauce",
+      "category":"Essen",
+      "prices":{
+         "students":1.55,
+         "employees":3.1,
+         "pupils":null,
+         "others":3.4
+      },
+      "notes":[
+         "gelb (Ampel)",
+         "vegetarisch",
+         "Weizen",
+         "Sellerie",
+         "Milch und Milchprodukte (inkl. Laktose)",
+         "Sesam",
+         "Hefe",
+         "Antioxidationsmittel"
+      ]
+   }
   ]},
   {
   date:tomorrow,
   dishes:[
-    {
-      id: 5,
-      name: "vegetarische Suppe",
-      price: "1,5€",
-      label: "vegetarisch",
-      description: "Suppe mit Champignongs",
-    },
-    {
-      id: 6,
-      name: "Burger",
-      price: "4,5€",
-      label: "fleisch",
-      description: "Rindfleisch mit Gemüse ",
-    },
-    {
-      id: 7,
-      name: "Nudeln",
-      price: "2,5€",
-      label: "vegetarisch",
-      description: "Nudeln mit Tomatensoße",
-    },
-    {
-      id: 8,
-      name: "Salat",
-      price: "2,5€",
-      label: "vegetarisch",
-      description: "Salat mit Süßkartoffeln und frischem Gemüse",
-    },
+   {
+      "id":9200020,
+      "name":"Duftreis-Rote-Bohnen-Bowl mit Sojasaucen-Dressing und geröstetem Sesam",
+      "category":"Vorspeisen",
+      "prices":{
+         "students":3.45,
+         "employees":3.8,
+         "pupils":null,
+         "others":4.15
+      },
+      "notes":[
+         "grün (Ampel)",
+         "vegan",
+         "konserviert",
+         "Antioxidationsmittel",
+         "Soja",
+         "Sesam"
+      ]
+   },
+   {
+      "id":9200027,
+      "name":"Grünkerneintopf mit Rote Bete",
+      "category":"Essen",
+      "prices":{
+         "students":1.9,
+         "employees":3.8,
+         "pupils":null,
+         "others":4.2
+      },
+      "notes":[
+         "grün (Ampel)",
+         "vegan",
+         "Klimaessen",
+         "Dinkel"
+      ]
+   },
+   {
+      "id":9200028,
+      "name":"Gebackener Kartoffelbratling mit Frischkäsefüllung an Kräuter-Sahne-Sauce",
+      "category":"Essen",
+      "prices":{
+         "students":1.55,
+         "employees":3.1,
+         "pupils":null,
+         "others":3.4
+      },
+      "notes":[
+         "gelb (Ampel)",
+         "vegetarisch",
+         "Antioxidationsmittel",
+         "Weizen",
+         "Milch und Milchprodukte (inkl. Laktose)",
+         "Schwefeldioxid und Sulfide"
+      ]
+   },
+   {
+      "id":9200029,
+      "name":"3 Stück Gemüsebällchen an Kichererbsen-Kokos-Sauce",
+      "category":"Essen",
+      "prices":{
+         "students":1.55,
+         "employees":3.1,
+         "pupils":null,
+         "others":3.4
+      },
+      "notes":[
+         "gelb (Ampel)",
+         "vegan",
+         "Weizen",
+         "Hefe"
+      ]
+   }
   ]
   },
    {
   date:dayAfterTomorrow,
   dishes:[
-    {
-      id: 9,
-      name: "Schwäbische Käsespätzle",
-      price: "2,95€",
-      label: "vegetarisch",
-      description: "Schwäbische Käsespätzle mit Zwiebel-Rahm-Schmelze",
-    },
-    {
-      id: 10,
-      name: "Chili con Soja",
-      price: "1,90€",
-      label: "vegan",
-      description: "Chili con Soja mit frischem Gemüse ",
-    },
-    {
-      id: 11,
-      name: "Zwei Schwarzwurzelmedaillons",
-      price: "1,55€",
-      label: "vegetarisch",
-      description: "Zwei Schwarzwurzelmedaillons an Tomaten-Ingwer-Sauce",
-    },
-    {
-      id: 12,
-      name: "Eine gebackene Hähnchenbrust",
-      price: "1,55€",
-      label: "Fleisch",
-      description: "Eine gebackene Hähnchenbrust im Knuspermantel an Estragon-Senf-Sauce",
-    },
+   {
+      "id":9286532,
+      "name":"Scharfe indische Kichererbsensuppe",
+      "category":"Suppen",
+      "prices":{
+         "students":0.6,
+         "employees":1.2,
+         "pupils":null,
+         "others":1.3
+      },
+      "notes":[
+         "gelb (Ampel)",
+         "vegan",
+         "Antioxidationsmittel",
+         "Senf"
+      ]
+   },
+   {
+      "id":9286533,
+      "name":"Berliner Boulette vom Schwein und Rind an Zwiebel-Kräuter-Sauce",
+      "category":"Essen",
+      "prices":{
+         "students":2.15,
+         "employees":4.3,
+         "pupils":null,
+         "others":4.75
+      },
+      "notes":[
+         "gelb (Ampel)",
+         "Schweinefleisch bzw. mit Gelatine vom Schwein",
+         "mit zum Teil fein zerkleinertem Fleischanteil",
+         "Weizen",
+         "Milch und Milchprodukte (inkl. Laktose)",
+         "Hefe",
+         "Senf"
+      ]
+   },
+   {
+      "id":9286534,
+      "name":"Farfalle mit frischem Grünkohl und Champignons",
+      "category":"Essen",
+      "prices":{
+         "students":1.9,
+         "employees":3.8,
+         "pupils":null,
+         "others":4.2
+      },
+      "notes":[
+         "grün (Ampel)",
+         "vegan",
+         "Klimaessen",
+         "Antioxidationsmittel",
+         "Weizen",
+         "Soja"
+      ]
+   },
+   {
+      "id":9286535,
+      "name":"Zwei gekochte Eier in Senfsauce",
+      "category":"Essen",
+      "prices":{
+         "students":1.55,
+         "employees":3.1,
+         "pupils":null,
+         "others":3.4
+      },
+      "notes":[
+         "rot (Ampel)",
+         "vegetarisch",
+         "bio",
+         "Weizen",
+         "Eier",
+         "Milch und Milchprodukte (inkl. Laktose)",
+         "Senf"
+      ]
+   },
   ]
   }
   ]);

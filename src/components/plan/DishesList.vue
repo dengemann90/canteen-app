@@ -5,9 +5,8 @@
       :key="dish.id"
       :id="dish.id"
       :name="dish.name"
-      :price="dish.price"
-      :label="dish.label"
-      :description="dish.description"
+      :price="dish.prices.students"
+      :notes="dish.notes"  
       :favorites="favorites"
       @change-favorite-status="changeFavoriteStatus"
     ></dish-item>
