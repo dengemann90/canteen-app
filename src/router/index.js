@@ -6,6 +6,7 @@ import Purchase from '../views/Purchase.vue';
 import Profile from '../views/Profile.vue';
 
 const routes = [
+  {path: '/', redirect: '/plan'},
   {path: '/location', component:Location},
   {path: '/plan', component:Plan},
   {path: '/favorites', component:Favorites},
