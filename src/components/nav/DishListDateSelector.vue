@@ -1,5 +1,5 @@
 <template>
-  <div class="container_all">
+  <div>
     <p>
       <i
         class="fas fa-angle-left"
@@ -14,18 +14,19 @@
       ></i>
     </p>
   </div>
-  <dish-list :date-Selected="dateSelected"></dish-list>
+  <!-- <dish-list :date-Selected="dateSelected"></dish-list> -->
 </template>
 
 <script>
 // import addDays from "date-fns/addDays";
 // import parse from "date-fns/parse";
-import DishList from "./DishesList.vue";
+// import DishList from "./DishesList.vue";
 import { get } from "idb-keyval";
 export default {
-  components: {
-    DishList,
-  },
+  //   components: {
+  //     DishList,
+  //   },
+  emits: ["set-Date"],
   data() {
     return {
       dateSelected: Intl.DateTimeFormat().format(Date.now()),
@@ -81,6 +82,9 @@ export default {
         })
         .catch(console.warn);
     },
+    provideDate() {
+      this.$emit("set-Date", this.dateSelected);
+    },
   },
   watch: {
     indexDateSelector() {
@@ -95,6 +99,9 @@ export default {
       } else if (this.lockNextDayIcon) {
         this.lockNextDayIcon = false;
       }
+    },
+    dateSelected() {
+      this.provideDate();
     },
   },
   mounted() {
