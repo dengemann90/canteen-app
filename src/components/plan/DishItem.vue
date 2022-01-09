@@ -2,7 +2,7 @@
   <li>
     <div @click="descriptionVisible = !descriptionVisible">
       <h3>{{ dishItem.name }}</h3>
-      <p>{{ dishItem.prices.students}} €</p>
+      <p>{{ dishItem.prices.students }} €</p>
       <div>
         <i
           @click.stop="updateFavorite"
@@ -25,8 +25,10 @@ export default {
   emits: ["change-favorite-status"],
   computed: {
     isFavorite() {
-      const posId = this.favorites.indexOf(this.dishItem.id);
-      if (posId === -1) {
+      const indexFavorites = this.favorites.findIndex(
+        (fav) => fav.id === this.dishItem.id
+      );
+      if (indexFavorites === -1) {
         console.log("dish with id " + this.dishItem.id + " is not a favorite");
         return false;
       } else {
@@ -34,17 +36,20 @@ export default {
         return true;
       }
     },
-    isVegetarienVegan(){
-      if(this.dishItem.notes[1] === 'vegetarisch' || this.dishItem.notes[1] === 'vegan'){
+    isVegetarienVegan() {
+      if (
+        this.dishItem.notes[1] === "vegetarisch" ||
+        this.dishItem.notes[1] === "vegan"
+      ) {
         return this.dishItem.notes[1];
-      } else{
+      } else {
         return null;
       }
     },
     additionalInformation() {
       let notesLength = this.dishItem.notes.length;
       let information = "";
-      let startingIndex = this.isVegetarienVegan? 2:1;
+      let startingIndex = this.isVegetarienVegan ? 2 : 1;
 
       for (const [i, v] of this.dishItem.notes.entries()) {
         if (i >= startingIndex && i < notesLength) {
@@ -60,17 +65,14 @@ export default {
   },
   data() {
     return {
-      descriptionVisible: false
+      descriptionVisible: false,
     };
   },
   methods: {
     updateFavorite() {
-      this.$emit("change-favorite-status", this.dishItem.id);
+      this.$emit("change-favorite-status", this.dishItem);
     },
   },
-  mounted(){
-    console.log("mounted dish objects: " + this.dishItem);
-  }
 };
 </script>
 

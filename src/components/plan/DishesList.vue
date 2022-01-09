@@ -12,8 +12,8 @@
 
 <script>
 import DishItem from "./DishItem.vue";
-import { get, set } from "idb-keyval";
-
+import { get } from "idb-keyval";
+import { set } from "idb-keyval";
 export default {
   components: {
     DishItem,
@@ -26,28 +26,24 @@ export default {
     };
   },
   methods: {
-    changeFavoriteStatus(id) {
-      const posId = this.favorites.indexOf(id);
-      if (posId === -1) {
-        console.log("old internal favorites: " + this.favorites);
-        this.favorites.push(id);
-        console.log("dish with id " + id + " added to favorites");
-        console.log("updated internal favorites: " + this.favorites);
+    changeFavoriteStatus(item) {
+      const indexFavorites = this.favorites.findIndex(
+        (dish) => dish.id === item.id
+      );
+      if (indexFavorites === -1) {
+        this.favorites.push(item);
+        console.log("dish with id " + item.id + " added to favorites");
       } else {
-        console.log("old internal favorites: " + this.favorites);
-        this.favorites.splice(posId, 1);
-        console.log("dish with id " + id + " deleted from favorites");
-        console.log("updated internal favorites: " + this.favorites);
+        this.favorites.splice(indexFavorites, 1);
+        console.log("dish with id " + item.id + " deleted from favorites");
       }
-      let updateFavoritesDB = Array.from(this.favorites);
-      console.log("neues Array favorites DB: " + updateFavoritesDB);
-
-      set("favorites", updateFavoritesDB)
+      set("favorites", JSON.parse(JSON.stringify(this.favorites)))
         .then(() => {
-          console.log("favorites updated in indexedDB");
+          console.log("favorites updated in indexedDB: ");
         })
         .then(() => {
           this.getFavorites();
+          console.dir(this.favorites);
         })
         .catch(console.warn);
     },

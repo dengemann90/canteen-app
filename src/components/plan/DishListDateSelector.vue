@@ -30,7 +30,7 @@ export default {
     return {
       dateSelected: Intl.DateTimeFormat().format(Date.now()),
       loadedDays: [],
-      //wird relevant bei gecachten Daten von der openMensa API, da heutiger Tag in geladenen Daten nicht Index 0 sein muss! -> wenn keine neuen Daten geladen wurden
+      //becomes relevant for cached data from the openMensa API, since today's tag in loaded data does not have to be index 0! -> if new data wasn't loaded
       indexCurrentDay: null,
       indexDateSelector: null,
       lockPreviousDayIcon: false,
@@ -43,9 +43,7 @@ export default {
         this.indexDateSelector++;
 
         this.dateSelected = this.loadedDays[this.indexDateSelector];
-        console.log(
-          "nächster Tag geklickt - dateSelected: " + this.dateSelected
-        );
+        console.log("next day clicked - dateSelected: " + this.dateSelected);
         console.log("IndexDateSelector Index: " + this.indexDateSelector);
       }
     },
@@ -55,7 +53,7 @@ export default {
 
         this.dateSelected = this.loadedDays[this.indexDateSelector];
         console.log(
-          "vorheriger Tag geklickt - dateSelected: " + this.dateSelected
+          "previous day clicked - dateSelected: " + this.dateSelected
         );
 
         console.log("IndexDateSelector Index: " + this.indexDateSelector);
@@ -72,17 +70,14 @@ export default {
 
           let index = this.loadedDays.indexOf(this.dateSelected);
           if (index === -1) {
-            console.log("Tag konnte nicht geladen werden");
+            console.log("Day could not be loaded!");
           } else {
             this.indexCurrentDay = index;
             this.indexDateSelector = this.indexCurrentDay;
-            console.log(
-              "Tag befindet sich im loaded Days Array im Index: " +
-                this.indexCurrentDay
-            );
+            console.log("Day in loadedDays at Index: " + this.indexCurrentDay);
             console.log("IndexDateSelector Index: " + this.indexDateSelector);
           }
-          console.log("geladene Tage aus indexedDB: " + arrayDays);
+          console.log("loaded days from indexedDB: " + arrayDays);
         })
         .catch(console.warn);
     },
