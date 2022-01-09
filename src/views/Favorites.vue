@@ -5,6 +5,7 @@
         <p class="capital">Favorites</p>
         <div class="container_all">
           <!-- Hier content -->
+          <favorite-dish-list></favorite-dish-list>
         </div>
       </div>
     </div>
@@ -12,7 +13,13 @@
 </template>
 
 <script>
-export default {};
+import FavoriteDishList from '../components/favorites/FavoriteDishList.vue'
+export default {
+  components:{
+    FavoriteDishList
+  }
+
+};
 </script>
 
 <style scoped>
