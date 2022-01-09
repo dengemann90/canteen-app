@@ -14,18 +14,11 @@
       ></i>
     </p>
   </div>
-  <!-- <dish-list :date-Selected="dateSelected"></dish-list> -->
 </template>
 
 <script>
-// import addDays from "date-fns/addDays";
-// import parse from "date-fns/parse";
-// import DishList from "./DishesList.vue";
 import { get } from "idb-keyval";
 export default {
-  //   components: {
-  //     DishList,
-  //   },
   emits: ["set-Date"],
   data() {
     return {
