@@ -1,25 +1,24 @@
 <template>
   <nav class="navbar">
     <!-- location -->
-    <router-link to="/location"
-      ><!-- location -->
-      <img src="../../../public/img/icons/map.svg" height="25" width="25">
+    <router-link to="/location">
+      <i class="fas regular fa-map fa-2x"></i>
     </router-link>
     <!-- plan -->
-    <router-link to="/plan"
-      ><img src="../../../public/img/icons/plan.svg" height="25" width="25">
+    <router-link to="/plan">
+      <i class="fas regular fa-calendar-day fa-2x"></i>
     </router-link>
     <!-- favorites -->
-    <router-link to="/favorites"
-      ><img src="../../../public/img/icons/favorite.svg" height="25" width="25">
+    <router-link to="/favorites">
+    <i class="fas regular fa-heart fa-2x"></i>
     </router-link>
     <!-- purchase -->
-    <router-link to="/purchase"
-      ><img src="../../../public/img/icons/purchase.svg" height="25" width="25">
+    <router-link to="/purchase">
+    <i class="fas solid fa-cart-arrow-down fa-2x"></i>
     </router-link>
     <!-- profile -->
-    <router-link to="/profile"
-      ><img src="../../../public/img/icons/profile.svg" height="25" width="25">
+    <router-link to="/profile">
+      <i class="fas solid fa-user fa-2x"></i>
     </router-link>
   </nav>
 </template>
@@ -62,6 +61,12 @@ nav a {
   font-size: 12px;
   padding-left: 10px;
   padding-right: 10px;
-  color: black;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+a:hover,
+a:active,
+a.router-link-active {
+  color: rgba(255, 255, 255, 0.90);
 }
 </style>
