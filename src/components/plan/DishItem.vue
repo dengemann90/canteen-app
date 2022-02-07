@@ -1,7 +1,7 @@
 <template>
   <li>
     <div @click="descriptionVisible = !descriptionVisible">
-      <h3>{{ dishItem.name }}</h3>
+      <h3>{{ dishItem.id }}</h3>
       <p>{{ dishItem.prices.students }} €</p>
       <div>
         <i

@@ -42,8 +42,7 @@ export default {
 
       for (const key in responseData) {
         const dish = {
-          id: responseData[key].id,
-          name: responseData[key].name,
+          id: responseData[key].name,
           category: responseData[key].category,
           prices: responseData[key].prices,
           notes: responseData[key].notes,
