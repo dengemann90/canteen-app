@@ -6,7 +6,7 @@
         :class="{ lock: lockPreviousDayIcon }"
         @click="previousDay"
       ></i>
-      {{ dateSelected }}
+      {{ date }}
       <i
         class="fas solid fa-angle-right"
         :class="{ lock: lockNextDayIcon }"
@@ -18,6 +18,7 @@
 
 <script>
 import { get } from "idb-keyval";
+//import format from "date-fns/format";
 export default {
   emits: ["set-Date"],
   data() {
@@ -30,6 +31,23 @@ export default {
       lockPreviousDayIcon: false,
       lockNextDayIcon: false,
     };
+  },
+  computed: {
+    date() {
+      const today = Intl.DateTimeFormat().format(Date.now());
+      if (this.dateSelected === today) {
+        return "Heute";
+      } else {
+        const dateArray = this.dateSelected.split(".");
+        const weekday = new Date(
+          dateArray[2],
+          dateArray[1],
+          dateArray[0]
+        ).toLocaleDateString("de-DE", { weekday: "short" });
+
+        return weekday + ", " + this.dateSelected;
+      }
+    },
   },
   methods: {
     nextDay() {
