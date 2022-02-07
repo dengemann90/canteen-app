@@ -7,260 +7,10 @@
 
 <script>
 import TheNavigation from "./components/nav/TheNavigation.vue";
-import { set, get } from "idb-keyval";
+//import { set, get } from "idb-keyval";
+import { set } from "idb-keyval";
 import addDays from "date-fns/addDays";
-
-let dateNow = Intl.DateTimeFormat().format(Date.now());
-let tomorrow = Intl.DateTimeFormat().format(addDays(Date.now(),1));
-let dayAfterTomorrow = Intl.DateTimeFormat().format(addDays(Date.now(),2));
-let fakeDishesLoaded = null;
-set("dbCreated", true);
-get("dishes").then((data) => {
-  fakeDishesLoaded = data;
-});
-
-if (!fakeDishesLoaded) {
-  //Fake data Dishes
-  set("dishes", [{
-    date: dateNow,
-    dishes:[
-   {
-      "id":4655104,
-      "name":"Doppelte Salatschale",
-      "category":"Salate",
-      "prices":{
-         "students":3.15,
-         "employees":6.3,
-         "pupils":null,
-         "others":6.95
-      },
-      "notes":[
-         "grün (Ampel)",
-         "vegan",
-         "Süßungsmittel",
-         "Sellerie"
-      ]
-   },
-   {
-      "id":4655114,
-      "name":"Schwäbische Käsespätzle mit Zwiebel-Rahm-Schmelze",
-      "category":"Essen",
-      "prices":{
-         "students":2.95,
-         "employees":5.9,
-         "pupils":null,
-         "others":6.5
-      },
-      "notes":[
-         "gelb (Ampel)",
-         "vegetarisch",
-         "bio",
-         "Weizen",
-         "Eier",
-         "Milch und Milchprodukte (inkl. Laktose)"
-      ]
-   },
-   {
-      "id":4655115,
-      "name":"Chili con Soja mit frischem Gemüse",
-      "category":"Essen",
-      "prices":{
-         "students":1.9,
-         "employees":3.8,
-         "pupils":null,
-         "others":4.2
-      },
-      "notes":[
-         "grün (Ampel)",
-         "vegan",
-         "Klimaessen",
-         "Sellerie",
-         "Soja",
-         "Antioxidationsmittel"
-      ]
-   },
-   {
-      "id":4655117,
-      "name":"Zwei Schwarzwurzelmedaillons an Tomaten-Ingwer-Sauce",
-      "category":"Essen",
-      "prices":{
-         "students":1.55,
-         "employees":3.1,
-         "pupils":null,
-         "others":3.4
-      },
-      "notes":[
-         "gelb (Ampel)",
-         "vegetarisch",
-         "Weizen",
-         "Sellerie",
-         "Milch und Milchprodukte (inkl. Laktose)",
-         "Sesam",
-         "Hefe",
-         "Antioxidationsmittel"
-      ]
-   }
-  ]},
-  {
-  date:tomorrow,
-  dishes:[
-   {
-      "id":9200020,
-      "name":"Duftreis-Rote-Bohnen-Bowl mit Sojasaucen-Dressing und geröstetem Sesam",
-      "category":"Vorspeisen",
-      "prices":{
-         "students":3.45,
-         "employees":3.8,
-         "pupils":null,
-         "others":4.15
-      },
-      "notes":[
-         "grün (Ampel)",
-         "vegan",
-         "konserviert",
-         "Antioxidationsmittel",
-         "Soja",
-         "Sesam"
-      ]
-   },
-   {
-      "id":9200027,
-      "name":"Grünkerneintopf mit Rote Bete",
-      "category":"Essen",
-      "prices":{
-         "students":1.9,
-         "employees":3.8,
-         "pupils":null,
-         "others":4.2
-      },
-      "notes":[
-         "grün (Ampel)",
-         "vegan",
-         "Klimaessen",
-         "Dinkel"
-      ]
-   },
-   {
-      "id":9200028,
-      "name":"Gebackener Kartoffelbratling mit Frischkäsefüllung an Kräuter-Sahne-Sauce",
-      "category":"Essen",
-      "prices":{
-         "students":1.55,
-         "employees":3.1,
-         "pupils":null,
-         "others":3.4
-      },
-      "notes":[
-         "gelb (Ampel)",
-         "vegetarisch",
-         "Antioxidationsmittel",
-         "Weizen",
-         "Milch und Milchprodukte (inkl. Laktose)",
-         "Schwefeldioxid und Sulfide"
-      ]
-   },
-   {
-      "id":9200029,
-      "name":"3 Stück Gemüsebällchen an Kichererbsen-Kokos-Sauce",
-      "category":"Essen",
-      "prices":{
-         "students":1.55,
-         "employees":3.1,
-         "pupils":null,
-         "others":3.4
-      },
-      "notes":[
-         "gelb (Ampel)",
-         "vegan",
-         "Weizen",
-         "Hefe"
-      ]
-   }
-  ]
-  },
-   {
-  date:dayAfterTomorrow,
-  dishes:[
-   {
-      "id":9286532,
-      "name":"Scharfe indische Kichererbsensuppe",
-      "category":"Suppen",
-      "prices":{
-         "students":0.6,
-         "employees":1.2,
-         "pupils":null,
-         "others":1.3
-      },
-      "notes":[
-         "gelb (Ampel)",
-         "vegan",
-         "Antioxidationsmittel",
-         "Senf"
-      ]
-   },
-   {
-      "id":9286533,
-      "name":"Berliner Boulette vom Schwein und Rind an Zwiebel-Kräuter-Sauce",
-      "category":"Essen",
-      "prices":{
-         "students":2.15,
-         "employees":4.3,
-         "pupils":null,
-         "others":4.75
-      },
-      "notes":[
-         "gelb (Ampel)",
-         "Schweinefleisch bzw. mit Gelatine vom Schwein",
-         "mit zum Teil fein zerkleinertem Fleischanteil",
-         "Weizen",
-         "Milch und Milchprodukte (inkl. Laktose)",
-         "Hefe",
-         "Senf"
-      ]
-   },
-   {
-      "id":9286534,
-      "name":"Farfalle mit frischem Grünkohl und Champignons",
-      "category":"Essen",
-      "prices":{
-         "students":1.9,
-         "employees":3.8,
-         "pupils":null,
-         "others":4.2
-      },
-      "notes":[
-         "grün (Ampel)",
-         "vegan",
-         "Klimaessen",
-         "Antioxidationsmittel",
-         "Weizen",
-         "Soja"
-      ]
-   },
-   {
-      "id":9286535,
-      "name":"Zwei gekochte Eier in Senfsauce",
-      "category":"Essen",
-      "prices":{
-         "students":1.55,
-         "employees":3.1,
-         "pupils":null,
-         "others":3.4
-      },
-      "notes":[
-         "rot (Ampel)",
-         "vegetarisch",
-         "bio",
-         "Weizen",
-         "Eier",
-         "Milch und Milchprodukte (inkl. Laktose)",
-         "Senf"
-      ]
-   },
-  ]
-  }
-  ]);
-}
+import format from "date-fns/format";
 
 export default {
   components: {
@@ -268,6 +18,53 @@ export default {
   },
   data() {
     return {};
+  },
+  async created() {
+    let dateApiRequest = format(Date.now(), "yyyy-MM-dd");
+    let dateIndexedDB = Date.now();
+    let dishesPlan = [];
+
+    for (let i = 0; i <= 7; i++) {
+      let dishes = [];
+
+      const response = await fetch(
+        `https://openmensa.org/api/v2/canteens/30/days/${dateApiRequest}/meals`
+      );
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        const error = new Error(
+          responseData.message || "failed to fetch request!"
+        );
+        throw error;
+      }
+      console.log('fetch openmensa api successful!');
+
+      for (const key in responseData) {
+        const dish = {
+          id: responseData[key].id,
+          name: responseData[key].name,
+          category: responseData[key].category,
+          prices: responseData[key].prices,
+          notes: responseData[key].notes,
+        };
+        dishes.push(dish);
+      }
+
+      let dishesPerDay = {
+        date: format(dateIndexedDB, 'd.M.yyyy'),
+        dishes: dishes,
+      };
+
+      if (dishesPerDay.dishes.length > 0) {
+        dishesPlan.push(dishesPerDay);
+      }
+
+      dateApiRequest = format(addDays(Date.now(),i+1), "yyyy-MM-dd");
+      dateIndexedDB = addDays(dateIndexedDB,1);
+    }
+    console.log(dishesPlan);
+    set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
   },
 };
 </script>
