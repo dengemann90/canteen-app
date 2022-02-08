@@ -1,28 +1,30 @@
 <template>
   <ul>
-    <dish-item
-      v-for="dish in dishes"
-      :key="dish.id"
-      :dish-item="dish"
+    <dish-category
+      v-for="category in dishListCategories"
+      :key="category.category"
+      :category="category"
       :favorites="favorites"
       @change-favorite-status="changeFavoriteStatus"
-    ></dish-item>
+    ></dish-category>
   </ul>
 </template>
 
 <script>
-import DishItem from "./DishItem.vue";
+import DishCategory from "./DishCategory.vue";
 import { get } from "idb-keyval";
 import { set } from "idb-keyval";
 export default {
   components: {
-    DishItem,
+    DishCategory,
   },
   props: ["dateSelected"],
   data() {
     return {
       dishes: [],
       favorites: [],
+      categories: [],
+      dishListCategories: [],
     };
   },
   methods: {
@@ -31,7 +33,7 @@ export default {
         (dish) => dish.id === item.id
       );
       if (indexFavorites === -1) {
-        this.favorites.push(item);
+        this.favorites.unshift(item);
         console.log("dish with id " + item.id + " added to favorites");
       } else {
         this.favorites.splice(indexFavorites, 1);
@@ -69,8 +71,41 @@ export default {
           console.log("props date " + this.dateSelected);
           console.log("dishes loaded from indexedDB");
           console.log(result.dishes);
+          this.getCategories();
+          console.log("catgeories:");
+          console.dir(this.categories);
+          this.getDishListCategories();
         })
         .catch(console.warn);
+    },
+    getCategories() {
+      this.categories = [];
+      for (let dish of this.dishes) {
+        const categoryIncluded = this.categories.some(
+          (c) => c == dish.category
+        );
+        if (!categoryIncluded) {
+          this.categories.push(dish.category);
+        }
+      }
+    },
+    getDishListCategories() {
+      this.dishListCategories = [];
+      for (let category of this.categories) {
+        let dishes = [];
+        for (let dish of this.dishes) {
+          if (dish.category == category) {
+            dishes.push(dish);
+          }
+        }
+        this.dishListCategories.push({
+          category: category,
+          dishes: dishes,
+        });
+        dishes = [];
+      }
+      console.log("dishListCategories:");
+      console.dir(this.dishListCategories);
     },
   },
   watch: {

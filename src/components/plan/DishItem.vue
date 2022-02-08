@@ -2,17 +2,17 @@
   <li>
     <div @click="descriptionVisible = !descriptionVisible">
       <h3>{{ dishItem.id }}</h3>
-      <p>{{ dishItem.prices.students }} €</p>
+      <p>{{ (dishItem.prices.students == null) ?'-': dishItem.prices.students}} €</p>
       <div>
         <i
           @click.stop="updateFavorite"
           class="fas regular fa-heart"
           :class="{ active: isFavorite }"
         ></i>
-      </div>
-      <section v-if="descriptionVisible">
         <p>{{ dishItem.notes[0] }}</p>
         <p>{{ isVegetarienVegan }}</p>
+      </div>
+      <section v-if="descriptionVisible">
         <p>{{ additionalInformation }}</p>
       </section>
     </div>
@@ -87,18 +87,6 @@ li {
 li h3 {
   margin: 0.5rem 0;
   font-size: 1.25rem;
-}
-
-li .team-members {
-  margin: 0.5rem 0;
-}
-
-button {
-  text-decoration: none;
-  color: white;
-  display: inline-block;
-  padding: 0.5rem 1.5rem;
-  background-color: #383838;
 }
 
 .fas.fa-heart:hover {

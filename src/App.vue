@@ -19,7 +19,8 @@ export default {
   data() {
     return {};
   },
-  async created() {
+  methods:{
+     async fetchData(){
     let dateApiRequest = format(Date.now(), "yyyy-MM-dd");
     let dateIndexedDB = Date.now();
     let dishesPlan = [];
@@ -34,7 +35,7 @@ export default {
 
       if (!response.ok) {
         const error = new Error(
-          responseData.message || "failed to fetch request!"
+         responseData.message || "failed to fetch request!"
         );
         throw error;
       }
@@ -64,7 +65,14 @@ export default {
     }
     console.log(dishesPlan);
     set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
-  },
+  }
+     }
+  ,
+  created() {
+     this.fetchData();
+     
+
+  }
 };
 </script>
 

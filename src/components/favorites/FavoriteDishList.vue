@@ -30,7 +30,7 @@ export default {
         (dish) => dish.id === item.id
       );
       if (indexFavorites === -1) {
-        this.favorites.push(item);
+        this.favorites.unshift(item);
         console.log("dish with id " + item.id + " added to favorites");
       } else {
         this.favorites.splice(indexFavorites, 1);
