@@ -29,7 +29,7 @@ export default {
       let dishes = [];
 
       const response = await fetch(
-        `https://openmensa.org/api/v2/canteens/30/days/${dateApiRequest}/meals`
+        `https://openmensa.org/api/v2/canteens/${this.$store.getters.getCanteenId}/days/${dateApiRequest}/meals`
       );
       const responseData = await response.json();
 
