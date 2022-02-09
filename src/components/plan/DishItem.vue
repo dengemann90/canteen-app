@@ -1,16 +1,28 @@
 <template>
   <li>
     <div @click="descriptionVisible = !descriptionVisible">
-      <h3>{{ dishItem.id }}</h3>
-      <p>{{ (dishItem.prices.students == null) ?'-': dishItem.prices.students}} €</p>
+      <h2>
+        {{ dishItem.id }}
+        <i class="fas solid fa-circle fa-xs" :class="nutriIconColor"></i>
+        <i
+          v-if="isVegetarienVegan == 'vegetarisch'"
+          class="fas solid fa-leaf fa-xs"
+        ></i>
+        <i
+          v-else-if="isVegetarienVegan == 'vegan'"
+          class="fas solid fa-seedling"
+        ></i>
+      </h2>
+      <p>
+        {{ dishItem.prices.students == null ? "-" : dishItem.prices.students }}
+        €
+      </p>
       <div>
         <i
           @click.stop="updateFavorite"
           class="fas regular fa-heart"
           :class="{ active: isFavorite }"
         ></i>
-        <p>{{ dishItem.notes[0] }}</p>
-        <p>{{ isVegetarienVegan }}</p>
       </div>
       <section v-if="descriptionVisible">
         <p>{{ additionalInformation }}</p>
@@ -24,6 +36,14 @@ export default {
   props: ["dishItem", "favorites"],
   emits: ["change-favorite-status"],
   computed: {
+    nutriIconColor() {
+      const nutriDescription = this.dishItem.notes[0];
+      if (nutriDescription == "grün (Ampel)") {
+        return "green";
+      } else if (nutriDescription == "gelb (Ampel)") {
+        return "orange";
+      } else return "red";
+    },
     isFavorite() {
       const indexFavorites = this.favorites.findIndex(
         (fav) => fav.id === this.dishItem.id
@@ -66,6 +86,7 @@ export default {
   data() {
     return {
       descriptionVisible: false,
+      vegetarian: "f",
     };
   },
   methods: {
@@ -84,9 +105,9 @@ li {
   padding: 1rem;
 }
 
-li h3 {
+li h2 {
   margin: 0.5rem 0;
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 .fas.fa-heart:hover {
@@ -98,5 +119,25 @@ li h3 {
 
 .fas.fa-heart.active {
   color: red;
+}
+
+.fas.solid.fa-leaf {
+  color: rgba(166, 206, 57, 0.75);
+}
+
+.fas.solid.fa-seedling {
+  color: rgba(43, 116, 52, 0.75);
+}
+
+.fas.solid.fa-circle.green {
+  color: rgba(14, 134, 72, 0.6);
+}
+
+.fas.solid.fa-circle.orange {
+  color: rgba(236, 110, 21, 0.6);
+}
+
+.fas.solid.fa-circle.red {
+  color: rgba(232, 47, 31, 0.6);
 }
 </style>
