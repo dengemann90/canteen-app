@@ -70,8 +70,7 @@ export default {
   ,
   created() {
      this.fetchData();
-     
-
+     this.$store.dispatch('loadFavorites');
   }
 };
 </script>

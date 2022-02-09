@@ -13,7 +13,6 @@
 <script>
 import DishCategory from "./DishCategory.vue";
 import { get } from "idb-keyval";
-import { set } from "idb-keyval";
 export default {
   components: {
     DishCategory,
@@ -29,37 +28,11 @@ export default {
   },
   methods: {
     changeFavoriteStatus(item) {
-      const indexFavorites = this.favorites.findIndex(
-        (dish) => dish.id === item.id
-      );
-      if (indexFavorites === -1) {
-        this.favorites.unshift(item);
-        console.log("dish with id " + item.id + " added to favorites");
-      } else {
-        this.favorites.splice(indexFavorites, 1);
-        console.log("dish with id " + item.id + " deleted from favorites");
-      }
-      set("favorites", JSON.parse(JSON.stringify(this.favorites)))
-        .then(() => {
-          console.log("favorites updated in indexedDB: ");
-        })
-        .then(() => {
-          this.getFavorites();
-          console.dir(this.favorites);
-        })
-        .catch(console.warn);
+      this.$store.dispatch("updateFavorites", item);
+      this.getFavorites();
     },
     getFavorites() {
-      get("favorites")
-        .then((data) => {
-          if (!data) {
-            console.log("no favorites in indexedDB");
-            return;
-          }
-          this.favorites = data;
-          console.log("favorites loaded from indexedDB");
-        })
-        .catch(console.warn);
+      this.favorites = this.$store.getters.getFavorites;
     },
     getDishes() {
       get("dishes")
