@@ -14,7 +14,7 @@
         ></i>
       </h2>
       <p>
-        {{ dishItem.prices.students == null ? "-" : dishItem.prices.students }}
+        {{ price == null ? "-" : price }}
         €
       </p>
       <div>
@@ -51,6 +51,17 @@ export default {
       } else if (nutriDescription == "gelb (Ampel)") {
         return "orange";
       } else return "red";
+    },
+    price(){
+      const userType = this.$store.getters.getUserType;
+      const priceList = this.dishItem.prices;
+
+        for(let key in priceList){
+          if(key == userType){
+            return priceList[key];
+          }
+        }
+        return null;
     },
     isFavorite() {
       const indexFavorites = this.favorites.findIndex(
