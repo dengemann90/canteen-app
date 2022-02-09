@@ -1,5 +1,5 @@
 <template>
-<div class="category">
+<div >
   <li>
     <div @click="dishesVisible = !dishesVisible">
       <h3>{{ category.category }}</h3>
@@ -50,11 +50,5 @@ li h3 {
   margin: 0.5rem 0;
   font-size: 1.25rem;
 
-}
-
-.category {
-  width:612px;
-  margin-left :auto;
-  margin-right :auto;
 }
 </style>
