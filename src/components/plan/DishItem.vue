@@ -25,14 +25,22 @@
         ></i>
       </div>
       <section v-if="descriptionVisible">
-        <p>{{ additionalInformation }}</p>
+        <base-tag 
+          v-for="tag in additionalInformation"
+          :key= tag
+          :tag= tag 
+        ></base-tag>
       </section>
     </div>
   </li>
 </template>
 
 <script>
+import BaseTag from "../ui/BaseTag.vue";
 export default {
+  components:{
+    BaseTag
+  },
   props: ["dishItem", "favorites"],
   emits: ["change-favorite-status"],
   computed: {
@@ -68,16 +76,13 @@ export default {
     },
     additionalInformation() {
       let notesLength = this.dishItem.notes.length;
-      let information = "";
-      let startingIndex = this.isVegetarienVegan ? 2 : 1;
+      let information = [];
+      let startingIndex = 1;
+      //this.isVegetarienVegan ? 2 : 1; // vegetarisch/vegan wird nicht in die Liste aufgenommen
 
       for (const [i, v] of this.dishItem.notes.entries()) {
         if (i >= startingIndex && i < notesLength) {
-          if (i === notesLength - 1) {
-            information = information + v;
-          } else {
-            information = information + v + ", ";
-          }
+          information.push(v);
         }
       }
       return information;
@@ -85,11 +90,12 @@ export default {
   },
   data() {
     return {
-      descriptionVisible: false,
-      vegetarian: "f",
+      descriptionVisible: false
     };
   },
   methods: {
+
+
     updateFavorite() {
       this.$emit("change-favorite-status", this.dishItem);
     },

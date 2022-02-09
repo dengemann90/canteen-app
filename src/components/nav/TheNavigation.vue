@@ -48,7 +48,7 @@ nav {
   /*background-color: #e1a100;*/
   /*background-color: #ebeded;*/
   background-color: #8aa969;
-  width: 80%;
+  width:76%;
   margin-left: 10%;
   margin-right: 10%;
   box-shadow: 30px 30px 30px rgba(0, 0, 0, 0.4);
