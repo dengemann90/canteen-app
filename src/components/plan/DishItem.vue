@@ -24,13 +24,15 @@
           :class="{ active: isFavorite }"
         ></i>
       </div>
-      <section v-if="descriptionVisible">
-        <base-tag 
-          v-for="tag in additionalInformation"
-          :key= tag
-          :tag= tag 
-        ></base-tag>
-      </section>
+      <transition name="fade-in">
+        <section v-if="descriptionVisible">
+          <base-tag
+            v-for="tag in additionalInformation"
+            :key="tag"
+            :tag="tag"
+          ></base-tag>
+        </section>
+      </transition>
     </div>
   </li>
 </template>
@@ -38,8 +40,8 @@
 <script>
 import BaseTag from "../ui/BaseTag.vue";
 export default {
-  components:{
-    BaseTag
+  components: {
+    BaseTag,
   },
   props: ["dishItem", "favorites"],
   emits: ["change-favorite-status"],
@@ -52,16 +54,16 @@ export default {
         return "orange";
       } else return "red";
     },
-    price(){
+    price() {
       const userType = this.$store.getters.getUserType;
       const priceList = this.dishItem.prices;
 
-        for(let key in priceList){
-          if(key == userType){
-            return priceList[key];
-          }
+      for (let key in priceList) {
+        if (key == userType) {
+          return priceList[key];
         }
-        return null;
+      }
+      return null;
     },
     isFavorite() {
       const indexFavorites = this.favorites.findIndex(
@@ -101,12 +103,11 @@ export default {
   },
   data() {
     return {
-      descriptionVisible: false
+      descriptionVisible: false,
+      animateHeart: false,
     };
   },
   methods: {
-
-
     updateFavorite() {
       this.$emit("change-favorite-status", this.dishItem);
     },
@@ -135,6 +136,7 @@ li h2 {
 }
 
 .fas.fa-heart.active {
+  animation: heartPuls 0.3s ease-in;
   color: red;
 }
 
@@ -156,5 +158,34 @@ li h2 {
 
 .fas.solid.fa-circle.red {
   color: rgba(232, 47, 31, 0.6);
+}
+
+/* fade in - tags */
+
+.fade-in-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+.fade-in-enter-active {
+  transition: all 0.3s ease-in-out;
+}
+.fade-in-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes heartPuls {
+  0% {
+    opacity: 1;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 </style>
