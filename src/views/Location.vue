@@ -4,7 +4,7 @@
       <div class="container">
         <p class="capital">Location</p>
         <div class="container_all">
-          <button v-on:click="reduce(4)">Remove 4</button>
+          <button v-on:click="reduce(4)">test</button>
           <!-- Hier content -->
         </div>
       </div>
