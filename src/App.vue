@@ -21,52 +21,77 @@ export default {
   },
   methods:{
      async fetchData(){
-    let dateApiRequest = format(Date.now(), "yyyy-MM-dd");
-    let dateIndexedDB = Date.now();
-    let dishesPlan = [];
+      let dateApiRequest = format(Date.now(), "yyyy-MM-dd");
+      let dateIndexedDB = Date.now();
+      let dishesPlan = [];
 
-    for (let i = 0; i <= 7; i++) {
-      let dishes = [];
+      for (let i = 0; i <= 7; i++) {
+        let dishes = [];
 
-      const response = await fetch(
-        `https://openmensa.org/api/v2/canteens/${this.$store.getters.getCanteenId}/days/${dateApiRequest}/meals`
-      );
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        const error = new Error(
-         responseData.message || "failed to fetch request!"
+        const response = await fetch(
+          `https://openmensa.org/api/v2/canteens/${this.$store.getters.getCanteenId}/days/${dateApiRequest}/meals`
         );
-        throw error;
-      }
-      console.log('fetch openmensa api successful!');
+        const responseData = await response.json();
 
-      for (const key in responseData) {
-        const dish = {
-          id: responseData[key].name,
-          category: responseData[key].category,
-          prices: responseData[key].prices,
-          notes: responseData[key].notes,
+        if (!response.ok) {
+          const error = new Error(
+          responseData.message || "failed to fetch request!"
+          );
+          throw error;
+        }
+        console.log('fetch openmensa api successful!');
+
+        for (const key in responseData) {
+          const dish = {
+            id: responseData[key].name,
+            category: responseData[key].category,
+            prices: responseData[key].prices,
+            notes: responseData[key].notes,
+          };
+          dishes.push(dish);
+        }
+
+        let dishesPerDay = {
+          date: format(dateIndexedDB, 'd.M.yyyy'),
+          dishes: dishes,
         };
-        dishes.push(dish);
+
+        if (dishesPerDay.dishes.length > 0) {
+          dishesPlan.push(dishesPerDay);
+        }
+
+        dateApiRequest = format(addDays(Date.now(),i+1), "yyyy-MM-dd");
+        dateIndexedDB = addDays(dateIndexedDB,1);
       }
+      console.log(dishesPlan);
+      set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
 
-      let dishesPerDay = {
-        date: format(dateIndexedDB, 'd.M.yyyy'),
-        dishes: dishes,
-      };
+  // json locals
+      let localsList = [];
+      let locals = [];
 
-      if (dishesPerDay.dishes.length > 0) {
-        dishesPlan.push(dishesPerDay);
+      const responseLocal = fetch(
+        `https://openmensa.org/api/v2/canteens`
+      );
+      
+      const responseDataLocal = await responseLocal;
+     
+      for (const key in responseDataLocal) {
+        const local = {
+          id: responseDataLocal[key].id,
+          name: responseDataLocal[key].name,
+          city: responseDataLocal[key].city,
+          address: responseDataLocal[key].address,
+          coordinates: responseDataLocal[key].coordinates,
+        };
+        locals.push(local);
+        console.log('locals Json!');
+        //console.log(locals)
       }
-
-      dateApiRequest = format(addDays(Date.now(),i+1), "yyyy-MM-dd");
-      dateIndexedDB = addDays(dateIndexedDB,1);
+      set("locals", JSON.parse(JSON.stringify(localsList)));
+      console.log(locals)
     }
-    console.log(dishesPlan);
-    set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
   }
-     }
   ,
   created() {
      this.fetchData();

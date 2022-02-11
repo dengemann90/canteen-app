@@ -4,6 +4,7 @@
       <div class="container">
         <p class="capital">Location</p>
         <div class="container_all">
+          <button v-on:click="reduce(4)">Remove 4</button>
           <!-- Hier content -->
         </div>
       </div>
@@ -13,27 +14,6 @@
 
 <script>
 export default {};
-
-method: {
-  let locals = [];
-
-    const response = fetch(
-      `https://openmensa.org/api/v2/canteens`
-    );
-    const responseData = response.json();
-
-    for (const key in responseData) {
-      const local = {
-        id: responseData[key].id,
-        name: responseData[key].name,
-        city: responseData[key].city,
-        address: responseData[key].address,
-        coordinates: responseData[key].coordinates,
-      };
-      locals.push(local);
-    }
-}
-
 </script>
 
 <style scoped>
