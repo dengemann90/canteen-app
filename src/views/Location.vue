@@ -14,23 +14,25 @@
 <script>
 export default {};
 
-// let locals = [];
+method: {
+  let locals = [];
 
-//       const response = fetch(
-//         `https://openmensa.org/api/v2/canteens`
-//       );
-//       const responseData = response.json();
+    const response = fetch(
+      `https://openmensa.org/api/v2/canteens`
+    );
+    const responseData = response.json();
 
-//       for (const key in responseData) {
-//         const local = {
-//           id: responseData[key].id,
-//           name: responseData[key].name,
-//           city: responseData[key].city,
-//           address: responseData[key].address,
-//           coordinates: responseData[key].coordinates,
-//         };
-//         locals.push(local);
-//       }
+    for (const key in responseData) {
+      const local = {
+        id: responseData[key].id,
+        name: responseData[key].name,
+        city: responseData[key].city,
+        address: responseData[key].address,
+        coordinates: responseData[key].coordinates,
+      };
+      locals.push(local);
+    }
+}
 
 </script>
 
