@@ -1,13 +1,12 @@
 <template>
   <!-- AUSGABE App.vue (gespeicherte Liste "locals")-->
+  <ul>
   <local-item
     v-for="canteen in localList"
     :key="canteen.id"
-    :name="canteen.name"
-    :city="canteen.city"
-    :address="canteen.address"
-    :coordinates="canteen.coordinates"
+    :canteen="canteen"
   ></local-item>
+  </ul>
 </template>
 
 <script>
