@@ -66,7 +66,7 @@ export default {
       console.log(dishesPlan);
       set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
 
-  // json locals
+      // json locals
       let localsList = [];
       let locals = [];
 
