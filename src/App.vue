@@ -65,16 +65,18 @@ export default {
       }
       console.log(dishesPlan);
       set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
-
+     },
+     
       // json locals
+      async fetchLocation(){
       let localsList = [];
       let locals = [];
 
-      const responseLocal = fetch(
-        `https://openmensa.org/api/v2/canteens`
+      const responseLocal = await fetch(
+        `https://openmensa.org/api/v2/canteens?near[lat]=52.393535&near[lng]=13.127814&near[dist]=15`
       );
       
-      const responseDataLocal = await responseLocal;
+      const responseDataLocal = await responseLocal.json();
      
       for (const key in responseDataLocal) {
         const local = {
@@ -88,13 +90,16 @@ export default {
         console.log('locals Json!');
         //console.log(locals)
       }
+      console.log(responseDataLocal)
       set("locals", JSON.parse(JSON.stringify(localsList)));
       console.log(locals)
-    }
+      }
+    //52.51947859531712, 13.388128402966837 (mitte)
   }
   ,
   created() {
      this.fetchData();
+     this.fetchLocation();
      this.$store.dispatch('loadFavorites');
   }
 };

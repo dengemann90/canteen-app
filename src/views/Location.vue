@@ -4,8 +4,8 @@
       <div class="container">
         <p class="capital">Location</p>
         <div class="container_all">
-          <button v-on:click="reduce(4)">test</button>
           <!-- Hier content AUSGABE AUS localsList.vue-->
+          <locals-list></locals-list>
         </div>
       </div>
     </div>
@@ -13,8 +13,11 @@
 </template>
 
 <script>
-//import localsList from "./locations/LocalsList.vue";
+import LocalsList from '../components/locations/LocalsList.vue';
 export default {
+  components:{
+    LocalsList
+  }
 
 };
 </script>
