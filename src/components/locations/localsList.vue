@@ -12,17 +12,18 @@
 
 <script>
 import LocalItem from "./LocalItem.vue";
-//import locals from "../../App.vue";
+// import { get } from "idb-keyval";
+// import locals from "../../App.vue";
 
 
 export default {
   components: {
     LocalItem,
-    //locals,
+    // locals,
   },
   data() {
     return {
-      // locals: []
+      // locals: [],
       localList: [
         {
           id: 1,
@@ -41,5 +42,13 @@ export default {
       ],
     };
   },
+  // methods: {
+  //   getLocals() {
+  //       get("locals"),
+  //   },
+  // },
+  // mounted() {
+  //   this.getLocals();
+  // },
 };
 </script>

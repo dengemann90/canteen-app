@@ -69,7 +69,7 @@ export default {
      
       // json locals
       async fetchLocation(){
-      let localsList = [];
+      // let localsList = [];
       let locals = [];
 
       const responseLocal = await fetch(
@@ -91,7 +91,7 @@ export default {
         //console.log(locals)
       }
       console.log(responseDataLocal)
-      set("locals", JSON.parse(JSON.stringify(localsList)));
+      set("locals", JSON.parse(JSON.stringify(locals)));
       console.log(locals)
       }
     //52.51947859531712, 13.388128402966837 (mitte)
