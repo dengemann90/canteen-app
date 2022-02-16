@@ -11,10 +11,13 @@
 
 <script>
 import LocalItem from "./LocalItem.vue";
+//import locals from "../../App.vue";
+
 
 export default {
   components: {
     LocalItem,
+    //locals,
   },
   data() {
     return {
