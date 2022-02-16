@@ -6,6 +6,7 @@
     :key="canteen.id"
     :canteen="canteen"
   ></local-item>
+  <h1>team</h1>
   </ul>
 </template>
 
@@ -21,6 +22,7 @@ export default {
   },
   data() {
     return {
+      // locals: []
       localList: [
         {
           id: 1,
