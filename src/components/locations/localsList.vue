@@ -6,7 +6,6 @@
       :key="canteen.id"
       :canteen="canteen"
     ></local-item>
-    <h1>team</h1>
   </ul>
 </template>
 
