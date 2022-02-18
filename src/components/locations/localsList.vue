@@ -2,7 +2,7 @@
   <!-- AUSGABE App.vue (gespeicherte Liste "locals")-->
   <ul>
   <local-item
-    v-for="canteen in localList"
+    v-for="canteen in locals"
     :key="canteen.id"
     :canteen="canteen"
   ></local-item>
@@ -12,43 +12,43 @@
 
 <script>
 import LocalItem from "./LocalItem.vue";
-// import { get } from "idb-keyval";
-// import locals from "../../App.vue";
+ import { get } from "idb-keyval";
+ import locals from "../../App.vue";
 
 
 export default {
   components: {
     LocalItem,
-    // locals,
   },
   data() {
     return {
-      // locals: [],
-      localList: [
-        {
-          id: 1,
-          name: "Mensa UniCampus Magdeburg",
-          city: "Magdeburg",
-          address: "Pfälzer Str. 1, 39106 Magdeburg",
-          coordinates: [52.139618827301895, 11.647599935531616],
-        },
-        {
-          id: 2,
-          name: "Magdeburg Herrenkurg",
-          city: "Magdeburg",
-          address: "Breitscheidstr. 2, 39114 Magdeburg",
-          coordinates: [52.14006658530411, 11.67566657066345],
-        },
-      ],
+      locals: [],
+      // localList: [
+      //   {
+      //     id: 1,
+      //     name: "Mensa UniCampus Magdeburg",
+      //     city: "Magdeburg",
+      //     address: "Pfälzer Str. 1, 39106 Magdeburg",
+      //     coordinates: [52.139618827301895, 11.647599935531616],
+      //   },
+      //   {
+      //     id: 2,
+      //     name: "Magdeburg Herrenkurg",
+      //     city: "Magdeburg",
+      //     address: "Breitscheidstr. 2, 39114 Magdeburg",
+      //     coordinates: [52.14006658530411, 11.67566657066345],
+      //   },
+      // ],
     };
   },
-  // methods: {
-  //   getLocals() {
-  //       get("locals"),
-  //   },
-  // },
-  // mounted() {
-  //   this.getLocals();
-  // },
+  methods: {
+    getLocals() {
+        get("locals")
+        console.log(locals);
+    }
+  },
+  mounted() {
+    this.getLocals();
+  },
 };
 </script>
