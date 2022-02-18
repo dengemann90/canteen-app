@@ -92,7 +92,7 @@ export default {
       }
       console.log(responseDataLocal)
       set("locals", JSON.parse(JSON.stringify(locals)));
-      console.log(locals)
+      //console.log(locals)
       }
     //52.51947859531712, 13.388128402966837 (mitte)
   }

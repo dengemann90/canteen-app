@@ -12,9 +12,8 @@
 
 <script>
 import LocalItem from "./LocalItem.vue";
- import { get } from "idb-keyval";
- import locals from "../../App.vue";
-
+import { get } from "idb-keyval";
+import locals from "../../App.vue";
 
 export default {
   components: {
@@ -41,9 +40,14 @@ export default {
       // ],
     };
   },
+  // async build () {
+  //   await fetchLocation();
+  // },
   methods: {
     getLocals() {
         get("locals")
+        this.locals.push(locals)
+        console.log('Locals pulled');
         console.log(locals);
     }
   },
