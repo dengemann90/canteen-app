@@ -19,8 +19,8 @@ export default {
   data() {
     return {};
   },
-  methods:{
-     async fetchData(){
+  methods: {
+    async fetchData() {
       let dateApiRequest = format(Date.now(), "yyyy-MM-dd");
       let dateIndexedDB = Date.now();
       let dishesPlan = [];
@@ -35,11 +35,11 @@ export default {
 
         if (!response.ok) {
           const error = new Error(
-          responseData.message || "failed to fetch request!"
+            responseData.message || "failed to fetch request!"
           );
           throw error;
         }
-        console.log('fetch openmensa api successful!');
+        console.log("fetch openmensa api successful!");
 
         for (const key in responseData) {
           const dish = {
@@ -52,7 +52,7 @@ export default {
         }
 
         let dishesPerDay = {
-          date: format(dateIndexedDB, 'd.M.yyyy'),
+          date: format(dateIndexedDB, "d.M.yyyy"),
           dishes: dishes,
         };
 
@@ -60,24 +60,24 @@ export default {
           dishesPlan.push(dishesPerDay);
         }
 
-        dateApiRequest = format(addDays(Date.now(),i+1), "yyyy-MM-dd");
-        dateIndexedDB = addDays(dateIndexedDB,1);
+        dateApiRequest = format(addDays(Date.now(), i + 1), "yyyy-MM-dd");
+        dateIndexedDB = addDays(dateIndexedDB, 1);
       }
       console.log(dishesPlan);
       set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
-     },
-     
-      // json locals
-      async fetchLocation(){
+    },
+
+    // json locals
+    async fetchLocation() {
       // let localsList = [];
       let locals = [];
 
       const responseLocal = await fetch(
         `https://openmensa.org/api/v2/canteens?near[lat]=52.393535&near[lng]=13.127814&near[dist]=15`
       );
-      
+
       const responseDataLocal = await responseLocal.json();
-     
+
       for (const key in responseDataLocal) {
         const local = {
           id: responseDataLocal[key].id,
@@ -87,21 +87,20 @@ export default {
           coordinates: responseDataLocal[key].coordinates,
         };
         locals.push(local);
-        console.log('locals Json!');
+        console.log("locals Json!");
         //console.log(locals)
       }
-      console.log(responseDataLocal)
+      console.log(responseDataLocal);
       set("locals", JSON.parse(JSON.stringify(locals)));
       //console.log(locals)
-      }
+    },
     //52.51947859531712, 13.388128402966837 (mitte)
-  }
-  ,
+  },
   created() {
-     this.fetchData();
-     this.fetchLocation();
-     this.$store.dispatch('loadFavorites');
-  }
+    this.fetchData();
+    this.fetchLocation();
+    this.$store.dispatch("loadFavorites");
+  },
 };
 </script>
 
