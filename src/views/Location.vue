@@ -7,11 +7,17 @@
         <input v-model="dataRadius" placeholder="" />
         <span> km </span>
         <button v-on:click="fetchLocation">search</button>
+        <p v-show="this.dataRadius != 0 && this.radius === true">
+          This is my selection for you in the radius of
+          <b> {{ this.dataRadius }} </b> km:
+        </p>
         <!-- <radius></radius> -->
         <div class="container_all">
           <!-- Hier content AUSGABE AUS localsList.vue-->
           <locals-list v-if="this.radius === false"></locals-list>
-          <radius-list v-else></radius-list>
+          <radius-list
+            v-else-if="this.radius === true || this.dataRadius === 0"
+          ></radius-list>
         </div>
       </div>
     </div>
@@ -37,7 +43,7 @@ export default {
   data() {
     return {
       geolocAggree: false,
-      dataRadius: "5",
+      dataRadius: "",
       radius: false,
     };
   },
@@ -70,6 +76,7 @@ export default {
       set("localsRadius", JSON.parse(JSON.stringify(localsRadius)));
       this.radius = true;
       console.log(this.radius);
+      console.log(this.dataRadius);
     },
   },
 };
@@ -84,3 +91,5 @@ input {
 //geolocation pull getGPSDate $ in fetch
 // modus
 // Chose your Mensa
+
+// erneutes Ausführen des Buttons hat keine Auswirkung 
