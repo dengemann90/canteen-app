@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     getLocalsRadius() {
-      get("locals").then((data) => {
+      get("localsRadius").then((data) => {
         this.localsRadius = data;
       });
       console.log("LocalsRadius pulled");
