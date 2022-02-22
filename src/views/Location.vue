@@ -25,14 +25,10 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import LocalsList from '../components/locations/localsList.vue';
-=======
 // import { set } from "idb-keyval";
-import LocalsList from "../components/locations/LocalsList.vue";
+import LocalsList from '../components/locations/localsList.vue';
 import RadiusList from "../components/locations/RadiusList.vue";
 import { set } from "idb-keyval";
->>>>>>> 51f71a8cef075f762d9b9019d17d3d0efe361991
 export default {
   // props: dataRadius,
   // data() {
