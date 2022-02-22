@@ -1,5 +1,4 @@
 <template>
-  <!-- AUSGABE App.vue (gespeicherte Liste "locals")-->
   <ul>
     <radius-item
       v-for="canteenRadius in localsRadius"

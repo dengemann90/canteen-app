@@ -5,8 +5,8 @@
         <h1>EATERY</h1>
         <span><b>Choose radius:</b> </span>
         <input v-model="dataRadius" placeholder="" />
-        <span> km</span>
-        <button v-on:click="fetchLocation"></button>
+        <span> km </span>
+        <button v-on:click="fetchLocation">search</button>
         <!-- <radius></radius> -->
         <div class="container_all">
           <!-- Hier content AUSGABE AUS localsList.vue-->
