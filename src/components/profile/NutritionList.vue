@@ -1,51 +1,54 @@
 <template>
-  <div>
-  <ul v-for="nutrition in nutritionList" :key="nutrition.type">
-    <li>
-        <div>
-            <p><b>{{nutrition.type}}</b></p>
-            <p>{{nutrition.description }}</p>
-            </div>
-            <div>
-                <img :src="require( `../../assets/${nutrition.imageName}.png`)" alt="vegan" width="150" height="150 ">
-            </div>
-    </li>
-  </ul></div>
+<ul>
+  <nutrition-item 
+    v-for="nutrition in nutritionList"
+    :key="nutrition.type"
+    :nutrition="nutrition"
+    :selectedNutrition = this.selectedNutrition
+    @set-selected-nutrition = "setSelectedNutrition"
+  ></nutrition-item>
+  </ul>
 </template>
 
 <script>
+import NutritionItem from './NutritionItem.vue';
 export default {
+  components: {
+    NutritionItem
+  },
   data() {
     return {
+      selectedNutrition:"Omnivore", 
+      nutritionSelected: "Omnivore",
       nutritionList: [
         {
           type: "Omnivore",
           description: "Du isst sowohl pflanzliche als auch tierische Produkte",
-          imageName: 'Omnivore'
+          imageName: "Omnivore",
         },
-            {
-              type: "Pescetarisch",
-              description:
-                "Du isst eigentlich veggie, machst bei Fisch aber eine Ausnahme",
-                 imageName: 'Pescetarisch'
-            },
+        {
+          type: "Pescetarisch",
+          description:
+            "Du isst eigentlich veggie, machst bei Fisch aber eine Ausnahme",
+          imageName: "Pescetarisch",
+        },
         {
           type: "Vegetarisch",
           description: "Du verzichtest auf Fleisch und Fisch",
-          imageName: 'Vegetarisch'
+          imageName: "Vegetarisch",
         },
         {
           type: "Vegan",
           description: "Du verzichtest auf alle tierischen Produkte",
-          imageName: 'Vegan'
+          imageName: "Vegan",
         },
       ],
     };
   },
-  computed:{
-      imageName(){
-         return 'Omnivoreo';
-      }
+  methods:{
+    setSelectedNutrition(nutrition){
+      this.selectedNutrition = nutrition;
+    }
   }
 };
 </script>
@@ -63,5 +66,13 @@ li {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 15px;
   padding: 1rem;
+}
+
+.active {
+  margin: 1rem 0;
+  border-radius: 15px;
+  padding: 1rem;
+  border: solid 2px rgb(138, 169, 105);
+  box-shadow: 2px 2px 8px rgba(138, 169, 105, 0.5);
 }
 </style>

@@ -14,8 +14,8 @@
         <!-- <radius></radius> -->
         <div class="container_all">
           <!-- Hier content AUSGABE AUS localsList.vue-->
-          <locals-list v-if="this.radius === false"></locals-list>
-          <radius-list
+         <locals-list v-if="this.radius === false"></locals-list>
+          <radius-list 
             v-else-if="this.radius === true || this.dataRadius === 0"
           ></radius-list>
         </div>
@@ -27,7 +27,7 @@
 <script>
 // import { set } from "idb-keyval";
 import LocalsList from '../components/locations/LocalsList.vue';
-import RadiusList from "../components/locations/RadiusList.vue";
+import RadiusList from '../components/locations/RadiusList.vue';
 import { set } from "idb-keyval";
 export default {
   // props: dataRadius,
