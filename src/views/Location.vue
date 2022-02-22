@@ -26,7 +26,7 @@
 
 <script>
 // import { set } from "idb-keyval";
-import LocalsList from '../components/locations/localsList.vue';
+import LocalsList from '../components/locations/LocalsList.vue';
 import RadiusList from "../components/locations/RadiusList.vue";
 import { set } from "idb-keyval";
 export default {
