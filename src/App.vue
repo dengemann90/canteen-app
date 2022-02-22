@@ -100,6 +100,7 @@ export default {
     this.fetchData();
     this.fetchLocation();
     this.$store.dispatch("loadFavorites");
+    this.$store.dispatch("loadSelectedNutrition");
   },
 };
 </script>

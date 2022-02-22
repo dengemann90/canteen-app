@@ -1,24 +1,24 @@
 <template>
-<ul>
-  <nutrition-item 
-    v-for="nutrition in nutritionList"
-    :key="nutrition.type"
-    :nutrition="nutrition"
-    :selectedNutrition = this.selectedNutrition
-    @set-selected-nutrition = "setSelectedNutrition"
-  ></nutrition-item>
+  <ul>
+    <nutrition-item
+      v-for="nutrition in nutritionList"
+      :key="nutrition.type"
+      :nutrition="nutrition"
+      :selectedNutrition="this.selectedNutrition"
+      @set-selected-nutrition="setSelectedNutrition"
+    ></nutrition-item>
   </ul>
 </template>
 
 <script>
-import NutritionItem from './NutritionItem.vue';
+import NutritionItem from "./NutritionItem.vue";
 export default {
   components: {
-    NutritionItem
+    NutritionItem,
   },
   data() {
     return {
-      selectedNutrition:"Omnivore", 
+      selectedNutrition: "",
       nutritionSelected: "Omnivore",
       nutritionList: [
         {
@@ -45,10 +45,17 @@ export default {
       ],
     };
   },
-  methods:{
-    setSelectedNutrition(nutrition){
-      this.selectedNutrition = nutrition;
+  methods: {
+    setSelectedNutrition(nutrition) {
+      this.$store.dispatch("updateSelectedNutrition", nutrition);
+      this.getSelectedNutrition();
+    },
+    getSelectedNutrition(){
+      this.selectedNutrition = this.$store.getters.getSelectedNutrition;
     }
+  },
+  created(){
+    this.getSelectedNutrition();
   }
 };
 </script>

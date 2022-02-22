@@ -6,13 +6,13 @@ const store = createStore({
         return{
             canteenId: 30,
             userType:'students',
-            favorites:[]
+            favorites:[],
+            selectedNutrition:''
         };
     },
     mutations:{
-        setFavorites(state, payload){
-            state.favorites = payload;
-              set("favorites", JSON.parse(JSON.stringify(state.favorites)))
+      setFavoritesDB(state, payload){
+              set("favorites", JSON.parse(JSON.stringify(payload)))
                 .then(() => {
                   console.log("favorites updated in indexedDB: ");
                 })
@@ -20,6 +20,23 @@ const store = createStore({
                   console.dir(state.favorites);
                 })
                 .catch(console.warn);
+        },
+        setFavoritesState(state, payload) {
+          state.favorites = payload;
+        },
+        setSelectedNutritionDB(state, payload){
+          state.selectedNutrition = payload;
+          set("selectedNutrition", JSON.parse(JSON.stringify(state.selectedNutrition)))
+            .then(() => {
+              console.log("selected nutrition updated in indexedDB: ");
+            })
+            .then(() => {
+              console.dir(state.selectedNutrition);
+            })
+            .catch(console.warn);
+        },
+        setSelectedNutritionState(state, payload) {
+          state.selectedNutrition = payload;
         }
     },
     actions:{
@@ -30,8 +47,8 @@ const store = createStore({
                 console.log("no favorites in indexedDB");
                 return;
               }
-              context.commit('setFavorites',data)
-              console.log("favorites loaded from indexedDB");
+              context.commit('setFavoritesState',data)
+              console.log("favorites loaded from indexedDB into vuex store");
             })
             .catch(console.warn);
         },
@@ -48,7 +65,27 @@ const store = createStore({
                 favorites.splice(indexFavorites, 1);
                 console.log("dish with id " + item.id + " deleted from favorites");
               }
-              context.commit('setFavorites',favorites);
+              context.commit('setFavoritesState',favorites);
+              context.commit('setFavoritesDB',favorites);
+        },
+        loadSelectedNutrition(context) {
+          get("selectedNutrition")
+          .then((data) => {
+            if (!data) {
+              // store default value in indexedDB -> Omnivore
+              console.log("no selectedNutrion in indexedDB - store default value in vuex store");
+              context.commit('setSelectedNutritionDB','Omnivore');
+              context.commit('setSelectedNutritionState','Omnivore');
+              return;
+            }
+            context.commit('setSelectedNutritionState',data)
+            console.log("selected nutrition loaded from indexedDB into vuex store");
+          })
+          .catch(console.warn);
+        },
+        updateSelectedNutrition(context, payload){
+          context.commit('setSelectedNutritionState',payload);
+          context.commit('setSelectedNutritionDB',payload);
         }
     },
     getters:{
@@ -60,6 +97,9 @@ const store = createStore({
         },
         getFavorites(state){
             return state.favorites;
+        },
+        getSelectedNutrition(state){
+          return state.selectedNutrition;
         }
     }
 });
