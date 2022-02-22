@@ -10,8 +10,8 @@
         <!-- <radius></radius> -->
         <div class="container_all">
           <!-- Hier content AUSGABE AUS localsList.vue-->
-          <locals-list></locals-list>
-          <radius-list></radius-list>
+          <locals-list v-if="this.radius === false"></locals-list>
+          <radius-list v-else></radius-list>
         </div>
       </div>
     </div>
@@ -21,6 +21,7 @@
 <script>
 // import { set } from "idb-keyval";
 import LocalsList from "../components/locations/LocalsList.vue";
+import RadiusList from "../components/locations/RadiusList.vue";
 import { set } from "idb-keyval";
 export default {
   // props: dataRadius,
@@ -33,11 +34,12 @@ export default {
     return {
       geolocAggree: false,
       dataRadius: "5",
+      radius: false,
     };
   },
   components: {
     LocalsList,
-    // Radius,
+    RadiusList,
   },
   methods: {
     async fetchLocation() {
@@ -62,6 +64,8 @@ export default {
       }
       console.log(responseDataLocal);
       set("localsRadius", JSON.parse(JSON.stringify(localsRadius)));
+      this.radius = true;
+      console.log(this.radius);
     },
   },
 };
