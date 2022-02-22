@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import LocalsList from "../components/locations/LocalsList.vue";
+import LocalsList from '../components/locations/localsList.vue';
 export default {
   components: {
     LocalsList,
