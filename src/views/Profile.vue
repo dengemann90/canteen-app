@@ -4,6 +4,7 @@
       <div class="container">
         <p class="capital">Mein Profil</p>
         <p>{{ profileTitle }}</p>
+        <p v-if="activeLink == '/profile/allergens_additives'">aktuelle Ernährungsform: <b>{{currentNutrition}}</b></p>
         <p>{{ profileDescription }}</p>
         <div class="container_all">
           <ul v-if="activeLink === '/profile'">
@@ -69,10 +70,13 @@ export default {
         return "Wie ernährst du dich?";
       }
       if (this.activeLink == "/profile/allergens_additives") {
-        return "Welche Zutaten/Inhaltsstoffe sollen vermieden werden?";
+        return "Welche Zutaten/Inhaltsstoffe sollen nicht angezeigt werden?";
       }
       return null;
     },
+    currentNutrition(){
+      return this.$store.getters.getSelectedNutrition;
+    }
   },
 };
 </script>
@@ -100,47 +104,3 @@ li:hover {
   background-color: rgba(138, 169, 105, 0.2);
 }
 </style>
-
-
-
-alt
-          <!--   {path: '/general_settings', component:GeneralSettings},
-  {path: '/nutrition', component:Nutrition},
-  {path: '/allergens_additives', component:AllergensAdditives},
-   -->
-          <!-- <div class="main-setting setting">
-            <div id="setting-nut"><b>Nutrition</b></div>
-            <ul>
-              <li>Vegetarian</li>
-              <li>Vegan</li>
-              <li>Lacto-Vegetarian</li>
-            </ul>
-            <div id="setting-allerg"><b>Allergens & Additives</b></div>
-          </div> -->
-
-/* .setting {
-    min-height: 20px;
-    min-width: 100%;
-    margin: 1rem 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    border-radius: 12px;
-    padding: 1rem; 
-  }
-  
-  #setting-nut {
-  float: both;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  border-radius: 12px;
-  padding: 1rem; 
-  margin-left: 0px;
-  margin-top: 0px;
-  }
-  
-  #setting-allerg {
-  float: both;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  border-radius: 12px;
-  padding: 1rem; 
-  margin-left: 0px;
-  margin-top: 5px;
-  } */
