@@ -1,5 +1,5 @@
 <template>
-  <base-dialog @close="hideDialog" :open="dialogIsVisible">
+  <base-dialog :open="dialogIsVisible">
     <p>
       Achtung: Beim Ändern der Ernährungsform gehen die Einstellungen der
       Allergene/Zusatzstoffe verloren!
@@ -28,11 +28,7 @@
 </template>
 
 <script>
-import BaseDialog from "../ui/BaseDialog.vue";
 export default {
-  components: {
-    BaseDialog,
-  },
   props: ["nutrition", "selectedNutrition"],
   emits: ["set-selected-nutrition"],
   data() {
