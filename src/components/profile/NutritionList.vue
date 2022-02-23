@@ -19,7 +19,6 @@ export default {
   data() {
     return {
       selectedNutrition: "",
-      nutritionSelected: "Omnivore",
       nutritionList: [
         {
           type: "Omnivore",

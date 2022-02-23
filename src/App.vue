@@ -101,6 +101,8 @@ export default {
     this.fetchLocation();
     this.$store.dispatch("loadFavorites");
     this.$store.dispatch("loadSelectedNutrition");
+    this.$store.dispatch("loadExcludedAllergensAdditives"); 
+
   },
 };
 </script>

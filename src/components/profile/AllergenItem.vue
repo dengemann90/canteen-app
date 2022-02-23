@@ -1,5 +1,5 @@
 <template>
-  <li class="li-allergen" :class="mode">
+  <li class="li-allergen" :class="mode" @click.stop="update">
     <p>{{ allergen }}</p>
   </li>
 </template>
@@ -7,14 +7,13 @@
 <script>
 export default {
   props: ['allergen', 'ingredientsExcluded', 'ingredientsDisabled'],
+  emits:['update-allergens'],
   data() {
     return {};
   },
   computed: {
     mode() {
-        
         if(this.ingredientsExcluded.includes(this.allergen)){
-            console.log('Zutat ' + this.allergen + ' ausschließen');
             return {avoid: true}
         }
         if(this.ingredientsDisabled.includes(this.allergen)){
@@ -23,6 +22,11 @@ export default {
         else return null
     },
   },
+  methods:{
+    update(){
+      this.$emit('update-allergens', this.allergen);
+    }
+  }
 };
 </script>
 

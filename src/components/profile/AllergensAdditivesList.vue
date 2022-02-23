@@ -10,6 +10,7 @@
             :allergen="allergen"
             :ingredientsExcluded="this.ingredientsExcluded"
             :ingredientsDisabled="this.ingredientsDisabled"
+            @update-allergens="updateAllergensAdditives"
           ></allergen-item>
         </div>
       </li>
@@ -22,6 +23,8 @@
             v-for="additive in additives"
             :key="additive"
             :additive="additive"
+            :ingredientsExcluded="this.ingredientsExcluded"
+             @update-additives="updateAllergensAdditives"
           ></additive-item>
         </div>
       </li>
@@ -39,8 +42,8 @@ export default {
   },
   data() {
     return {
-      allergensVisible: false,
-      additivesVisible: false,
+      allergensVisible: true,
+      additivesVisible: true,
       ingredientsExcluded: [],
       ingredientsDisabled: [],
       allergens: [
@@ -96,27 +99,17 @@ export default {
     };
   },
   methods: {
-    determineRestrictionsNutrition() {
-      let nutrition = this.$store.getters.getSelectedNutrition;
-      if (nutrition == "Omnivore") {
-        return;
-      }
-      if (nutrition == "Pescetarisch") {
-        this.ingredientsExcluded = ["Krebstiere", "Weichtiere"];
-        this.ingredientsDisabled = ["Fisch"];
-      }
-      if (nutrition == "Vegetarisch") {
-        this.ingredientsExcluded = ["Krebstiere", "Weichtiere", "Fisch"];
-      }
-      if (nutrition == "Vegan") {
-        this.ingredientsExcluded = ["Krebstiere", "Weichtiere", "Fisch", "Eier", "Milch und Milchprodukte (inkl. Laktose)"];
-      }
+    updateAllergensAdditives(ingredient){
+      this.$store.dispatch('updateExcludedAllergensAdditives', ingredient);
+      this.getExcludedAllergensAdditives();
     },
+    getExcludedAllergensAdditives(){
+      this.ingredientsExcluded = this.$store.getters.getExcludedAllergensAdditives;
+    }
   },
   created() {
-    this.determineRestrictionsNutrition();
-    console.log(this.ingredientsExcluded);
-    console.log(this.ingredientsDisabled);
+    //this.determineRestrictionsNutrition();
+    this.getExcludedAllergensAdditives();
   },
 };
 </script>
