@@ -6,17 +6,23 @@
         <span><b>Choose radius:</b> </span>
         <input v-model="dataRadius" placeholder="" />
         <span> km </span>
-        <button v-on:click="fetchLocation">search</button>
+        <!-- <button v-on:click="fetchLocation(this.dataRadius)">search</button> -->
+        <p>
+          <button
+            v-show="this.dataRadius != 0 && this.radius === true"
+            v-on:click="setRadius0"
+          >
+            delete input
+          </button>
+        </p>
         <p v-show="this.dataRadius != 0 && this.radius === true">
           This is my selection for you in the radius of
           <b> {{ this.dataRadius }} </b> km:
         </p>
-        <!-- <radius></radius> -->
         <div class="container_all">
-          <!-- Hier content AUSGABE AUS localsList.vue-->
-         <locals-list v-if="this.radius === false"></locals-list>
-          <radius-list 
-            v-else-if="this.radius === true || this.dataRadius === 0"
+          <locals-list v-if="this.radius === false"></locals-list>
+          <radius-list
+            v-else-if="this.radius === true || this.dataRadius > 0"
           ></radius-list>
         </div>
       </div>
@@ -26,8 +32,8 @@
 
 <script>
 // import { set } from "idb-keyval";
-import LocalsList from '../components/locations/LocalsList.vue';
-import RadiusList from '../components/locations/RadiusList.vue';
+import LocalsList from "../components/locations/LocalsList.vue";
+import RadiusList from "../components/locations/RadiusList.vue";
 import { set } from "idb-keyval";
 export default {
   // props: dataRadius,
@@ -48,7 +54,7 @@ export default {
     RadiusList,
   },
   methods: {
-    async fetchLocation() {
+    async fetchLocation(distance) {
       let localsRadius = [];
 
       const responseLocal = await fetch(
@@ -70,9 +76,26 @@ export default {
       }
       console.log(responseDataLocal);
       set("localsRadius", JSON.parse(JSON.stringify(localsRadius)));
-      this.radius = true;
+      if (distance > 0) {
+        this.radius = true;
+      } else {
+        this.radius = false;
+      }
       console.log(this.radius);
-      console.log(this.dataRadius);
+      console.log(distance);
+    },
+
+    setRadius0() {
+      this.dataRadius = "";
+      this.fetchLocation(this.dataRadius);
+    },
+  },
+  watch: {
+    dataRadius(val) {
+      // const dbName = "localsRadius";
+      // await deleteDB(dbName);
+      // indexedDB.deleteDB("localsRadius");
+      this.fetchLocation(val);
     },
   },
 };
@@ -82,6 +105,10 @@ export default {
 input {
   width: 4%;
 }
+
+button {
+  margin-right: 1%;
+}
 </style>
 
 //geolocation pull getGPSDate $ in fetch
@@ -89,3 +116,4 @@ input {
 // Chose your Mensa
 
 // erneutes Ausführen des Buttons hat keine Auswirkung 
+// Entweder mit Button, dann sind auch mehrstellige KM möglich, dann ohne watch...
