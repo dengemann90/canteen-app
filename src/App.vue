@@ -139,7 +139,7 @@ p.capital {
   /*border: 1px solid #7B7B7B;*/
   box-sizing: border-box;
   box-shadow: 0px 30px 30px rgba(0, 0, 0, 0.4);
-  border-radius: 5%;
+  border-radius: 1%;
   max-width: 1024px;
   margin: 0 auto;
   display: flex;
