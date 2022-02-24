@@ -4,8 +4,6 @@
     <div class="appframe">
       <div class="container">
         <p class="capital">Mein Profil</p>
-        <!-- <i class="fas solid fa-hand-point-up"></i>
-        <i class="fas solid fa-info"></i> -->
         <div class="return-icon" v-if="activeLink != '/profile'">
           <i class="fas solid fa-reply" @click="returnToProfileSettings"></i>
         </div>

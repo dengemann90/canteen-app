@@ -24,6 +24,8 @@ export default {
       favorites: [],
       categories: [],
       dishListCategories: [],
+      selectedNutrition: "",
+      allergensAdditivesExcluded: [],
     };
   },
   methods: {
@@ -40,7 +42,7 @@ export default {
           let result = data.find(
             (request) => request.date === this.dateSelected
           );
-          this.dishes = result.dishes;
+          this.dishes = this.filterDishes(result.dishes);
           console.log("props date " + this.dateSelected);
           console.log("dishes loaded from indexedDB");
           console.log(result.dishes);
@@ -50,6 +52,55 @@ export default {
           this.getDishListCategories();
         })
         .catch(console.warn);
+    },
+    filterDishes(unfilteredDishes) {
+      let filteredDishes = [];
+
+      if (this.selectedNutrition == "Omnivore") {
+        for (let dish of unfilteredDishes) {
+          if (!this.excludedIngredientFound(dish)) {
+            filteredDishes.push(dish);
+          }
+        }
+      }
+      if (this.selectedNutrition == "Pescetarisch") {
+        for (let dish of unfilteredDishes) {
+          if (
+            dish.notes[1] == "vegetarisch" ||
+            dish.notes[1] == "vegan" ||
+            dish.notes.includes("Fisch")
+          ) {
+            if (!this.excludedIngredientFound(dish)) {
+              filteredDishes.push(dish);
+            }
+          }
+        }
+      }
+      if (this.selectedNutrition == "Vegetarisch") {
+        for (let dish of unfilteredDishes) {
+          if (dish.notes[1] == "vegetarisch" || dish.notes[1] == "vegan") {
+            if (!this.excludedIngredientFound(dish)) {
+              filteredDishes.push(dish);
+            }
+          }
+        }
+      }
+      if (this.selectedNutrition == "Vegan") {
+        for (let dish of unfilteredDishes) {
+          if (dish.notes[1] == "vegetarisch" || dish.notes[1] == "vegan") {
+            if (!this.excludedIngredientFound(dish)) {
+              filteredDishes.push(dish);
+            }
+          }
+        }
+      }
+
+      return filteredDishes;
+    },
+    excludedIngredientFound(dish) {
+      return dish.notes.some((value) =>
+        this.allergensAdditivesExcluded.includes(value)
+      );
     },
     getCategories() {
       this.categories = [];
@@ -86,7 +137,11 @@ export default {
       this.getDishes();
     },
   },
-  mounted() {
+  created() {
+    this.selectedNutrition = this.$store.getters.getSelectedNutrition;
+    this.allergensAdditivesExcluded =
+      this.$store.getters.getExcludedAllergensAdditives;
+    console.log("allergens", this.allergensAdditivesExcluded);
     this.getFavorites();
     this.getDishes();
   },
