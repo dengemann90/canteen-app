@@ -6,7 +6,7 @@
         <span><b>Choose radius:</b> </span>
         <input v-model="dataRadius" placeholder="" />
         <span> km </span>
-        <!-- <button v-on:click="fetchLocation(this.dataRadius)">search</button> -->
+        <button v-on:click="fetchLocation(this.dataRadius)">search</button>
         <p>
           <button
             v-show="this.dataRadius != 0 && this.radius === true"
@@ -16,8 +16,8 @@
           </button>
         </p>
         <p v-show="this.dataRadius != 0 && this.radius === true">
-          This is my selection for you in the radius of
-          <b> {{ this.dataRadius }} </b> km:
+          This {{ this.countLocalsRadius }} is my selection for you in the
+          radius of <b> {{ this.dataRadius }} </b> km:
         </p>
         <div class="container_all">
           <locals-list v-if="this.radius === false"></locals-list>
@@ -83,6 +83,12 @@ export default {
       }
       console.log(this.radius);
       console.log(distance);
+
+      // numbers of found locals
+      const countLocalsRadius = localsRadius.length;
+      return {
+        countLocalsRadius,
+      };
     },
 
     setRadius0() {
@@ -90,14 +96,14 @@ export default {
       this.fetchLocation(this.dataRadius);
     },
   },
-  watch: {
-    dataRadius(val) {
-      // const dbName = "localsRadius";
-      // await deleteDB(dbName);
-      // indexedDB.deleteDB("localsRadius");
-      this.fetchLocation(val);
-    },
-  },
+  // watch: {
+  //   dataRadius(val) {
+  //     // const dbName = "localsRadius";
+  //     // await deleteDB(dbName);
+  //     // indexedDB.deleteDB("localsRadius");
+  //     this.fetchLocation(val);
+  //   },
+  // },
 };
 </script>
 
