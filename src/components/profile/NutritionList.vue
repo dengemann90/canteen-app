@@ -1,7 +1,7 @@
 <template>
   <base-dialog v-if="dialogIsVisible" :open="dialogIsVisible">
     <p>
-      Achtung: Beim Ändern der Ernährungsform gehen die Einstellungen der
+      <i class="fas solid fa-hand-point-up"></i> Beim Ändern der Ernährungsform gehen die Einstellungen der
       Allergene/Zusatzstoffe verloren!
     </p>
     <button class="button-cancel" @click="cancel">abbrechen</button>
@@ -111,6 +111,11 @@ button {
   border-radius: 30px;
   cursor: pointer;
   margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.fas.solid.fa-hand-point-up{
+  color:rgba(255, 0, 0, 0.75);
   margin-right: 0.5rem;
 }
 
