@@ -1,3 +1,3 @@
 <template>
-    <p>Allgemeine Einstellungen</p>
+    <p>...</p>
 </template>

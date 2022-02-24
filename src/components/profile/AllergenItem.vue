@@ -6,8 +6,8 @@
 
 <script>
 export default {
-  props: ['allergen', 'ingredientsExcluded', 'ingredientsDisabled'],
-  emits:['update-allergens'],
+  props: ['allergen', 'ingredientsExcluded', 'ingredientsDisabled', 'selectedNutrition'],
+  emits:['update-allergens', 'update-rejected'],
   data() {
     return {};
   },
@@ -23,8 +23,26 @@ export default {
     },
   },
   methods:{
+    changeDenied(){
+      if(this.selectedNutrition == "Omnivore"){
+        return false;
+      }
+      if (this.selectedNutrition == "Pescetarisch" || this.selectedNutrition == "Vegetarisch") {
+        let ingredientsRestricted = ["Krebstiere", "Weichtiere", "Fisch"];
+        return ingredientsRestricted.includes(this.allergen);
+      }
+      if (this.selectedNutrition == "Vegan") {
+       let ingredientsRestricted = ["Krebstiere", "Weichtiere", "Fisch", "Eier", "Milch und Milchprodukte (inkl. Laktose)"];
+       return ingredientsRestricted.includes(this.allergen);
+      }
+    },
     update(){
-      this.$emit('update-allergens', this.allergen);
+      let changeDenied = this.changeDenied();
+      if(changeDenied){
+        this.$emit('update-rejected');
+      } else{
+        this.$emit('update-allergens', this.allergen);
+     }
     }
   }
 };
