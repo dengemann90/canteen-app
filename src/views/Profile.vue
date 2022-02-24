@@ -1,10 +1,18 @@
 <template>
+
   <div class="main">
     <div class="appframe">
       <div class="container">
         <p class="capital">Mein Profil</p>
+        <!-- <i class="fas solid fa-hand-point-up"></i>
+        <i class="fas solid fa-info"></i> -->
+        <div class="return-icon" v-if="activeLink != '/profile'">
+          <i class="fas solid fa-reply" @click="returnToProfileSettings"></i>
+        </div>
         <p>{{ profileTitle }}</p>
-        <p v-if="activeLink == '/profile/allergens_additives'">aktuelle Ernährungsform: <b>{{currentNutrition}}</b></p>
+        <p v-if="activeLink == '/profile/allergens_additives'">
+          aktuelle Ernährungsform: <b>{{ currentNutrition }}</b>
+        </p>
         <p>{{ profileDescription }}</p>
         <div class="container_all">
           <ul v-if="activeLink === '/profile'">
@@ -74,9 +82,14 @@ export default {
       }
       return null;
     },
-    currentNutrition(){
+    currentNutrition() {
       return this.$store.getters.getSelectedNutrition;
-    }
+    },
+  },
+  methods: {
+    returnToProfileSettings() {
+      this.$router.push("/profile");
+    },
   },
 };
 </script>
@@ -100,7 +113,21 @@ a {
   color: rgb(0, 0, 0);
 }
 
+.return-icon {
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  display: flex;
+}
+
+.fas.solid.fa-reply {
+  color: rgba(0, 0, 0, 0.15);
+}
+
 li:hover {
   background-color: rgba(138, 169, 105, 0.2);
+}
+
+.fas.solid.fa-reply:hover {
+  color: rgba(0, 0, 0, 0.5);
 }
 </style>
