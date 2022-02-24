@@ -1,11 +1,19 @@
 <template>
+  <base-dialog v-if="dialogIsVisible" :open="dialogIsVisible">
+    <p>
+      Achtung: Beim Ändern der Ernährungsform gehen die Einstellungen der
+      Allergene/Zusatzstoffe verloren!
+    </p>
+    <button class="button-cancel" @click="cancel">abbrechen</button>
+    <button class="button-confirm" @click="confirm">bestätigen</button>
+  </base-dialog>
   <ul>
     <nutrition-item
       v-for="nutrition in nutritionList"
       :key="nutrition.type"
       :nutrition="nutrition"
       :selectedNutrition="this.selectedNutrition"
-      @set-selected-nutrition="setSelectedNutrition"
+      @request-confirmation="showDialog"
     ></nutrition-item>
   </ul>
 </template>
@@ -18,7 +26,10 @@ export default {
   },
   data() {
     return {
+      dialogIsVisible: false,
+      changeNutrition: false,
       selectedNutrition: "",
+      newSelectedNutrition: "",
       nutritionList: [
         {
           type: "Omnivore",
@@ -45,17 +56,31 @@ export default {
     };
   },
   methods: {
-    setSelectedNutrition(nutrition) {
-      this.$store.dispatch("updateSelectedNutrition", nutrition);
-      this.getSelectedNutrition();
+    showDialog(transmittedNutrition) {
+      this.newSelectedNutrition = transmittedNutrition;
+      this.dialogIsVisible = true;
     },
-    getSelectedNutrition(){
+    cancel() {
+      this.dialogIsVisible = false;
+      this.newSelectedNutrition = "";
+    },
+    confirm() {
+      this.dialogIsVisible = false;
+      this.changeNutrition = true;
+      this.setSelectedNutrition();
+    },
+    setSelectedNutrition() {
+      this.$store.dispatch("updateSelectedNutrition",  this.newSelectedNutrition);
+      this.getSelectedNutrition();
+      this.newSelectedNutrition = "";
+    },
+    getSelectedNutrition() {
       this.selectedNutrition = this.$store.getters.getSelectedNutrition;
-    }
+    },
   },
-  created(){
+  created() {
     this.getSelectedNutrition();
-  }
+  },
 };
 </script>
 
@@ -65,5 +90,39 @@ ul {
   margin: 0rem auto;
   max-width: 40rem;
   padding: 0;
+}
+
+
+.button-cancel {
+  border: 1px solid #a1a1a180;
+  background-color: #a1a1a180;
+  color: white;
+}
+
+.button-confirm {
+  border: 1px solid rgba(255, 0, 0, 0.5);
+  background-color: rgba(255, 0, 0, 0.5);
+  color: white;
+}
+
+button {
+  font: inherit;
+  padding: 0.5rem 2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.button-cancel:hover,
+.button-cancel:active {
+  background-color: #a1a1a1;
+  border-color: #a1a1a1;
+}
+
+.button-confirm:hover,
+.button-confirm:active {
+  background-color: rgba(255, 0, 0, 0.75);
+  border-color: rgba(255, 0, 0, 0.75);
 }
 </style>
