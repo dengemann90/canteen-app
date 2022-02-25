@@ -1,13 +1,21 @@
 <template>
   <div class="main">
-    <div class="appframe">
+    <div class="appframe" @click="closeFilterActiveCard">
       <div class="container">
         <p class="capital">Plan</p>
         <dish-list-date-selector @setDate="setDate"></dish-list-date-selector>
-        <div class="filter-active-badge">
-          <p class="filter-active-text">Filter aktiv </p>
+        <div
+          v-if="filterActive"
+          class="filter-active-badge"
+          :class="{ active: showFilterCard }"
+          @click.stop="showFilterCard = !showFilterCard"
+        >
+          <p class="filter-active-text">Filter aktiv</p>
           <i class="fas solid fa-info"></i>
         </div>
+        <transition name="fade-in">
+          <filter-active-card v-if="showFilterCard"></filter-active-card>
+        </transition>
         <div class="container_all">
           <!-- Hier content -->
           <dishes-list :date-Selected="dateSelected"></dishes-list>
@@ -20,26 +28,41 @@
 <script>
 import DishListDateSelector from "../components/nav/DishListDateSelector.vue";
 import DishesList from "../components/plan/DishList.vue";
+import FilterActiveCard from "../components/plan/FilterActiveCard.vue";
 export default {
   components: {
     DishListDateSelector,
     DishesList,
+    FilterActiveCard,
   },
   data() {
     return {
       dateSelected: Intl.DateTimeFormat().format(Date.now()),
+      showFilterCard: false
     };
+  },
+  computed:{
+  filterActive(){
+    if(this.$store.getters.getExcludedAllergensAdditives.length > 0){
+      return true;
+    }
+    return false;
+  }
   },
   methods: {
     setDate(date) {
       this.dateSelected = date;
+    },
+    closeFilterActiveCard() {
+      if (this.showFilterCard) {
+        this.showFilterCard = false;
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-
 .filter-active-badge {
   margin-left: 2px;
   border-radius: 2px;
@@ -55,11 +78,39 @@ export default {
   font-size: 8px;
 }
 
-.fas.solid.fa-info{
- margin:auto;
- margin-left:-1px;
- font-size: 5px;
- color: rgba(0, 0, 0, 0.5);
+.fas.solid.fa-info {
+  margin: auto;
+  margin-left: -1px;
+  font-size: 5px;
+  color: rgba(0, 0, 0, 0.5);
 }
 
+.filter-active-badge.active {
+  border: solid 1px rgba(138, 169, 105);
+}
+
+.filter-active-badge:hover {
+  border: solid 1px rgba(138, 169, 105, 0.8);
+  background-color: rgba(138, 169, 105, 0.75);
+}
+
+/* fade in - fade out filterActiveCard */
+
+.fade-in-enter-from,
+.fade-in-leave-to
+{
+  opacity: 0;
+  transform: translateY(-30px);
+}
+.fade-in-enter-active,
+.fade-in-leave-active
+{
+  transition: all 0.5s ease-in-out;
+}
+.fade-in-enter-to,
+.fade-in-leave-from
+{
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
