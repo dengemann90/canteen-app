@@ -41,7 +41,7 @@ export default {
         const dateArray = this.dateSelected.split(".");
         const weekday = new Date(
           dateArray[2],
-          dateArray[1],
+          dateArray[1]-1,//The month parameter in the Date() constructor is 0-based.
           dateArray[0]
         ).toLocaleDateString("de-DE", { weekday: "short" });
 

@@ -140,11 +140,11 @@ export default {
   created() {
     this.selectedNutrition = this.$store.getters.getSelectedNutrition;
     this.allergensAdditivesExcluded =
-      this.$store.getters.getExcludedAllergensAdditives;
+    this.$store.getters.getExcludedAllergensAdditives;
     console.log("allergens", this.allergensAdditivesExcluded);
     this.getFavorites();
     this.getDishes();
-  },
+  }
 };
 </script>
 
