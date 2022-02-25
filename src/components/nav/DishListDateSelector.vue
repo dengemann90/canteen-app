@@ -2,7 +2,7 @@
   <div class="date-selector">
     <!-- <p class="date"> -->
     <i
-      class="icon-left-right fas fa-angle-left"
+      class="icon-left fas fa-angle-left"
       :class="{ lock: lockPreviousDayIcon }"
       @click="previousDay"
     ></i>
@@ -10,7 +10,7 @@
       {{ date }}
     </p>
     <i
-      class="icon-left-right fas solid fa-angle-right"
+      class="icon-right fas solid fa-angle-right"
       :class="{ lock: lockNextDayIcon }"
       @click="nextDay"
     ></i>
@@ -148,13 +148,21 @@ export default {
 
 .date-selector {
   display: flex;
+  padding-top: 0.5rem;
+  padding-bottom: 1.5rem;
 }
 .date-text {
   min-width: 120px;
   border-radius: 8px;
   border: solid 1.5px rgba(128, 128, 128, 0.2);
 }
-.icon-left-right {
+  .icon-left {
+    margin: auto;
+    margin-right: 1rem;
+  }
+  
+.icon-right {
   margin: auto;
+  margin-left: 1rem;
 }
 </style>
