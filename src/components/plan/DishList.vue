@@ -153,6 +153,7 @@ ul {
   list-style: none;
   margin: 0rem auto;
   max-width: 40rem;
+  min-width: 17.5rem;
   padding: 0;
 }
 </style>
