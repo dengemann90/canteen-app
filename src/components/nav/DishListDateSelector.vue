@@ -1,18 +1,20 @@
 <template>
-  <div>
-    <p>
-      <i
-        class="fas fa-angle-left"
-        :class="{ lock: lockPreviousDayIcon }"
-        @click="previousDay"
-      ></i>
+  <div class="date-selector">
+    <!-- <p class="date"> -->
+    <i
+      class="icon-left-right fas fa-angle-left"
+      :class="{ lock: lockPreviousDayIcon }"
+      @click="previousDay"
+    ></i>
+    <p class="date-text">
       {{ date }}
-      <i
-        class="fas solid fa-angle-right"
-        :class="{ lock: lockNextDayIcon }"
-        @click="nextDay"
-      ></i>
     </p>
+    <i
+      class="icon-left-right fas solid fa-angle-right"
+      :class="{ lock: lockNextDayIcon }"
+      @click="nextDay"
+    ></i>
+    <!-- </p> -->
   </div>
 </template>
 
@@ -41,7 +43,7 @@ export default {
         const dateArray = this.dateSelected.split(".");
         const weekday = new Date(
           dateArray[2],
-          dateArray[1]-1,//The month parameter in the Date() constructor is 0-based.
+          dateArray[1] - 1, //The month parameter in the Date() constructor is 0-based.
           dateArray[0]
         ).toLocaleDateString("de-DE", { weekday: "short" });
 
@@ -142,5 +144,17 @@ export default {
 
 .fas.fa-angle-right.lock {
   cursor: not-allowed;
+}
+
+.date-selector {
+  display: flex;
+}
+.date-text {
+  min-width: 120px;
+  border-radius: 8px;
+  border: solid 1.5px rgba(128, 128, 128, 0.2);
+}
+.icon-left-right {
+  margin: auto;
 }
 </style>
