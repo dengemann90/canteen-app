@@ -12,10 +12,6 @@
     <router-link to="/favorites">
     <i class="fas regular fa-heart fa-2x"></i>
     </router-link>
-    <!-- purchase -->
-    <router-link to="/purchase">
-    <i class="fas solid fa-cart-arrow-down fa-2x"></i>
-    </router-link>
     <!-- profile -->
     <router-link to="/profile">
       <i class="fas solid fa-user fa-2x"></i>

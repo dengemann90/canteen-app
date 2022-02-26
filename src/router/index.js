@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Location from '../views/Location.vue'
 import Plan from '../views/Plan.vue';
 import Favorites from '../views/Favorites.vue';
-import Purchase from '../views/Purchase.vue';
 import Profile from '../views/Profile.vue';
 import GeneralSettings from '../components/profile/GeneralSettings.vue';
 import Nutrition from '../components/profile/NutritionList.vue';
@@ -13,7 +12,6 @@ const routes = [
   { path: '/location', component: Location },
   { path: '/plan', component: Plan },
   { path: '/favorites', component: Favorites },
-  { path: '/purchase', component: Purchase },
   { path: '/profile', component: Profile,
   children:[
     { path: 'general_settings', component: GeneralSettings },
