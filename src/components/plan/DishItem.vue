@@ -1,7 +1,7 @@
 <template>
   <li>
     <div @click="descriptionVisible = !descriptionVisible">
-      <h2>
+      <h1>
         {{ dishItem.id }}
         <i class="fas solid fa-circle fa-xs" :class="nutriIconColor"></i>
         <i
@@ -12,7 +12,7 @@
           v-else-if="isVegetarienVegan == 'vegan'"
           class="fas solid fa-seedling"
         ></i>
-      </h2>
+      </h1>
       <p>
         {{ price == null ? "-" : price }}
         €
@@ -116,6 +116,7 @@ export default {
 </script>
 
 <style scoped>
+
 li {
   margin: 1rem 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
@@ -123,9 +124,8 @@ li {
   padding: 1rem;
 }
 
-li h2 {
+li h1 {
   margin: 0.5rem 0;
-  font-size: 1rem;
 }
 
 .fas.fa-heart:hover {

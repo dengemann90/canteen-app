@@ -13,7 +13,7 @@
   <ul>
     <div @click="allergensVisible = !allergensVisible">
       <li>
-        <p><b>Allergene</b></p>
+        <h2>Allergene</h2>
         <div v-if="allergensVisible">
           <allergen-item
             v-for="allergen in allergens"
@@ -30,7 +30,7 @@
     </div>
     <div @click="additivesVisible = !additivesVisible">
       <li>
-        <p><b>Zusatzstoffe</b></p>
+        <h2>Zusatzstoffe</h2>
         <div v-if="additivesVisible">
           <additive-item
             v-for="additive in additives"

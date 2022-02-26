@@ -37,7 +37,6 @@ dialog {
   background-color: white;
   z-index: 100;
   border: none;
-  /* animation:modal 0.3s ease-out forwards; */
 }
 
 

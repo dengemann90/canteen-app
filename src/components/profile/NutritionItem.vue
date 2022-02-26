@@ -2,9 +2,9 @@
   <div @click.stop="uptdateSelection">
     <li :class="{ active: highlightNutrition }">
       <div>
-        <p>
+        <h1>
           <b>{{ nutrition.type }}</b>
-        </p>
+        </h1>
         <p>{{ nutrition.description }}</p>
       </div>
       <div>

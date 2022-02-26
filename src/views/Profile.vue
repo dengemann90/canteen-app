@@ -1,5 +1,4 @@
 <template>
-
   <div class="main">
     <div class="appframe">
       <div class="container">
@@ -105,6 +104,8 @@ li {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 25px;
   padding: 1rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
 }
 a {
   text-decoration: none;
