@@ -47,7 +47,8 @@ nav {
   /*background-repeat: no-repeat;*/
   /*background-color: #e1a100;*/
   /*background-color: #ebeded;*/
-  background-color: #8aa969;
+  /* background-color: #8aa969; */
+  background-image: url('../../assets/background.png');
   width:76%;
   margin-left: 10%;
   margin-right: 10%;
