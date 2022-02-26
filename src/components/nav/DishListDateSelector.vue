@@ -25,10 +25,8 @@ export default {
   emits: ["set-Date"],
   data() {
     return {
-      dateSelected: Intl.DateTimeFormat().format(Date.now()),
+      dateSelected: '',
       loadedDays: [],
-      //becomes relevant for cached data from the openMensa API, since today's tag in loaded data does not have to be index 0! -> if new data wasn't loaded
-      indexCurrentDay: null,
       indexDateSelector: null,
       lockPreviousDayIcon: false,
       lockNextDayIcon: false,
@@ -76,19 +74,38 @@ export default {
     getLoadedDays() {
       get("dishes")
         .then((data) => {
+          let today = Intl.DateTimeFormat().format(Date.now());
           let arrayDays = [];
-          for (let entry in data) {
-            arrayDays.push(data[entry].date);
+          for (let i in data) {
+            let dateArray = data[i].date.split('.');
+            let dateConverted = new Date(
+              dateArray[2],
+              dateArray[1] - 1, //The month parameter in the Date() constructor is 0-based.
+              dateArray[0]
+            );
+            if(dateConverted >= Date.now()){
+              arrayDays.push(data[i].date);
+             }
           }
           this.loadedDays = arrayDays;
+          console.log('loaded days >= today',  this.loadedDays);
 
-          let index = this.loadedDays.indexOf(this.dateSelected);
+          let index = this.loadedDays.indexOf(today);
           if (index === -1) {
-            console.log("Day could not be loaded!");
+            if (
+              this.loadedDays.length > 0 &&
+              this.loadedDays.some((el) => el > this.dateSelected)
+            ) {
+              let indexNextAvailableDay = this.loadedDays.findIndex(
+                (el) => el > this.dateSelected
+              );
+              this.dateSelected = this.loadedDays[indexNextAvailableDay];
+              this.indexDateSelector = indexNextAvailableDay;
+            } else{
+              console.log("Day could not be loaded!No matching Data in indexedDB.");
+            }
           } else {
-            this.indexCurrentDay = index;
-            this.indexDateSelector = this.indexCurrentDay;
-            console.log("Day in loadedDays at Index: " + this.indexCurrentDay);
+            this.indexDateSelector = index;
             console.log("IndexDateSelector Index: " + this.indexDateSelector);
           }
           console.log("loaded days from indexedDB: " + arrayDays);
@@ -101,7 +118,7 @@ export default {
   },
   watch: {
     indexDateSelector() {
-      if (this.indexDateSelector === this.indexCurrentDay) {
+      if (this.indexDateSelector === 0) {
         this.lockPreviousDayIcon = true;
       } else if (this.lockPreviousDayIcon) {
         this.lockPreviousDayIcon = false;
@@ -156,11 +173,11 @@ export default {
   border-radius: 8px;
   border: solid 1.5px rgba(128, 128, 128, 0.2);
 }
-  .icon-left {
-    margin: auto;
-    margin-right: 1rem;
-  }
-  
+.icon-left {
+  margin: auto;
+  margin-right: 1rem;
+}
+
 .icon-right {
   margin: auto;
   margin-left: 1rem;
