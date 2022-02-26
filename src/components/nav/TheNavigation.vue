@@ -56,8 +56,8 @@ nav {
 nav a {
   text-decoration: none;
   font-size: 12px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   color: rgba(0, 0, 0, 0.7);
 }
 
