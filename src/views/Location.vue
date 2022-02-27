@@ -2,23 +2,50 @@
   <div class="main">
     <div class="appframe">
       <div class="container">
-        <h1>EATERY</h1>
-        <span><b>Choose radius:</b> </span>
-        <input v-model="dataRadius" placeholder="" />
-        <span> km </span>
-        <button v-on:click="fetchLocation(this.dataRadius)">search</button>
-        <p>
+        <!-- <h1>EATERY</h1> -->
+        <p class="capital">Location</p>
+        <div>
+          <input
+            class="input-city"
+            :class="{ 'disabled-input': disableInputCity }"
+            id="city"
+            name="city"
+            type="text"
+            placeholder="Stadt eingeben"
+            autocomplete="off"
+            v-model="selectedCity"
+          />
+        </div>
+        <div class="input-radius-field">
+          <input
+            class="input-radius"
+            :class="{ 'disabled-input': disableInputRadius }"
+            id="radius"
+            name="radius"
+            type="number"
+            placeholder="Radius (km)"
+            autocomplete="off"
+            v-model="dataRadius"
+          />
+          <i
+            class="fas solid fa-compass fa-lg"
+            :class="{ 'disabled-icon': disableInputRadius }"
+            v-on:click="fetchLocation(this.dataRadius)"
+          ></i>
+        </div>
+
+        <!-- <p>
           <button
             v-show="this.dataRadius != 0 && this.radius === true"
             v-on:click="setRadius0"
           >
             delete input
           </button>
-        </p>
-        <p v-show="this.dataRadius != 0 && this.radius === true">
+        </p> -->
+        <!-- <p v-show="this.dataRadius != 0 && this.radius === true">
           This {{ this.countLocalsRadius }} is my selection for you in the
           radius of <b> {{ this.dataRadius }} </b> km:
-        </p>
+        </p> -->
         <div class="container_all">
           <locals-list v-if="this.radius === false"></locals-list>
           <radius-list
@@ -46,17 +73,31 @@ export default {
     return {
       geolocAggree: false,
       dataRadius: "",
-      radius: false,
+      selectedCity: "",
+      radius: false
     };
   },
   components: {
     LocalsList,
     RadiusList,
   },
+  computed: {
+    disableInputCity() {
+      if (this.dataRadius != "") {
+        return true;
+      }
+      return false;
+    },
+    disableInputRadius() {
+      if (this.selectedCity != "") {
+        return true;
+      }
+      return false;
+    },
+  },
   methods: {
     async fetchLocation(distance) {
       let localsRadius = [];
-
       const responseLocal = await fetch(
         `https://openmensa.org/api/v2/canteens?near[lat]=52.393535&near[lng]=13.127814&near[dist]=${this.dataRadius}`
       );
@@ -108,8 +149,72 @@ export default {
 </script>
 
 <style scoped>
-input {
-  width: 4%;
+.input-city {
+  display: flex;
+  margin-top: 2rem;
+  margin-left: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  border-radius: 25px;
+  border: solid 1.5px rgba(128, 128, 128, 0.2);
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+}
+
+.input-radius-field {
+  display: flex;
+}
+.input-radius {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  border-radius: 25px;
+  border: solid 1.5px rgba(128, 128, 128, 0.2);
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  width: 125px;
+}
+
+.fas.solid.fa-compass {
+  margin-top: 1.7rem;
+  margin-left: -2.5rem;
+  color: rgba(0, 0, 0, 0.2);
+}
+.fas.solid.fa-compass:active {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+input:focus {
+  outline: none !important;
+  border: solid 1.5px rgba(128, 128, 128, 0.5);
+}
+
+.disabled-input {
+  background-color: rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+}
+
+.disabled-icon {
+  pointer-events: none;
+}
+
+
+/* https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 button {
