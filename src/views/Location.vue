@@ -17,7 +17,10 @@
           />
         </div>
 
-        <div><i class="fas solid fa-crosshairs"></i></div>
+        <div>
+          <i class="fas solid fa-crosshairs" v-on:click="getLocation()"></i>
+        </div>
+
         <div class="input-radius-field">
           <input
             class="input-radius"
@@ -100,8 +103,14 @@ export default {
   methods: {
     async fetchLocation(distance) {
       let localsRadius = [];
+
+      // getLocation();
+
+      console.log(this.longitude);
+      console.log(this.latitude);
+
       const responseLocal = await fetch(
-        `https://openmensa.org/api/v2/canteens?near[lat]=52.393535&near[lng]=13.127814&near[dist]=${this.dataRadius}`
+        `https://openmensa.org/api/v2/canteens?near[lat]=${this.latitude}&near[lng]=${this.longititude}&near[dist]=${this.dataRadius}`
       );
 
       const responseDataLocal = await responseLocal.json();
@@ -131,6 +140,32 @@ export default {
       const countLocalsRadius = localsRadius.length;
       return {
         countLocalsRadius,
+      };
+    },
+
+    getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            console.log(position.coords.latitude);
+            console.log(position.coords.longitude);
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            return {
+              longitude,
+              latitude,
+            };
+          },
+          (error) => {
+            console.log(error.message);
+          }
+        );
+      } else {
+        console.log("Your browser dows not support geolocation API");
+      }
+      return {
+        longitude: this.longitude,
+        latitude: this.latitude,
       };
     },
 
