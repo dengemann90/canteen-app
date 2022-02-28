@@ -90,8 +90,6 @@ export default {
             );
 
             if(dateConverted >= todayConverted){
-              console.log('dateConverted', dateConverted);
-              console.log('dateNow', todayConverted);
               arrayDays.push(data[i].date);
              }
           }

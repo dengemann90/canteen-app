@@ -1,8 +1,8 @@
 <template>
   <base-dialog v-if="dialogIsVisible" :open="dialogIsVisible">
     <p>
-      <i class="fas solid fa-hand-point-up"></i> Beim Ändern der Ernährungsform gehen die Einstellungen der
-      Allergene/Zusatzstoffe verloren!
+      <i class="fas solid fa-hand-point-up"></i> Beim Ändern der Ernährungsform
+      gehen die Einstellungen der Allergene/Zusatzstoffe verloren!
     </p>
     <button class="button-cancel" @click="cancel">abbrechen</button>
     <button class="button-confirm" @click="confirm">bestätigen</button>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { get } from "idb-keyval";
 import NutritionItem from "./NutritionItem.vue";
 export default {
   components: {
@@ -70,7 +71,10 @@ export default {
       this.setSelectedNutrition();
     },
     setSelectedNutrition() {
-      this.$store.dispatch("updateSelectedNutrition",  this.newSelectedNutrition);
+      this.$store.dispatch(
+        "updateSelectedNutrition",
+        this.newSelectedNutrition
+      );
       this.getSelectedNutrition();
       this.newSelectedNutrition = "";
     },
@@ -79,7 +83,13 @@ export default {
     },
   },
   created() {
-    this.getSelectedNutrition();
+    get("selectedNutrition").then((data) => {
+      if(data != null){
+        this.selectedNutrition = data;
+      } else {
+        this.selectedNutrition = 'Omnivore';
+      }
+    });
   },
 };
 </script>
@@ -91,7 +101,6 @@ ul {
   max-width: 40rem;
   padding: 0;
 }
-
 
 .button-cancel {
   border: 1px solid #a1a1a180;
@@ -114,8 +123,8 @@ button {
   margin-right: 0.5rem;
 }
 
-.fas.solid.fa-hand-point-up{
-  color:rgba(255, 0, 0, 0.75);
+.fas.solid.fa-hand-point-up {
+  color: rgba(255, 0, 0, 0.75);
   margin-right: 0.5rem;
 }
 

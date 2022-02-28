@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { get } from "idb-keyval";
 import DishItem from "../plan/DishItem.vue";
 export default {
   components: {
@@ -32,8 +33,13 @@ export default {
       this.favorites = this.$store.getters.getFavorites;
     },
   },
-  mounted() {
-    this.getFavorites();
+  created() {
+      get("favorites")
+        .then((data) => {
+          if(data != null){
+            this.favorites = data;
+          }
+        })
   },
 };
 </script>
