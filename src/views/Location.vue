@@ -16,6 +16,8 @@
             v-model="selectedCity"
           />
         </div>
+
+        <div><i class="fas solid fa-crosshairs"></i></div>
         <div class="input-radius-field">
           <input
             class="input-radius"
@@ -74,7 +76,7 @@ export default {
       geolocAggree: false,
       dataRadius: "",
       selectedCity: "",
-      radius: false
+      radius: false,
     };
   },
   components: {
@@ -203,7 +205,6 @@ input:focus {
 .disabled-icon {
   pointer-events: none;
 }
-
 
 /* https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
 /* Chrome, Safari, Edge, Opera */
