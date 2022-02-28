@@ -1,14 +1,21 @@
 <template>
-  <base-dialog v-if="dialogIsVisible" @close="dialogIsVisible =false" :open="dialogIsVisible">
+  <base-dialog
+    v-if="dialogIsVisible"
+    @close="dialogIsVisible = false"
+    :open="dialogIsVisible"
+  >
     <p>
-    <i class="fas solid fa-hand-point-up"></i>Zutat kann nicht ausgewählt werden. Bitte ändere hierfür die Ernährungsform.
+      <i class="fas solid fa-hand-point-up"></i>Zutat kann nicht ausgewählt
+      werden. Bitte ändere hierfür die Ernährungsform.
     </p>
     <p class="p-light">
-      <i class="fas solid fa-info"></i> Dabei gehen alle Einstellungen der Allergene/Zusatzstoffe verloren!
+      <i class="fas solid fa-info"></i> Dabei gehen alle Einstellungen der
+      Allergene/Zusatzstoffe verloren!
     </p>
-    <button class="button-cancel" @click="dialogIsVisible =false">abbrechen</button>
+    <button class="button-cancel" @click="dialogIsVisible = false">
+      abbrechen
+    </button>
     <button class="button-confirm" @click="openNutritionSetting">ändern</button>
-
   </base-dialog>
   <ul>
     <div @click="allergensVisible = !allergensVisible">
@@ -37,7 +44,7 @@
             :key="additive"
             :additive="additive"
             :ingredientsExcluded="this.ingredientsExcluded"
-             @update-additives="updateAllergensAdditives"
+            @update-additives="updateAllergensAdditives"
           ></additive-item>
         </div>
       </li>
@@ -46,6 +53,7 @@
 </template>
 
 <script>
+import { get } from "idb-keyval";
 import AdditiveItem from "./AdditiveItem.vue";
 import AllergenItem from "./AllergenItem.vue";
 export default {
@@ -60,7 +68,7 @@ export default {
       additivesVisible: true,
       ingredientsExcluded: [],
       ingredientsDisabled: [],
-      selectedNutrition: '',
+      selectedNutrition: "",
       allergens: [
         "Glutenhaltiges Getreide",
         "Weizen",
@@ -114,31 +122,41 @@ export default {
     };
   },
   methods: {
-    updateAllergensAdditives(ingredient){
-      this.$store.dispatch('updateExcludedAllergensAdditives', ingredient);
+    updateAllergensAdditives(ingredient) {
+      this.$store.dispatch("updateExcludedAllergensAdditives", ingredient);
       this.getExcludedAllergensAdditives();
     },
-    getExcludedAllergensAdditives(){
-      this.ingredientsExcluded = this.$store.getters.getExcludedAllergensAdditives;
+    getExcludedAllergensAdditives() {
+      this.ingredientsExcluded =
+        this.$store.getters.getExcludedAllergensAdditives;
     },
-    identifyRestrictionsNutrition(){
-        if(this.selectedNutrition == 'Pescetarisch'){
-          this.ingredientsDisabled = ['Fisch']
-         } 
+    showDialog() {
+      this.dialogIsVisible = true;
     },
-    showDialog(){
-      this.dialogIsVisible =true;
+    openNutritionSetting() {
+      this.dialogIsVisible = false;
+      this.$router.push("/profile/nutrition");
     },
-    openNutritionSetting(){
-      this.dialogIsVisible =false;
-      this.$router.push('/profile/nutrition');
-    }
-
   },
   created() {
-    this.selectedNutrition = this.$store.getters.getSelectedNutrition;
-    this.identifyRestrictionsNutrition();
-    this.getExcludedAllergensAdditives();
+    // load selectedNutrition from indexedDB
+    get("selectedNutrition").then((data) => {
+      if (data != null) {
+        this.selectedNutrition = data;
+        if (this.selectedNutrition == "Pescetarisch") {
+          this.ingredientsDisabled = ["Fisch"];
+        }
+      } else {
+        this.selectedNutrition = "Omnivore";
+      }
+    });
+
+    // load excludedAllergensAdditives from indexedDB
+    get("excludedAllergensAdditives").then((data) => {
+      if (data != null) {
+        this.ingredientsExcluded = data;
+      }
+    });
   },
 };
 </script>
@@ -158,8 +176,8 @@ li {
   padding: 1rem;
 }
 
-.p-light{
-  color:rgba(0, 0, 0, 0.50)
+.p-light {
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .button-cancel {
@@ -183,13 +201,13 @@ button {
   margin-right: 0.5rem;
 }
 
-.fas.solid.fa-hand-point-up{
-  color:rgba(255, 0, 0, 0.75);
+.fas.solid.fa-hand-point-up {
+  color: rgba(255, 0, 0, 0.75);
   margin-right: 0.5rem;
 }
 
-.fas.solid.fa-info{
-  color:#a1a1a180;
+.fas.solid.fa-info {
+  color: #a1a1a180;
   margin-right: 0.1rem;
 }
 
