@@ -1,6 +1,5 @@
 <template>
-  <div class="date-selector">
-    <!-- <p class="date"> -->
+  <div v-if="dateSelected !=''" class="date-selector">
     <i
       class="icon-left fas fa-angle-left"
       :class="{ lock: lockPreviousDayIcon }"
@@ -14,7 +13,6 @@
       :class="{ lock: lockNextDayIcon }"
       @click="nextDay"
     ></i>
-    <!-- </p> -->
   </div>
 </template>
 
@@ -27,8 +25,8 @@ export default {
     return {
       dateSelected: '',
       loadedDays: [],
-      indexDateSelector: null,
-      lockPreviousDayIcon: false,
+      indexDateSelector: 0,
+      lockPreviousDayIcon: true,
       lockNextDayIcon: false,
     };
   },
@@ -74,8 +72,15 @@ export default {
     getLoadedDays() {
       get("dishes")
         .then((data) => {
-          let today = Intl.DateTimeFormat().format(Date.now());
           let arrayDays = [];
+
+          let dateArrayToday = Intl.DateTimeFormat().format(Date.now()).split('.');
+          let todayConverted = new Date(
+              dateArrayToday[2],
+              dateArrayToday[1] - 1, //The month parameter in the Date() constructor is 0-based.
+              dateArrayToday[0]
+          );
+          console.log('todayConverted',todayConverted);
           for (let i in data) {
             let dateArray = data[i].date.split('.');
             let dateConverted = new Date(
@@ -83,32 +88,17 @@ export default {
               dateArray[1] - 1, //The month parameter in the Date() constructor is 0-based.
               dateArray[0]
             );
-            if(dateConverted >= Date.now()){
+
+            if(dateConverted >= todayConverted){
+              console.log('dateConverted', dateConverted);
+              console.log('dateNow', todayConverted);
               arrayDays.push(data[i].date);
              }
           }
           this.loadedDays = arrayDays;
+          this.dateSelected = arrayDays[0]
           console.log('loaded days >= today',  this.loadedDays);
-
-          let index = this.loadedDays.indexOf(today);
-          if (index === -1) {
-            if (
-              this.loadedDays.length > 0 &&
-              this.loadedDays.some((el) => el > this.dateSelected)
-            ) {
-              let indexNextAvailableDay = this.loadedDays.findIndex(
-                (el) => el > this.dateSelected
-              );
-              this.dateSelected = this.loadedDays[indexNextAvailableDay];
-              this.indexDateSelector = indexNextAvailableDay;
-            } else{
-              console.log("Day could not be loaded!No matching Data in indexedDB.");
-            }
-          } else {
-            this.indexDateSelector = index;
-            console.log("IndexDateSelector Index: " + this.indexDateSelector);
-          }
-          console.log("loaded days from indexedDB: " + arrayDays);
+          console.log('dateSelected', this.dateSelected);
         })
         .catch(console.warn);
     },
