@@ -43,6 +43,7 @@ export default {
             (request) => request.date === this.dateSelected
           );
           this.dishes = this.filterDishes(result.dishes);
+          console.log("filteredDishes:", this.dishes);
           console.log("props date " + this.dateSelected);
           console.log("dishes loaded from indexedDB");
           console.log(result.dishes);
@@ -55,6 +56,7 @@ export default {
     },
     filterDishes(unfilteredDishes) {
       let filteredDishes = [];
+      console.log("method filter dishes Nutrition", this.selectedNutrition);
 
       if (this.selectedNutrition == "Omnivore") {
         for (let dish of unfilteredDishes) {
@@ -131,6 +133,35 @@ export default {
       console.log("dishListCategories:");
       console.dir(this.dishListCategories);
     },
+    getEntries() {
+      get("selectedNutrition")
+        .then((data) => {
+          if (data != null) {
+            this.selectedNutrition = data;
+          } else {
+            this.selectedNutrition = "Omnivore";
+          }
+        })
+        .then(() => {
+          get("excludedAllergensAdditives")
+            .then((data) => {
+              if (data != null) {
+                this.allergensAdditivesExcluded = data;
+              }
+            })
+            .then(() => {
+              get("favorites")
+                .then((data) => {
+                  if (data != null) {
+                    this.favorites = data;
+                  }
+                })
+                .then(() => {
+                  this.getDishes();
+                });
+            });
+        });
+    },
   },
   watch: {
     dateSelected() {
@@ -138,13 +169,8 @@ export default {
     },
   },
   created() {
-    this.selectedNutrition = this.$store.getters.getSelectedNutrition;
-    this.allergensAdditivesExcluded =
-    this.$store.getters.getExcludedAllergensAdditives;
-    console.log("allergens", this.allergensAdditivesExcluded);
-    this.getFavorites();
-    this.getDishes();
-  }
+    this.getEntries();
+  },
 };
 </script>
 

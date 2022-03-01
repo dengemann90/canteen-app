@@ -9,7 +9,6 @@ export default {
   props: ["tag", "color"],
   computed: {
     badgeColor() {
-      console.log("badge color", this.color);
       if (this.color == "light-rose") {
         return { "badge-light-rose": true };
       } else {
