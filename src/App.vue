@@ -99,6 +99,7 @@ export default {
   created() {
     this.fetchData();
     this.fetchLocation();
+    this.$store.dispatch("loadUserType");
     this.$store.dispatch("loadFavorites");
     this.$store.dispatch("loadSelectedNutrition");
     this.$store.dispatch("loadExcludedAllergensAdditives");
