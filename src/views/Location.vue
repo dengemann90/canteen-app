@@ -18,7 +18,10 @@
         </div>
 
         <div>
-          <i class="fas solid fa-crosshairs" v-on:click="getLocation()"></i>
+          <i
+            class="fas solid fa-crosshairs"
+            v-on:click="this.getLocation()"
+          ></i>
         </div>
 
         <div class="input-radius-field">
@@ -35,7 +38,10 @@
           <i
             class="fas solid fa-compass fa-lg"
             :class="{ 'disabled-icon': disableInputRadius }"
-            v-on:click="fetchLocation(this.dataRadius)"
+            v-on:click="
+              getLocation(),
+                fetchLocation(this.dataRadius, this.latitude, this.longitude)
+            "
           ></i>
         </div>
 
@@ -80,6 +86,8 @@ export default {
       dataRadius: "",
       selectedCity: "",
       radius: false,
+      // latitude: "",
+      // longitude: "",
     };
   },
   components: {
@@ -101,13 +109,13 @@ export default {
     },
   },
   methods: {
-    async fetchLocation(distance) {
+    async fetchLocation(distance, latitude, longitude) {
       let localsRadius = [];
 
-      // getLocation();
+      this.getLocation();
 
-      console.log(this.longitude);
-      console.log(this.latitude);
+      console.log(longitude);
+      console.log(latitude);
 
       const responseLocal = await fetch(
         `https://openmensa.org/api/v2/canteens?near[lat]=${this.latitude}&near[lng]=${this.longititude}&near[dist]=${this.dataRadius}`
@@ -143,17 +151,17 @@ export default {
       };
     },
 
-    getLocation() {
+    getLocation: function () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            console.log(position.coords.latitude);
-            console.log(position.coords.longitude);
-            let latitude = position.coords.latitude;
-            let longitude = position.coords.longitude;
+            // console.log(position.coords.latitude);
+            // console.log(position.coords.longitude);
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
             return {
-              longitude,
-              latitude,
+              latitude: latitude,
+              longitude: longitude,
             };
           },
           (error) => {
@@ -163,10 +171,10 @@ export default {
       } else {
         console.log("Your browser dows not support geolocation API");
       }
-      return {
-        longitude: this.longitude,
-        latitude: this.latitude,
-      };
+      // return {
+      //   longitude: this.longitude,
+      //   latitude: this.latitude,
+      // };
     },
 
     setRadius0() {
