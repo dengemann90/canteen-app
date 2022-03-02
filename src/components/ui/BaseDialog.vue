@@ -28,8 +28,8 @@ export default {
 dialog {
   position: fixed;
   top: 30vh;
-  width: 30rem;
-  left: calc(50% - 15rem);
+  width: 20rem;
+  left: calc(50% - 11rem);
   margin: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 12px;
