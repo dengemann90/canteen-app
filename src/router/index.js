@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import Locations from '../views/Locations.vue';
 import Location from '../views/Location.vue'
 import Plan from '../views/Plan.vue';
 import Favorites from '../views/Favorites.vue';
@@ -9,6 +10,7 @@ import AllergensAdditives from '../components/profile/AllergensAdditivesList.vue
 
 const routes = [
   { path: '/', redirect: '/plan' },
+  { path: '/locations', component: Locations },
   { path: '/location', component: Location },
   { path: '/plan', component: Plan },
   { path: '/favorites', component: Favorites },

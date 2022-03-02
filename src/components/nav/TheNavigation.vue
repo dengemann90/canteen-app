@@ -1,5 +1,9 @@
 <template>
   <nav class="navbar">
+    <!-- locations -->
+    <router-link to="/locations">
+      <i class="fas solid fa-compass fa-2x"></i>
+    </router-link>
     <!-- location -->
     <router-link to="/location">
       <i class="fas regular fa-map fa-2x"></i>
@@ -10,7 +14,7 @@
     </router-link>
     <!-- favorites -->
     <router-link to="/favorites">
-    <i class="fas regular fa-heart fa-2x"></i>
+      <i class="fas regular fa-heart fa-2x"></i>
     </router-link>
     <!-- profile -->
     <router-link to="/profile">
@@ -44,8 +48,8 @@ nav {
   /*background-color: #e1a100;*/
   /*background-color: #ebeded;*/
   /* background-color: #8aa969; */
-  background-image: url('../../assets/background.png');
-  width:76%;
+  background-image: url("../../assets/background.png");
+  width: 76%;
   margin-left: 10%;
   margin-right: 10%;
   box-shadow: 30px 30px 30px rgba(0, 0, 0, 0.4);
@@ -64,6 +68,6 @@ nav a {
 a:hover,
 a:active,
 a.router-link-active {
-  color: rgba(255, 255, 255, 0.90);
+  color: rgba(255, 255, 255, 0.9);
 }
 </style>
