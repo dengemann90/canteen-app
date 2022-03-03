@@ -2,7 +2,7 @@
   <div class="main">
     <div class="appframe">
       <div class="container">
-        <p class="capital">Mein Profil</p>
+        <div class="capital">Mein Profil</div>
         <div class="return-icon" v-if="activeLink != '/profile'">
           <i class="fas solid fa-reply" @click="returnToProfileSettings"></i>
         </div>

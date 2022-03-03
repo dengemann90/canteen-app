@@ -2,7 +2,7 @@
   <div class="main">
     <div class="appframe">
       <div class="container">
-        <p class="capital">Favorites</p>
+        <div class="capital">Favorites</div>
         <div class="container_all">
           <!-- Hier content -->
           <favorite-dish-list></favorite-dish-list>

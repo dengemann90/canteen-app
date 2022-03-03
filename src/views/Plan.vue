@@ -2,7 +2,7 @@
   <div class="main">
     <div class="appframe" @click="closeFilterActiveCard">
       <div class="container">
-        <p class="capital">Plan</p>
+        <div class="capital">Plan</div>
         <dish-list-date-selector @setDate="setDate"></dish-list-date-selector>
         <div
           v-if="filterActive"
