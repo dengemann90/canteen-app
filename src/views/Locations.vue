@@ -6,10 +6,10 @@
         <div class="capital">Location</div>
         <canteen-selector
         @transmit-selected-city="updateSelectedCity"
+        @remove-error-message="removeErrorMessage"
         ></canteen-selector>
         <!-- <p>Gebe eine ganze Zahl zwischen 1 und 15 ein!</p> -->
-        <!-- <p>Sonderzeichen sind nicht erlaubt.</p> -->
-        <p>{{errorMessage}}</p>
+        <p v-show="errorMessage">{{errorMessage}}</p>
         <div class="container_all">
           <canteen-list
             :selectedCity ="this.selectedCity"
@@ -32,15 +32,30 @@ export default {
   data() {
     return {
         selectedCity:"",
-        errorMessage: ""
+        errorMessage: null
     };
+  },
+  watch:{
+    selectedCity(){
+      if(this.errorMessage != null){
+        console.log('set error message null');
+        this.errorMessage = null;
+      }
+    }
   },
   methods:{
     updateSelectedCity(city){
       this.selectedCity = city;
     },
     updateErrorMessage(message){
+      console.log('show error message')
       this.errorMessage = message;
+    },
+    removeErrorMessage(){
+      if(this.errorMessage != null)
+      console.log('set error message null')
+      this.errorMessage = null;
+      //this.selectedCity = ""
     }
   }
 };

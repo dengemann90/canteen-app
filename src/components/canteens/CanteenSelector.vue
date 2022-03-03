@@ -9,6 +9,7 @@
       placeholder="Stadt eingeben"
       autocomplete="off"
       v-model.trim="selectedCity"
+      @blur="removeErrorMessage"
     />
 
     <!-- <i class="fas solid fa-location-arrow"></i> -->
@@ -35,7 +36,7 @@
 
 <script>
 export default {
-  emits: ["transmit-selected-city"],
+  emits: ["transmit-selected-city", "remove-error-message"],
   data() {
     return {
       selectedCity: "",
@@ -99,7 +100,10 @@ export default {
         );
       }
     },
-  },
+  removeErrorMessage(){
+    this.$emit('remove-error-message');
+  }
+}
 };
 </script>
 

@@ -20,6 +20,7 @@ export default {
     CanteenItem,
   },
   props: ["selectedCity"],
+  emits: ["transmit-error-message"],
   data() {
     return {
       selectedCanteenId: "",
@@ -127,14 +128,20 @@ export default {
         );
         this.canteenList = filteredCanteenList;
       } else {
-        if(this.canteenList.length > 0) {
+        if (this.canteenList.length > 0) {
           this.canteenList = [];
         }
         //info an user v-if im template
-        console.log("invalid input");
+        this.transmitErrorMessage();
       }
     },
-  },
+    transmitErrorMessage() {
+      const message = "Sonderzeichen und Zahlen sind nicht erlaubt!";
+      if(this.selectedCity != ""){
+        this.$emit("transmit-error-message", message);
+      }
+    },
+  }
 };
 </script>
 
