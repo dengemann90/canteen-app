@@ -115,15 +115,22 @@ export default {
       this.selectedCanteenId = canteenId;
     },
     filterCity() {
-      const regex = new RegExp("[A-Za-z]");
-      let inputValid = regex.test(this.selectedCity);
-      if (inputValid) {
+      const regex1 = new RegExp("[A-Za-z]");
+      const regex2 = new RegExp("[\\[\\]\\(\\)]");
+
+      const inputValid = regex1.test(this.selectedCity);
+      const containsBrackets = regex2.test(this.selectedCity);
+
+      if (inputValid && !containsBrackets) {
         let filteredCanteenList = this.canteenListDB.filter((canteen) =>
           canteen.city.toLowerCase().match(this.selectedCity.toLowerCase())
         );
         this.canteenList = filteredCanteenList;
-        console.log("filtered canteen-list", filteredCanteenList);
       } else {
+        if(this.canteenList.length > 0) {
+          this.canteenList = [];
+        }
+        //info an user v-if im template
         console.log("invalid input");
       }
     },

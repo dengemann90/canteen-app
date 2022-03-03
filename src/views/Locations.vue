@@ -3,13 +3,17 @@
     <div class="appframe">
       <div class="container">
         <!-- <h1>EATERY</h1> -->
-        <p class="capital">Location</p>
+        <div class="capital">Location</div>
         <canteen-selector
         @transmit-selected-city="updateSelectedCity"
         ></canteen-selector>
+        <!-- <p>Gebe eine ganze Zahl zwischen 1 und 15 ein!</p> -->
+        <!-- <p>Sonderzeichen sind nicht erlaubt.</p> -->
+        <p>{{errorMessage}}</p>
         <div class="container_all">
           <canteen-list
             :selectedCity ="this.selectedCity"
+            @transmit-error-message ="updateErrorMessage"
           ></canteen-list>
         </div>
       </div>
@@ -27,17 +31,27 @@ export default {
   },
   data() {
     return {
-        selectedCity:""
+        selectedCity:"",
+        errorMessage: ""
     };
   },
   methods:{
     updateSelectedCity(city){
       this.selectedCity = city;
+    },
+    updateErrorMessage(message){
+      this.errorMessage = message;
     }
   }
 };
 </script>
 
 <style scoped>
-/*  */
+p{
+  text-align: left;
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+  color:rgb(170, 0, 0);
+  font-size:0.75rem;
+}
 </style>

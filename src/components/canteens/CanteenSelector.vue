@@ -1,39 +1,41 @@
 <template>
-        <div class="input-city-field">
-          <input
-            class="input-city"
-            :class="{ 'disabled-input': disableInputCity }"
-            id="city"
-            name="city"
-            type="text"
-            placeholder="Stadt eingeben"
-            autocomplete="off"
-            v-model="selectedCity"
-           />
-          <!-- <i class="fas solid fa-location-arrow"></i> -->
-        </div>
+  <div class="input-city-field">
+    <input
+      class="input-city"
+      :class="{ 'disabled-input': disableInputCity }"
+      id="city"
+      name="city"
+      type="text"
+      placeholder="Stadt eingeben"
+      autocomplete="off"
+      v-model.trim="selectedCity"
+    />
 
-        <div class="input-radius-field">
-          <input
-            class="input-radius"
-            :class="{ 'disabled-input': disableInputRadius }"
-            id="radius"
-            name="radius"
-            type="number"
-            placeholder="Radius (km)"
-            autocomplete="off"
-            v-model="selectedRadius"
-          />
-          <i
-            class="fas solid fa-compass fa-lg"
-            :class="{ 'disabled-icon': disableInputRadius }"
-          ></i>
-        </div>
+    <!-- <i class="fas solid fa-location-arrow"></i> -->
+  </div>
+
+  <div class="input-radius-field">
+    <input
+      class="input-radius"
+      :class="{ 'disabled-input': disableInputRadius }"
+      id="radius"
+      name="radius"
+      type="number"
+      placeholder="Radius (km)"
+      autocomplete="off"
+      v-model="selectedRadius"
+    />
+    <i
+      class="fas solid fa-compass fa-lg"
+      :class="{ 'disabled-icon': disableInputRadius }"
+      @click="getGeoLocation"
+    ></i>
+  </div>
 </template>
 
 <script>
 export default {
-    emits:['transmit-selected-city'],
+  emits: ["transmit-selected-city"],
   data() {
     return {
       selectedCity: "",
@@ -54,23 +56,56 @@ export default {
       return false;
     },
   },
-  watch:{
-      selectedCity(){
-          this.transmitSelectedCity();
-      }
+  watch: {
+    selectedCity() {
+      this.transmitSelectedCity();
+    }
   },
-  methods:{
-    transmitSelectedCity(){
-        this.$emit('transmit-selected-city', this.selectedCity)
-    }   
-  }
+  methods: {
+    transmitSelectedCity() {
+      this.$emit("transmit-selected-city", this.selectedCity);
+    },
+    inputRadiusValid() {
+      //https://stackoverflow.com/questions/15223774/regex-for-whole-numbers-only-and-not-a-blank-string/15223814
+      const regex = new RegExp(/^-?\d+$/);
+      const inputValid = regex.test(this.selectedRadius);
+
+      let rangeValid;
+
+      if (
+        this.selectedRadius != "" &&
+        this.selectedRadius > 0 &&
+        this.selectedRadius <= 15
+      ) {
+        rangeValid = true;
+      } else {
+        rangeValid = false;
+      }
+      console.log('input valid:', inputValid && rangeValid)
+      return inputValid && rangeValid;
+    },
+    getGeoLocation() {
+      if (this.inputRadiusValid()) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            console.log("position: ", position);
+          },
+          (error) => {
+            console.log("error: ", error);
+          },
+          {
+            timeout: 10000,
+          }
+        );
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
-
-.input-city-field{
- display: flex;
+.input-city-field {
+  display: flex;
 }
 
 .input-city {
