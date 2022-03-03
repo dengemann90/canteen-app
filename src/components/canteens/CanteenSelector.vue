@@ -2,13 +2,13 @@
   <div class="input-city-field">
     <input
       class="input-city"
-      :class="{ 'disabled-input': disableInputCity }"
+      :class="validationInputCity"
       id="city"
       name="city"
       type="text"
       placeholder="Stadt eingeben"
       autocomplete="off"
-      v-model.trim="selectedCity"
+      v-model="selectedCity"
       @blur="removeErrorMessage"
     />
 
@@ -18,17 +18,18 @@
   <div class="input-radius-field">
     <input
       class="input-radius"
-      :class="{ 'disabled-input': disableInputRadius }"
+      :class="validationInputRadius"
       id="radius"
       name="radius"
       type="number"
       placeholder="Radius (km)"
       autocomplete="off"
       v-model="selectedRadius"
+      @focus="removeErrorMessage"
     />
     <i
       class="fas solid fa-compass fa-lg"
-      :class="{ 'disabled-icon': disableInputRadius }"
+      :class="validationInputRadiusIcon"
       @click="getGeoLocation"
     ></i>
   </div>
@@ -36,7 +37,12 @@
 
 <script>
 export default {
-  emits: ["transmit-selected-city", "remove-error-message"],
+  props: ["errorMessage"],
+  emits: [
+    "transmit-selected-city",
+    "transmit-error-message",
+    "remove-error-message",
+  ],
   data() {
     return {
       selectedCity: "",
@@ -44,23 +50,36 @@ export default {
     };
   },
   computed: {
-    disableInputCity() {
+    validationInputCity() {
       if (this.selectedRadius != "") {
-        return true;
+        return { "disabled-input": true };
       }
-      return false;
+      if (this.errorMessage != null) {
+        return { "error-input-city": true };
+      }
+      return null;
     },
-    disableInputRadius() {
+    validationInputRadius() {
       if (this.selectedCity != "") {
-        return true;
+        return { "disabled-input": true };
       }
-      return false;
+      if (this.errorMessage != null) {
+        console.log("error Message", this.errorMessage);
+        return { "error-input-radius": true };
+      }
+      return null;
+    },
+    validationInputRadiusIcon() {
+      if (this.selectedCity != "") {
+        return { "disabled-input": true };
+      }
+      return null;
     },
   },
   watch: {
     selectedCity() {
       this.transmitSelectedCity();
-    }
+    },
   },
   methods: {
     transmitSelectedCity() {
@@ -82,7 +101,7 @@ export default {
       } else {
         rangeValid = false;
       }
-      console.log('input valid:', inputValid && rangeValid)
+      console.log("input valid:", inputValid && rangeValid);
       return inputValid && rangeValid;
     },
     getGeoLocation() {
@@ -98,12 +117,18 @@ export default {
             timeout: 10000,
           }
         );
+      } else {
+        this.transmitErrorMessage();
       }
     },
-  removeErrorMessage(){
-    this.$emit('remove-error-message');
-  }
-}
+    transmitErrorMessage() {
+      const message = "Gebe eine ganze Zahl zwischen 1 und 15 ein!";
+      this.$emit("transmit-error-message", message);
+    },
+    removeErrorMessage() {
+      this.$emit("remove-error-message");
+    },
+  },
 };
 </script>
 
@@ -149,6 +174,13 @@ export default {
   font-weight: 300;
   font-size: 15px;
   width: 125px;
+}
+
+.error-input-radius {
+  border: solid 1.5px rgba(170, 0, 0, 0.5);
+}
+.error-input-city:focus {
+  border: solid 1.5px rgba(170, 0, 0, 0.5);
 }
 
 .fas.solid.fa-compass {

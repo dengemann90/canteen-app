@@ -5,15 +5,17 @@
         <!-- <h1>EATERY</h1> -->
         <div class="capital">Location</div>
         <canteen-selector
-        @transmit-selected-city="updateSelectedCity"
-        @remove-error-message="removeErrorMessage"
+          :errorMessage = "this.errorMessage"
+          @transmit-selected-city="updateSelectedCity"
+          @transmit-error-message="updateErrorMessage"
+          @remove-error-message="removeErrorMessage"
         ></canteen-selector>
         <!-- <p>Gebe eine ganze Zahl zwischen 1 und 15 ein!</p> -->
-        <p v-show="errorMessage">{{errorMessage}}</p>
+        <p v-show="errorMessage">{{ errorMessage }}</p>
         <div class="container_all">
           <canteen-list
-            :selectedCity ="this.selectedCity"
-            @transmit-error-message ="updateErrorMessage"
+            :selectedCity="this.selectedCity"
+            @transmit-error-message="updateErrorMessage"
           ></canteen-list>
         </div>
       </div>
@@ -31,42 +33,43 @@ export default {
   },
   data() {
     return {
-        selectedCity:"",
-        errorMessage: null
+      selectedCity: "",
+      errorMessage: null,
     };
   },
-  watch:{
-    selectedCity(){
-      if(this.errorMessage != null){
-        console.log('set error message null');
+  watch: {
+    selectedCity() {
+      if (this.errorMessage != null) {
+        console.log("set error message null");
         this.errorMessage = null;
       }
-    }
+    },
   },
-  methods:{
-    updateSelectedCity(city){
+  methods: {
+    updateSelectedCity(city) {
       this.selectedCity = city;
     },
-    updateErrorMessage(message){
-      console.log('show error message')
+    updateErrorMessage(message) {
+      console.log("show error message");
       this.errorMessage = message;
     },
-    removeErrorMessage(){
-      if(this.errorMessage != null)
-      console.log('set error message null')
-      this.errorMessage = null;
-      //this.selectedCity = ""
-    }
-  }
+    removeErrorMessage() {
+      if (this.errorMessage != null) {
+        console.log("set error message null (remove method)");
+        this.errorMessage = null;
+        this.selectedCity = "";
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
-p{
+p {
   text-align: left;
   padding-top: 0.5rem;
   padding-left: 1rem;
-  color:rgb(170, 0, 0);
-  font-size:0.75rem;
+  color: rgb(170, 0, 0);
+  font-size: 0.75rem;
 }
 </style>

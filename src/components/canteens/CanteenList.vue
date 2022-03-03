@@ -103,6 +103,28 @@ export default {
           address: "1-7, rue Sauerwiss, L-9278 Diekirch (Luxembourg)",
           coordinates: [49.8642358, 6.1612383],
         },
+        {
+          id: 266,
+          name: "Mensa Regensburger Straße",
+          city: "Nürnberg",
+          address: "Regensburger Str. 160, 90478 Nürnberg, Germany",
+          coordinates: [49.43843605, 11.1130078522348],
+        },
+        {
+          id: 381,
+          name: "Casino Cafeteria",
+          city: "Frankfurt am Main",
+          address:
+            "Theodor-W.-Adorno-Platz 2a, 60323 Frankfurt am Main, Germany",
+          coordinates: [50.1268884, 8.6669763],
+        },
+        {
+          id: 738,
+          name: "Mensa Gymnasium Münchenstein",
+          city: "Münchenstein",
+          address: "Gymnasium Münchenstein\nBaselstrasse 33\n4142 Münchenstein",
+          coordinates: [47.527049, 7.616954],
+        },
       ],
     };
   },
@@ -116,12 +138,13 @@ export default {
       this.selectedCanteenId = canteenId;
     },
     filterCity() {
-      const regex1 = new RegExp("[A-Za-z]");
+      //https://stackoverflow.com/questions/15472764/regular-expression-to-allow-spaces-between-words
+      const regex1 = new RegExp("^[A-Za-zäüöÄÜÖ_ *]+$");
       const regex2 = new RegExp("[\\[\\]\\(\\)]");
 
       const inputValid = regex1.test(this.selectedCity);
       const containsBrackets = regex2.test(this.selectedCity);
-
+      console.log("inputValid", inputValid);
       if (inputValid && !containsBrackets) {
         let filteredCanteenList = this.canteenListDB.filter((canteen) =>
           canteen.city.toLowerCase().match(this.selectedCity.toLowerCase())
@@ -137,11 +160,11 @@ export default {
     },
     transmitErrorMessage() {
       const message = "Sonderzeichen und Zahlen sind nicht erlaubt!";
-      if(this.selectedCity != ""){
+      if (this.selectedCity != "") {
         this.$emit("transmit-error-message", message);
       }
     },
-  }
+  },
 };
 </script>
 
