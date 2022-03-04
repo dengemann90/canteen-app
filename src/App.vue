@@ -7,8 +7,7 @@
 
 <script>
 import TheNavigation from "./components/nav/TheNavigation.vue";
-//import { set, get } from "idb-keyval";
-import { set } from "idb-keyval";
+import { set, get } from "idb-keyval";
 import addDays from "date-fns/addDays";
 import format from "date-fns/format";
 
@@ -17,7 +16,14 @@ export default {
     TheNavigation,
   },
   data() {
-    return {};
+    return {
+      apiDataCanteens: [],
+    };
+  },
+  watch:{
+    apiDataCanteens(){
+      this.prepareFetchedData();
+    }
   },
   methods: {
     async fetchData() {
@@ -39,7 +45,7 @@ export default {
           );
           throw error;
         }
-        console.log("fetch openmensa api successful!");
+        console.log("fetch Gerichte openmensa api successful!");
 
         for (const key in responseData) {
           const dish = {
@@ -66,39 +72,45 @@ export default {
       console.log(dishesPlan);
       set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
     },
-
-    // json locals
-    async fetchLocation() {
-      // let localsList = [];
-      let locals = [];
-
-      const responseLocal = await fetch(
-        `https://openmensa.org/api/v2/canteens?near[lat]=52.393535&near[lng]=13.127814&near[dist]=15`
-      );
-
-      const responseDataLocal = await responseLocal.json();
-
-      for (const key in responseDataLocal) {
-        const local = {
-          id: responseDataLocal[key].id,
-          name: responseDataLocal[key].name,
-          city: responseDataLocal[key].city,
-          address: responseDataLocal[key].address,
-          coordinates: responseDataLocal[key].coordinates,
-        };
-        locals.push(local);
-        console.log("locals Json!");
-        //console.log(locals)
-      }
-      console.log(responseDataLocal);
-      set("locals", JSON.parse(JSON.stringify(locals)));
-      //console.log(locals)
+    getCanteens() {
+      get("locationAllCanteens").then((data) => {
+        if (data == null) {
+          this.fetchLocationCanteens();
+        }
+      });
     },
-    //52.51947859531712, 13.388128402966837 (mitte)
+    // json locals
+    async fetchLocationCanteens() {
+      try {
+        const responseFetch = await fetch(
+          "https://openmensa.org/api/v2/canteens"
+        );
+        this.apiDataCanteens = await responseFetch.json();
+        console.log('fetch aller Kantinen openmensa api erfolgreich');
+      } catch (error) {
+        console.log("error fetch: ", error);
+      }
+    },
+    prepareFetchedData() {
+      let canteens = [];
+      let apiData = this.apiDataCanteens;
+
+      for (const key in apiData) {
+        const canteen = {
+          id: apiData[key].id,
+          name: apiData[key].name,
+          city: apiData[key].city,
+          address: apiData[key].address,
+          coordinates: apiData[key].coordinates,
+        };
+        canteens.push(canteen);
+      }
+      set("locationAllCanteens", JSON.parse(JSON.stringify(canteens)));
+    }
   },
   created() {
     this.fetchData();
-    //this.fetchLocation();
+    this.getCanteens();
     this.$store.dispatch("loadUserType");
     this.$store.dispatch("loadFavorites");
     this.$store.dispatch("loadSelectedNutrition");
@@ -194,7 +206,7 @@ p {
   font-weight: 300;
 }
 
-b{
-    color: rgba(0, 0, 0, 0.7);
+b {
+  color: rgba(0, 0, 0, 0.7);
 }
 </style>
