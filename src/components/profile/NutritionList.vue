@@ -84,10 +84,10 @@ export default {
   },
   created() {
     get("selectedNutrition").then((data) => {
-      if(data != null){
+      if (data != null) {
         this.selectedNutrition = data;
       } else {
-        this.selectedNutrition = 'Omnivore';
+        this.selectedNutrition = "Omnivore";
       }
     });
   },
@@ -115,7 +115,9 @@ ul {
 }
 
 button {
-  font: inherit;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
   padding: 0.5rem 2rem;
   border-radius: 30px;
   cursor: pointer;

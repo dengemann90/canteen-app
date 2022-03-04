@@ -99,7 +99,7 @@ export default {
         "Soja",
         "Walnuss",
         "Weichtiere",
-        "Weizen"
+        "Weizen",
       ],
       additives: [
         "Alkohol",
@@ -117,7 +117,7 @@ export default {
         "mit zum Teil fein zerkleinertem Fleischanteil",
         "Phosphat",
         "Schweinefleisch bzw. mit Gelatine vom Schwein",
-        "Süßungsmittel"
+        "Süßungsmittel",
       ],
     };
   },
@@ -193,7 +193,9 @@ li {
 }
 
 button {
-  font: inherit;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
   padding: 0.5rem 2rem;
   border-radius: 30px;
   cursor: pointer;
