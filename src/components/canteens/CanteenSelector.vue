@@ -1,4 +1,20 @@
 <template>
+  <!-- icons error dialog -->
+  <!-- <i class="fas solid fa-signal fa-lg error"></i>
+  <i class="fas solid fa-server fa-lg error"></i>
+  <i class="fas solid fa-compass fa-lg error"></i> -->
+  <base-dialog
+    v-if="dialogIsVisible"
+    @close="closeDialog"
+    :open="dialogIsVisible"
+  >
+    <p>
+      <i :class="iconDialog"></i>
+      {{ dialogErrorMessage }}
+    </p>
+    <button class="button-ok" @click="closeDialog">ok</button>
+  </base-dialog>
+
   <div class="input-city-field">
     <input
       class="input-city"
@@ -31,7 +47,7 @@
       @click="getGeoLocation"
     ></i>
   </div>
-  <p v-show="errorMessage">{{ errorMessage }}</p>
+  <p class="p-red" v-show="errorMessage">{{ errorMessage }}</p>
 </template>
 
 <script>
@@ -43,7 +59,12 @@ export default {
       selectedRadius: "",
       latitude: "",
       longitude: "",
+      position: null,
+      apiData: null,
       errorMessage: null,
+      dialogIsVisible: false,
+      dialogErrorType: "",
+      dialogErrorMessage: "",
       canteenList: [],
       canteenListDB: [
         {
@@ -174,6 +195,18 @@ export default {
       }
       return null;
     },
+    iconDialog() {
+      if (this.dialogErrorType == "gps") {
+        return "fas solid fa-compass error";
+      }
+      if (this.dialogErrorType == "network") {
+        return "fas solid fa-signal error";
+      }
+      if (this.dialogErrorType == "server") {
+        return "fas solid fa-server error";
+      }
+      return null;
+    },
   },
   watch: {
     selectedCity() {
@@ -182,9 +215,27 @@ export default {
     canteenList() {
       this.transmitCanteenList();
     },
+    position() {
+      if (this.position.coords.accuracy <= 200) {
+        console.log(
+          "GeoLocation Daten geladen -> Fetch open mensa api ausführen"
+        );
+        this.fetchDataGeoLocation();
+      } else {
+        const dialogContent = {
+          message: "GPS Daten ungenau! Versuche es später noch mal.",
+          type: "gps",
+        };
+        this.openDialog(dialogContent);
+      }
+    },
+    apiData() {
+      console.log("Fetch erfolgreich -> Daten aufbereiten");
+      console.log("API response: ", this.apiData);
+      this.prepareFetchedData();
+    },
   },
   methods: {
-
     filterCity() {
       //https://stackoverflow.com/questions/15472764/regular-expression-to-allow-spaces-between-words
       const regex1 = new RegExp("^[A-Za-zäüöÄÜÖ_ *]+$");
@@ -198,9 +249,9 @@ export default {
           canteen.city.toLowerCase().match(this.selectedCity.toLowerCase())
         );
         this.canteenList = filteredCanteenList;
-          if(this.errorMessage != null){
-            this.errorMessage = null;
-          }
+        if (this.errorMessage != null) {
+          this.errorMessage = null;
+        }
       } else {
         if (this.canteenList.length > 0) {
           this.canteenList = [];
@@ -233,6 +284,14 @@ export default {
       return inputValid && rangeValid;
     },
     getGeoLocation() {
+      if (!window.navigator.onLine) {
+        const dialogContent = {
+          message: "Du bist offline! Gehe online, um diese Funktion zu nutzen.",
+          type: "network",
+        };
+        this.openDialog(dialogContent);
+        return;
+      }
       if (this.inputRadiusValid()) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -241,47 +300,71 @@ export default {
             this.longitude = position.coords.longitude;
             console.log("longitude : ", this.longitude);
             console.log("accuracy : ", position.coords.accuracy);
+            console.log("all position data: ", position);
             console.log("selected radius: ", this.selectedRadius);
+            this.position = position;
           },
           (error) => {
             console.log("error: ", error);
+            const dialogContent = {
+              message:
+                "Schlechte Internetverbindung! Versuche es später noch mal.",
+              type: "network",
+            };
+            this.openDialog(dialogContent);
           },
           {
             enableHighAccuracy: true,
-            timeout: 5000,
+            timeout: 10000,
             age: 0,
           }
         );
-        this.fetchDataGeoLocation();
       } else {
         const message = "Gebe eine ganze Zahl zwischen 1 und 15 ein!";
         this.setErrorMessage(message);
       }
     },
     async fetchDataGeoLocation() {
-      // let localsList = [];
-      let locals = [];
-
-      const responseLocal = await fetch(
-        `https://openmensa.org/api/v2/canteens?near[lat]=${this.latitude}&near[lng]=${this.longitude}&near[dist]=${this.selectedRadius}`
-      );
-
-      const responseDataLocal = await responseLocal.json();
-
-      for (const key in responseDataLocal) {
-        const local = {
-          id: responseDataLocal[key].id,
-          name: responseDataLocal[key].name,
-          city: responseDataLocal[key].city,
-          address: responseDataLocal[key].address,
-          coordinates: responseDataLocal[key].coordinates,
+      try {
+        const responseFetch = await fetch(
+          `https://openmensa.org/api/v2/canteens?near[lat]=${this.latitude}&near[lng]=${this.longitude}&near[dist]=${this.selectedRadius}`
+        );
+        this.apiData = await responseFetch.json();
+      } catch (error) {
+        console.log("error fetch: ", error);
+        const dialogContent = {
+          message:
+            "Server Fehler! Daten können nicht geladen werden. Versuche es später noch mal.",
+          type: "server",
         };
-        locals.push(local);
+        this.openDialog(dialogContent);
       }
-
-      console.log("output -fetch : ", locals);
     },
 
+    prepareFetchedData() {
+      let canteens = [];
+      let apiData = this.apiData;
+
+      for (const key in apiData) {
+        const canteen = {
+          id: apiData[key].id,
+          name: apiData[key].name,
+          city: apiData[key].city,
+          address: apiData[key].address,
+          coordinates: apiData[key].coordinates,
+        };
+        canteens.push(canteen);
+      }
+      if (canteens.length > 0) {
+        this.canteenList = canteens;
+        console.log("output -fetch : ", canteens);
+      } else {
+        const message =
+          "Keine Mensa im Umkreis von " + this.selectedRadius + " km gefunden!";
+        this.setErrorMessage(message);
+        console.log("Keine Mensen im angegebenen Umkreis gefunden!");
+      }
+    },
     transmitCanteenList() {
       this.$emit("transmit-canteen-list", this.canteenList);
     },
@@ -290,6 +373,17 @@ export default {
     },
     removeErrorMessage() {
       this.errorMessage = null;
+    },
+    openDialog(dialogContent) {
+      this.dialogIsVisible = true;
+      this.dialogErrorMessage = dialogContent.message;
+      this.dialogErrorType = dialogContent.type;
+    },
+    closeDialog() {
+      this.selectedRadius = "";
+      this.dialogErrorMessage = "";
+      this.dialogErrorType = "";
+      this.dialogIsVisible = false;
     },
   },
 };
@@ -339,7 +433,7 @@ export default {
   border: solid 1.5px rgba(170, 0, 0, 0.5);
 }
 
-p {
+.p-red {
   text-align: left;
   padding-top: 0.5rem;
   padding-left: 1rem;
@@ -352,8 +446,15 @@ p {
   margin-left: -2.5rem;
   color: rgba(0, 0, 0, 0.2);
 }
+
 .fas.solid.fa-compass:active {
   color: rgba(0, 0, 0, 0.5);
+}
+.fas.solid.fa-compass.error,
+.fas.solid.fa-signal.error,
+.fas.solid.fa-server.error {
+  margin-left: 0.25rem;
+  color: rgba(255, 0, 0, 0.2);
 }
 
 input:focus {
@@ -368,6 +469,27 @@ input:focus {
 
 .disabled-icon {
   pointer-events: none;
+}
+
+button {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.button-ok {
+  border: 1px solid #a1a1a180;
+  background-color: #a1a1a180;
+  color: white;
+}
+
+.button-ok:hover,
+.button-ok:active {
+  background-color: #a1a1a1;
+  border-color: #a1a1a1;
 }
 
 /* https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */

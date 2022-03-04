@@ -19,8 +19,6 @@ export default {
     CanteenItem,
   },
   props:['canteenList'],
-  // props: ["selectedCity"],
-  // emits: ["transmit-error-message"],
   data() {
     return {
       selectedCanteenId: "",
