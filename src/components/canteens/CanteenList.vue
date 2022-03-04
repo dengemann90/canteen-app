@@ -1,6 +1,6 @@
 <template>
   <div class="canteen-list">
-    <p>Ausgewählte Mensa: </p>
+    <p>Ausgewählte: {{ canteenName }}</p>
     <ul>
       <canteen-item
         v-for="canteen in canteenList"
@@ -19,16 +19,18 @@ export default {
   components: {
     CanteenItem,
   },
-  props:['canteenList'],
+  props: ["canteenList"],
   data() {
     return {
       selectedCanteenId: "",
+      canteenName: "",
     };
   },
   methods: {
-    updateSelectedCanteen(canteenId) {
-      this.selectedCanteenId = canteenId;
-    }
+    updateSelectedCanteen(canteen) {
+      this.selectedCanteenId = canteen.id;
+      this.canteenName = canteen.name;
+    },
   },
 };
 </script>
@@ -42,6 +44,14 @@ ul {
   padding: 0;
 }
 
+p {
+  text-align: left;
+  padding-left: 1rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+}
 .canteen-list {
   padding-top: 2rem;
 }

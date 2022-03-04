@@ -31,7 +31,7 @@ export default {
   methods:{
       updateCanteen(){
           if(this.canteen.id != this.selectedCanteenId){
-              this.$emit("update-selected-canteen", this.canteen.id)
+              this.$emit("update-selected-canteen", this.canteen)
           }
       }
   }
