@@ -1,8 +1,4 @@
 <template>
-  <!-- icons error dialog -->
-  <!-- <i class="fas solid fa-signal fa-lg error"></i>
-  <i class="fas solid fa-server fa-lg error"></i>
-  <i class="fas solid fa-compass fa-lg error"></i> -->
   <base-dialog
     v-if="dialogIsVisible"
     @close="closeDialog"
@@ -303,15 +299,6 @@ export default {
         return;
       }
 
-      // if(this.locationEnabled() == false){
-      //   const dialogContent = {
-      //     message: "Standort nicht freigegeben! Gebe den Standort frei, um diese Funktion zu nutzen.",
-      //     type: "gps",
-      //   };
-      //   this.openDialog(dialogContent);
-      //   return;
-      // }
-
       if (this.inputRadiusValid()) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -357,7 +344,7 @@ export default {
           {
             enableHighAccuracy: true,
             timeout: 10000,
-            age: 0,
+            maximumAge: 0,
           }
         );
       } else {
@@ -400,6 +387,7 @@ export default {
         this.canteenList = canteens;
         console.log("output -fetch : ", canteens);
       } else {
+        this.canteenList = [];
         const message =
           "Keine Mensa im Umkreis von " + this.selectedRadius + " km gefunden!";
         this.setErrorMessage(message);
