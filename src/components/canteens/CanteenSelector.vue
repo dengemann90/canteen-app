@@ -29,7 +29,7 @@
     />
   </div>
 
-  <div class="input-radius-field">
+  <div v-if="geoLocationSupported" class="input-radius-field">
     <input
       class="input-radius"
       :class="validationInputRadius"
@@ -170,6 +170,12 @@ export default {
     };
   },
   computed: {
+    geoLocationSupported() {
+      if ("geolocation" in navigator) {
+        return true;
+      }
+      return false;
+    },
     validationInputCity() {
       if (this.selectedRadius != "") {
         return { "disabled-input": true };
@@ -223,7 +229,7 @@ export default {
         this.fetchDataGeoLocation();
       } else {
         const dialogContent = {
-          message: "GPS Daten ungenau! Versuche es später noch mal.",
+          message: "GPS Daten sind ungenau! Versuche es später noch ein mal.",
           type: "gps",
         };
         this.openDialog(dialogContent);
@@ -283,8 +289,12 @@ export default {
       console.log("input valid:", inputValid && rangeValid);
       return inputValid && rangeValid;
     },
+    userOnline() {
+      console.log("user online: ", window.navigator.onLine);
+      return window.navigator.onLine;
+    },
     getGeoLocation() {
-      if (!window.navigator.onLine) {
+      if (this.userOnline() == false) {
         const dialogContent = {
           message: "Du bist offline! Gehe online, um diese Funktion zu nutzen.",
           type: "network",
@@ -292,6 +302,16 @@ export default {
         this.openDialog(dialogContent);
         return;
       }
+
+      // if(this.locationEnabled() == false){
+      //   const dialogContent = {
+      //     message: "Standort nicht freigegeben! Gebe den Standort frei, um diese Funktion zu nutzen.",
+      //     type: "gps",
+      //   };
+      //   this.openDialog(dialogContent);
+      //   return;
+      // }
+
       if (this.inputRadiusValid()) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -306,11 +326,32 @@ export default {
           },
           (error) => {
             console.log("error: ", error);
-            const dialogContent = {
-              message:
-                "Schlechte Internetverbindung! Versuche es später noch mal.",
-              type: "network",
-            };
+
+            let dialogContent;
+
+            if (error.code == 1) {
+              dialogContent = {
+                message:
+                  "Standort nicht freigegeben! Gebe den Standort frei, um diese Funktion zu nutzen.",
+                type: "gps",
+              };
+            }
+
+            if (error.code == 2) {
+              dialogContent = {
+                message:
+                  "Unvollständige Daten erhalten! Versuche es später noch ein mal.",
+                type: "server",
+              };
+            }
+
+            if (error.code == 3) {
+              dialogContent = {
+                message:
+                  "Zeitüberschreitung der Anfrage! Versuche es später noch ein mal oder prüfe deine Internetverbindung.",
+                type: "server",
+              };
+            }
             this.openDialog(dialogContent);
           },
           {
@@ -334,7 +375,7 @@ export default {
         console.log("error fetch: ", error);
         const dialogContent = {
           message:
-            "Server Fehler! Daten können nicht geladen werden. Versuche es später noch mal.",
+            "Daten konnten nicht geladen werden. Versuche es später noch ein mal.",
           type: "server",
         };
         this.openDialog(dialogContent);

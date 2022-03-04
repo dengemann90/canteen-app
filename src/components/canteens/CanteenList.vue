@@ -1,5 +1,6 @@
 <template>
   <div class="canteen-list">
+    <p>Ausgewählte Mensa: </p>
     <ul>
       <canteen-item
         v-for="canteen in canteenList"
