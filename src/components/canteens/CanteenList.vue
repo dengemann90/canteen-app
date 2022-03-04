@@ -15,6 +15,7 @@
 
 <script>
 import CanteenItem from "./CanteenItem.vue";
+import { set, get } from "idb-keyval";
 export default {
   components: {
     CanteenItem,
@@ -30,7 +31,21 @@ export default {
     updateSelectedCanteen(canteen) {
       this.selectedCanteenId = canteen.id;
       this.canteenName = canteen.name;
+      this.setSelectedCanteen(canteen);
     },
+    setSelectedCanteen(canteen) {
+      set("selectedCanteen", JSON.parse(JSON.stringify(canteen)));
+    },
+  },
+  created() {
+    get("selectedCanteen").then((data) => {
+      if (data != null) {
+        this.selectedCanteenId = data.id;
+        this.canteenName = data.name;
+      } else {
+        console.log("kein ausgewählte Kantine in der indexedDB");
+      }
+    });
   },
 };
 </script>

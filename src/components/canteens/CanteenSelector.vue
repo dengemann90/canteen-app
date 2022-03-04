@@ -321,7 +321,7 @@ export default {
         if (data != null) {
           this.canteenListDB = data;
         } else {
-          console.log('location of all canteens not in indexedDB');
+          console.log('Standorte aller Kantinen sind nicht in der indexedDB gespeichert');
         }
       });
   }
