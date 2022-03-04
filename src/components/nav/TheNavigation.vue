@@ -4,10 +4,6 @@
     <router-link to="/locations">
       <i class="fas solid fa-compass fa-2x"></i>
     </router-link>
-    <!-- location -->
-    <router-link to="/location">
-      <i class="fas regular fa-map fa-2x"></i>
-    </router-link>
     <!-- plan -->
     <router-link to="/plan">
       <i class="fas regular fa-calendar-day fa-2x"></i>
