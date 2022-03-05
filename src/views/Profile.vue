@@ -2,7 +2,9 @@
   <div class="main">
     <div class="appframe">
       <div class="container">
-        <div class="capital">Mein Profil</div>
+        <div class="capital">
+          Mein Profil<img src="../assets/LogoTransparent.png" />
+        </div>
         <div class="return-icon" v-if="activeLink != '/profile'">
           <i class="fas solid fa-reply" @click="returnToProfileSettings"></i>
         </div>

@@ -2,7 +2,9 @@
   <div class="main">
     <div class="appframe">
       <div class="container">
-        <div class="capital">Favorites</div>
+        <div class="capital">
+          Favorites<img src="../assets/LogoTransparent.png" />
+        </div>
         <div class="container_all">
           <!-- Hier content -->
           <favorite-dish-list></favorite-dish-list>
@@ -13,12 +15,11 @@
 </template>
 
 <script>
-import FavoriteDishList from '../components/favorites/FavoriteDishList.vue'
+import FavoriteDishList from "../components/favorites/FavoriteDishList.vue";
 export default {
-  components:{
-    FavoriteDishList
-  }
-
+  components: {
+    FavoriteDishList,
+  },
 };
 </script>
 

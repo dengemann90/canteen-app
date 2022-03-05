@@ -2,10 +2,14 @@
   <div class="main">
     <div class="appframe">
       <div class="container">
-        <div class="capital">Location</div>
-        <canteen-selector
-          @transmit-canteen-list="updateCanteenList"
-        ></canteen-selector>
+        <div class="capital">
+          Location<img src="../assets/LogoTransparent.png" />
+        </div>
+        <div class="content">
+          <canteen-selector
+            @transmit-canteen-list="updateCanteenList"
+          ></canteen-selector>
+        </div>
         <div class="container_all">
           <canteen-list :canteenList="this.canteenList"></canteen-list>
         </div>

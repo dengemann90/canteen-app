@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;1,700&family=Space+Mono:wght@700&display=swap");
+
+.main {
+    /*background-image: url(/Project%202/images/main_background_II.jpg);*/
+    /*background-color: #ebeded;*/
+    /*background-color: #e1a100;*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /*background-image: url('./images/nutrition.jpg');*/
+}
+
+.capital {
+    min-height: 20px;
+    max-width: 1024px;
+    margin-top: 0px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    font-weight: bold;
+    font-size: 1.75rem;
+    background-color: rgba(255, 255, 255, 0.85);
+    font-family: "Space Mono", monospace;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 1.5%;
+    /* background-color: rgba(255, 255, 255, 0.7); */
+    /*    padding: 10px 16px;
+    background: #555;
+    color: #f1f1f1; */
+}
+
+img {
+    width: 10%;
+    margin-left: 10%;
+}
+
+.content {
+    padding: 16px;
+}
+
+.appframe {
+    background-color: rgba(255, 255, 255, 0.7);
+    box-sizing: border-box;
+    box-shadow: 0px 30px 30px rgba(0, 0, 0, 0.4);
+    border-radius: 1%;
+    max-width: 1024px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: top 25px;
+    min-height: 100vh;
+}
+
+.container_all {
+    min-height: 500px;
+    max-width: 1024px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+h1 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+h2 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+h3 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+p.capital {
+    margin-top: 4%;
+}
+
+p {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+}
+
+b {
+    color: rgba(0, 0, 0, 0.7);
+}

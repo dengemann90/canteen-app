@@ -2,23 +2,28 @@
   <div class="main">
     <div class="appframe" @click="closeFilterActiveCard">
       <div class="container">
-        <div class="capital">Plan</div>
-        <dish-list-date-selector @setDate="setDate"></dish-list-date-selector>
-        <div
-          v-if="filterActive"
-          class="filter-active-badge"
-          :class="{ active: showFilterCard }"
-          @click.stop="showFilterCard = !showFilterCard"
-        >
-          <p class="filter-active-text">Filter aktiv</p>
-          <i class="fas solid fa-info"></i>
+        <div class="capital">
+          Plan
+          <img src="../assets/LogoTransparent.png" />
         </div>
-        <transition name="fade-in">
-          <filter-active-card v-if="showFilterCard"></filter-active-card>
-        </transition>
-        <div class="container_all">
-          <!-- Hier content -->
-          <dishes-list :date-Selected="dateSelected"></dishes-list>
+        <div class="content">
+          <dish-list-date-selector @setDate="setDate"></dish-list-date-selector>
+          <div
+            v-if="filterActive"
+            class="filter-active-badge"
+            :class="{ active: showFilterCard }"
+            @click.stop="showFilterCard = !showFilterCard"
+          >
+            <p class="filter-active-text">Filter aktiv</p>
+            <i class="fas solid fa-info"></i>
+          </div>
+          <transition name="fade-in">
+            <filter-active-card v-if="showFilterCard"></filter-active-card>
+          </transition>
+          <div class="container_all">
+            <!-- Hier content -->
+            <dishes-list :date-Selected="dateSelected"></dishes-list>
+          </div>
         </div>
       </div>
     </div>
@@ -38,16 +43,16 @@ export default {
   data() {
     return {
       dateSelected: Intl.DateTimeFormat().format(Date.now()),
-      showFilterCard: false
+      showFilterCard: false,
     };
   },
-  computed:{
-  filterActive(){
-    if(this.$store.getters.getExcludedAllergensAdditives.length > 0){
-      return true;
-    }
-    return false;
-  }
+  computed: {
+    filterActive() {
+      if (this.$store.getters.getExcludedAllergensAdditives.length > 0) {
+        return true;
+      }
+      return false;
+    },
   },
   methods: {
     setDate(date) {
@@ -97,19 +102,16 @@ export default {
 /* fade in - fade out filterActiveCard */
 
 .fade-in-enter-from,
-.fade-in-leave-to
-{
+.fade-in-leave-to {
   opacity: 0;
   transform: translateY(-30px);
 }
 .fade-in-enter-active,
-.fade-in-leave-active
-{
+.fade-in-leave-active {
   transition: all 0.5s ease-in-out;
 }
 .fade-in-enter-to,
-.fade-in-leave-from
-{
+.fade-in-leave-from {
   opacity: 1;
   transform: translateY(0);
 }
