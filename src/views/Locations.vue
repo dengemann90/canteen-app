@@ -3,7 +3,7 @@
     <div class="appframe">
       <div class="container">
         <div class="capital">
-          Location<img src="../assets/LogoTransparent.png" />
+          Location<img class="logo-img" src="../assets/LogoTransparent.png" />
         </div>
         <div class="content">
           <canteen-selector

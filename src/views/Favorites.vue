@@ -3,7 +3,7 @@
     <div class="appframe">
       <div class="container">
         <div class="capital">
-          Favorites<img src="../assets/LogoTransparent.png" />
+          Favorites<img class="logo-img" src="../assets/LogoTransparent.png" />
         </div>
         <div class="container_all">
           <!-- Hier content -->

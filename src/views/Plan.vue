@@ -4,7 +4,7 @@
       <div class="container">
         <div class="capital">
           Plan
-          <img src="../assets/LogoTransparent.png" />
+          <img class="logo-img" src="../assets/LogoTransparent.png" />
         </div>
         <div class="content">
           <dish-list-date-selector @setDate="setDate"></dish-list-date-selector>
