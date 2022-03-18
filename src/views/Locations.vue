@@ -1,10 +1,10 @@
 <template>
   <div class="main">
     <div class="appframe">
+      <div class="capital">
+        Location<img class="logo-img" src="../assets/LogoTransparent.png" />
+      </div>
       <div class="container">
-        <div class="capital">
-          Location<img class="logo-img" src="../assets/LogoTransparent.png" />
-        </div>
         <div class="content">
           <canteen-selector
             @transmit-canteen-list="updateCanteenList"

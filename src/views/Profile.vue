@@ -1,13 +1,10 @@
 <template>
   <div class="main">
     <div class="appframe">
+      <div class="capital">
+        Mein Profil<img class="logo-img" src="../assets/LogoTransparent.png" />
+      </div>
       <div class="container">
-        <div class="capital">
-          Mein Profil<img
-            class="logo-img"
-            src="../assets/LogoTransparent.png"
-          />
-        </div>
         <div class="return-icon" v-if="activeLink != '/profile'">
           <i class="fas solid fa-reply" @click="returnToProfileSettings"></i>
         </div>
@@ -123,9 +120,9 @@ a {
   display: flex;
 }
 
-.fas.solid.fa-reply {
+/* .fas.solid.fa-reply {
   color: rgba(0, 0, 0, 0.15);
-}
+} */
 
 li:hover {
   background-color: rgba(138, 169, 105, 0.2);

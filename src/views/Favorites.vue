@@ -1,10 +1,10 @@
 <template>
   <div class="main">
     <div class="appframe">
+      <div class="capital">
+        Favorites<img class="logo-img" src="../assets/LogoTransparent.png" />
+      </div>
       <div class="container">
-        <div class="capital">
-          Favorites<img class="logo-img" src="../assets/LogoTransparent.png" />
-        </div>
         <div class="container_all">
           <!-- Hier content -->
           <favorite-dish-list></favorite-dish-list>

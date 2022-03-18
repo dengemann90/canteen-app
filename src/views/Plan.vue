@@ -1,11 +1,11 @@
 <template>
   <div class="main">
     <div class="appframe" @click="closeFilterActiveCard">
+      <div class="capital">
+        Plan
+        <img class="logo-img" src="../assets/LogoTransparent.png" />
+      </div>
       <div class="container">
-        <div class="capital">
-          Plan
-          <img class="logo-img" src="../assets/LogoTransparent.png" />
-        </div>
         <div class="content">
           <dish-list-date-selector @setDate="setDate"></dish-list-date-selector>
           <div

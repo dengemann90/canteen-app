@@ -42,10 +42,10 @@ export default {
   },
   watch: {
     userType(_, oldValue) {
-        if(oldValue != ""){
-            this.$store.dispatch('updateUserType', this.userType);
-            console.log('userType geändert, neu: ', this.userType);
-        }
+      if (oldValue != "") {
+        this.$store.dispatch("updateUserType", this.userType);
+        console.log("userType geändert, neu: ", this.userType);
+      }
     },
   },
   created() {

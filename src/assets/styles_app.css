@@ -8,28 +8,37 @@
     background-repeat: no-repeat;
     background-position: center;
     /*background-image: url('./images/nutrition.jpg');*/
+    height: 100%;
+}
+
+p.capital {
+    margin-top: 4%;
 }
 
 .capital {
-    min-height: 20px;
+    min-height: 5%;
     max-width: 1024px;
     margin-top: 0px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    /* justify-content: space-between; */
+    margin-bottom: 2px;
+    /* margin: 0 auto; */
+    /* display: flex; */
+    /* flex-wrap: wrap; */
     font-weight: bold;
     font-size: 1.75rem;
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.95);
     font-family: "Space Mono", monospace;
     font-weight: 700;
     color: rgba(0, 0, 0, 0.7);
     position: fixed;
-    top: 1.5%;
-    /* background-color: rgba(255, 255, 255, 0.7); */
-    /*    padding: 10px 16px;
-    background: #555;
-    color: #f1f1f1; */
+    top: 0px;
+    /* overflow: hidden; */
+}
+
+.container {
+    float: left;
+    /* overflow: hidden; */
+    /* background-color: #ddd; */
+    margin-top: 8%;
 }
 
 .logo-img {
@@ -56,6 +65,8 @@
     justify-content: center;
     margin: top 25px;
     min-height: 100vh;
+    height: 100%;
+    /* background-color: #eee; */
 }
 
 .container_all {
@@ -89,10 +100,6 @@ h3 {
     color: rgba(0, 0, 0, 0.7);
 }
 
-p.capital {
-    margin-top: 4%;
-}
-
 p {
     font-family: "Roboto", sans-serif;
     font-weight: 300;
@@ -100,4 +107,8 @@ p {
 
 b {
     color: rgba(0, 0, 0, 0.7);
+}
+
+.fas.solid.fa-reply {
+    color: rgba(0, 0, 0, 0.15);
 }
