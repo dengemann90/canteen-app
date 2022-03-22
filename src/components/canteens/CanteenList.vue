@@ -1,6 +1,6 @@
 <template>
   <div class="canteen-list">
-    <p>Ausgewählt: {{ canteenName }}</p>
+    <p>Aktiv: {{ canteenName }}</p>
     <ul>
       <canteen-item
         v-for="canteen in canteenList"
@@ -64,8 +64,8 @@ p {
   padding-left: 1rem;
   font-family: "Roboto", sans-serif;
   font-weight: 300;
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.5);
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.85);
 }
 .canteen-list {
   padding-top: 2rem;
