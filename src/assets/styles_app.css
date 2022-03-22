@@ -24,7 +24,7 @@ p.capital {
     /* display: flex; */
     /* flex-wrap: wrap; */
     font-weight: bold;
-    font-size: 1.75rem;
+    /* font-size: 1.75rem; */
     background-color: rgba(255, 255, 255, 0.95);
     font-family: "Space Mono", monospace;
     font-weight: 700;
@@ -33,6 +33,18 @@ p.capital {
     max-width: 80%;
     top: 0px;
     /* overflow: hidden; */
+}
+
+@media screen and (min-width: 601px) {
+    .capital {
+        font-size: 1.75rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .capital {
+        font-size: 1.3rem;
+    }
 }
 
 .container {
