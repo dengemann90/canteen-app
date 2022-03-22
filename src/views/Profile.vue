@@ -2,7 +2,8 @@
   <div class="main">
     <div class="appframe">
       <div class="capital">
-        Mein Profil<img class="logo-img" src="../assets/LogoTransparent.png" />
+        Mein Profil
+        <img class="logo-img" src="../assets/LogoTransparent.png" />
       </div>
       <div class="container">
         <div class="return-icon" v-if="activeLink != '/profile'">

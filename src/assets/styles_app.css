@@ -42,8 +42,11 @@ p.capital {
 }
 
 .logo-img {
-    width: 10%;
-    margin-left: 10%;
+    margin-top: 1%;
+    vertical-align: middle;
+    width: 7%;
+    margin-left: 1%;
+    /* transform: rotate(90deg); */
 }
 
 .content {
