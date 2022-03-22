@@ -2,7 +2,7 @@
   <div class="main">
     <div class="appframe">
       <div class="capital">
-        Favorites<img class="logo-img" src="../assets/LogoTransparent.png" />
+        Favoriten<img class="logo-img" src="../assets/LogoTransparent.png" />
       </div>
       <div class="container">
         <div class="container_all">

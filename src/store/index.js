@@ -4,7 +4,7 @@ import { get, set } from "idb-keyval";
 const store = createStore({
   state() {
     return {
-      canteenId: 30,
+      canteenId: 1,
       userType: 'students',
       favorites: [],
       selectedNutrition: '',

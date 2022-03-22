@@ -2,7 +2,7 @@
   <div class="main">
     <div class="appframe" @click="closeFilterActiveCard">
       <div class="capital">
-        Plan
+        Speiseplan
         <img class="logo-img" src="../assets/LogoTransparent.png" />
       </div>
       <div class="container">

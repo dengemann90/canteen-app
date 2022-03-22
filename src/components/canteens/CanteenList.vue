@@ -1,6 +1,6 @@
 <template>
   <div class="canteen-list">
-    <p>Ausgewählte: {{ canteenName }}</p>
+    <p>Ausgewählt: {{ canteenName }}</p>
     <ul>
       <canteen-item
         v-for="canteen in canteenList"
