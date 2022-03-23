@@ -8,6 +8,7 @@
       <div class="container">
         <div class="content">
           <dish-list-date-selector @setDate="setDate"></dish-list-date-selector>
+        <p class="activeCanteen">{{canteenName}}</p>
           <div
             v-if="filterActive"
             class="filter-active-badge"
@@ -31,6 +32,7 @@
 </template>
 
 <script>
+import { get } from "idb-keyval";
 import DishListDateSelector from "../components/nav/DishListDateSelector.vue";
 import DishesList from "../components/plan/DishList.vue";
 import FilterActiveCard from "../components/plan/FilterActiveCard.vue";
@@ -44,6 +46,7 @@ export default {
     return {
       dateSelected: Intl.DateTimeFormat().format(Date.now()),
       showFilterCard: false,
+      canteenName:''
     };
   },
   computed: {
@@ -52,7 +55,7 @@ export default {
         return true;
       }
       return false;
-    },
+    },   
   },
   methods: {
     setDate(date) {
@@ -63,11 +66,29 @@ export default {
         this.showFilterCard = false;
       }
     },
+    getCanteenName(){
+      get("selectedCanteen").then(data => {
+        this.canteenName = data.name;
+      }).catch(console.warn)
+    }
   },
+  created(){
+    this.getCanteenName();
+  }
 };
 </script>
 
 <style scoped>
+
+.activeCanteen {
+  text-align: left;
+  margin-left: 2px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.85);
+}
+
 .filter-active-badge {
   margin-left: 2px;
   border-radius: 2px;
