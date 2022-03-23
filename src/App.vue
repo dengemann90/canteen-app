@@ -32,11 +32,13 @@ export default {
       let dateIndexedDB = Date.now();
       let dishesPlan = [];
 
-      for (let i = 0; i <= 7; i++) {
+      const canteen = await  get("selectedCanteen");
+      if(canteen != null){
+      for (let i = 0; i <= 2; i++) {
         let dishes = [];
 
         const response = await fetch(
-          `https://openmensa.org/api/v2/canteens/${this.$store.getters.getCanteenId}/days/${dateApiRequest}/meals`
+          `https://openmensa.org/api/v2/canteens/${canteen.id}/days/${dateApiRequest}/meals`
         );
         const responseData = await response.json();
 
@@ -72,6 +74,7 @@ export default {
       }
       console.log(dishesPlan);
       set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
+      }
     },
     getCanteens() {
       get("locationAllCanteens").then((data) => {
