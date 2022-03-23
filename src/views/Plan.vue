@@ -7,23 +7,39 @@
       </div>
       <div class="container">
         <div class="content">
-          <dish-list-date-selector @setDate="setDate"></dish-list-date-selector>
-        <p class="activeCanteen">{{canteenName}}</p>
-          <div
-            v-if="filterActive"
-            class="filter-active-badge"
-            :class="{ active: showFilterCard }"
-            @click.stop="showFilterCard = !showFilterCard"
-          >
-            <p class="filter-active-text">Filter aktiv</p>
-            <i class="fas solid fa-info"></i>
+          <div v-if="!canteenSelected">
+            <p>
+              Wähle eine <router-link to="/locations">Mensa</router-link>, um
+              den Speiseplan anzuzeigen.
+            </p>
           </div>
-          <transition name="fade-in">
-            <filter-active-card v-if="showFilterCard"></filter-active-card>
-          </transition>
-          <div class="container_all">
-            <!-- Hier content -->
-            <dishes-list :date-Selected="dateSelected"></dishes-list>
+          <div v-else-if="canteenSelected && !dishesAvailable">
+            <p>
+              Für die Mensa <b>{{ canteenName }}</b> konnte kein aktueller
+              Speiseplan geladen werden.
+            </p>
+          </div>
+          <div v-else>
+            <dish-list-date-selector
+              @setDate="setDate"
+            ></dish-list-date-selector>
+            <p class="activeCanteen">{{ canteenName }}</p>
+            <div
+              v-if="filterActive"
+              class="filter-active-badge"
+              :class="{ active: showFilterCard }"
+              @click.stop="showFilterCard = !showFilterCard"
+            >
+              <p class="filter-active-text">Filter aktiv</p>
+              <i class="fas solid fa-info"></i>
+            </div>
+            <transition name="fade-in">
+              <filter-active-card v-if="showFilterCard"></filter-active-card>
+            </transition>
+            <div class="container_all">
+              <!-- Hier content -->
+              <dishes-list :date-Selected="dateSelected"></dishes-list>
+            </div>
           </div>
         </div>
       </div>
@@ -46,7 +62,9 @@ export default {
     return {
       dateSelected: Intl.DateTimeFormat().format(Date.now()),
       showFilterCard: false,
-      canteenName:''
+      canteenSelected: false,
+      dishesAvailable: false,
+      canteenName: "",
     };
   },
   computed: {
@@ -55,7 +73,7 @@ export default {
         return true;
       }
       return false;
-    },   
+    },
   },
   methods: {
     setDate(date) {
@@ -66,20 +84,38 @@ export default {
         this.showFilterCard = false;
       }
     },
-    getCanteenName(){
-      get("selectedCanteen").then(data => {
-        this.canteenName = data.name;
-      }).catch(console.warn)
-    }
-  },
-  created(){
-    this.getCanteenName();
+    getCanteenName() {
+      get("selectedCanteen")
+        .then((data) => {
+          if (!data) {
+            this.canteenSelected = false;
+          } else {
+            this.canteenSelected = true;
+            this.canteenName = data.name;
+          }
+        })
+        .catch(console.warn);
+    },
+    checkDishesAvailable(){
+      get("dishes")
+        .then((data) => {
+          if(data){
+          let dishesUpToDate = data.some(dish => dish.date.includes(Intl.DateTimeFormat().format(Date.now())))
+            if(dishesUpToDate){
+              this.dishesAvailable = true;
+            }
+          }
+    });
   }
+  },
+  created() {
+    this.getCanteenName();
+    this.checkDishesAvailable();
+  },
 };
 </script>
 
 <style scoped>
-
 .activeCanteen {
   text-align: left;
   margin-left: 2px;
