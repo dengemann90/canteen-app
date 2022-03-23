@@ -4,8 +4,8 @@ import { get, set } from "idb-keyval";
 const store = createStore({
   state() {
     return {
-      canteenId: 1,
-      userType: 'students',
+      canteenId: null,
+      userType: '',
       favorites: [],
       selectedNutrition: '',
       excludedAllergensAdditives: []
@@ -72,7 +72,6 @@ const store = createStore({
     }
   },
   actions: {
-
     loadUserType(context){
       get("userType").then((data) => {
         if(data ==null){
