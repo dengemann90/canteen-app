@@ -1,17 +1,23 @@
 <template>
   <base-dialog v-if="isLoading" :open="isLoading">
     <base-spinner></base-spinner>
-    <button @click="isLoading = false">cancel</button>
+    <p>Daten werden geladen...</p>
   </base-dialog>
+  <base-dialog v-if="fetchFailed" :open="fetchFailed">
+    <p><i class="fas solid fa-server error"></i>Die Daten konnten vom Server nicht geladen werden.</p>
+    <p>{{errorCode}}</p>
+    <button class="button-ok" @click="confirmFailedFetch">ok</button>
+  </base-dialog>
+
   <div class="canteen-list">
-    <p class="activeCanteen">Aktiv: {{ canteenName }}</p>
+    <p class="activeCanteen">Aktiv: {{ selectedCanteen.name }}</p>
     <ul>
       <canteen-item
         v-for="canteen in canteenList"
         :key="canteen.id"
         :canteen="canteen"
-        :selectedCanteenId="this.selectedCanteenId"
-        @update-selected-canteen="updateSelectedCanteen"
+        :selectedCanteenId="this.selectedCanteen.id"
+        @update-selected-canteen="fetchDataDishes"
       ></canteen-item>
     </ul>
   </div>
@@ -30,48 +36,45 @@ export default {
   props: ["canteenList"],
   data() {
     return {
-      selectedCanteenId: "",
-      canteenName: "",
+      selectedCanteen: "",
       isLoading: false,
+      fetchFailed: false,
+      errorCode: ""
     };
   },
   methods: {
-    updateSelectedCanteen(canteen) {
-      this.fetchData(canteen.id);
-      this.selectedCanteenId = canteen.id;
-      this.canteenName = canteen.name;
-      this.setSelectedCanteen(canteen);
-    },
-    setSelectedCanteen(canteen) {
-      set("selectedCanteen", JSON.parse(JSON.stringify(canteen)));
-    },
-    async fetchData(canteenId) {
-      var status = require('statuses')
+    async fetchDataDishes(canteen) {
+      var status = require("statuses");
       this.isLoading = true;
       let dateApiRequest = format(Date.now(), "yyyy-MM-dd");
       let dateIndexedDB = Date.now();
       let dishesPlan = [];
 
-      for (let i = 0; i <= 7; i++) {
+      for (let i = 0; i <= 2; i++) {
         let dishes = [];
-
+        console.log("canteen id fetch ", canteen.id);
         const response = await fetch(
-          `https://openmensa.org/api/v2/canteens/${canteenId}/days/${dateApiRequest}/meals`
-        );
-        const responseData = await response.json().catch(error => {
-           this.isLoading= false;
-          console.log(error);
-          console.log('error: ' + response.status + ' - '+ status(response.status))
+          `https://openmensa.org/api/v2/canteens/${canteen.id}/days/${dateApiRequest}/meals`
+        ).catch(() => {
+          this.isLoading = false;
+          this.fetchFailed = true;
+        });
+
+        const responseData = await response.json().catch(() => {
+          this.isLoading = false;
+          this.fetchFailed = true;
+          this.errorCode = response.status + " - " + status(response.status);
+          console.log(
+            "error: " + response.status + " - " + status(response.status)
+          );
         });
 
         if (!response.ok) {
-          const error = new Error(
-            "failed to fetch request!"
-          );
+          this.fetchFailed = true;
+          this.errorCode = response.status + " - " + status(response.status);
+          const error = new Error("failed to fetch request! " + response.status + " - " + status(response.status));
           throw error;
         }
-        console.log(response)
-        console.log("fetch Gerichte openmensa api successful!");
 
         for (const key in responseData) {
           const dish = {
@@ -95,16 +98,24 @@ export default {
         dateApiRequest = format(addDays(Date.now(), i + 1), "yyyy-MM-dd");
         dateIndexedDB = addDays(dateIndexedDB, 1);
       }
-      console.log(dishesPlan);
+      console.log("Gerichte geladen: ", dishesPlan);
       set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
-       this.isLoading = false;
+      this.setSelectedCanteen(canteen);
+      this.selectedCanteen = canteen;
+      this.isLoading = false;
     },
+    setSelectedCanteen(canteen) {
+      set("selectedCanteen", JSON.parse(JSON.stringify(canteen)));
+    },
+    confirmFailedFetch(){
+      this.fetchFailed = false;
+      this.errorCode = "";
+    }
   },
   created() {
     get("selectedCanteen").then((data) => {
       if (data != null) {
-        this.selectedCanteenId = data.id;
-        this.canteenName = data.name;
+        this.selectedCanteen = data;
       } else {
         console.log("kein ausgewählte Kantine in der indexedDB");
       }
@@ -133,4 +144,32 @@ ul {
 .canteen-list {
   padding-top: 2rem;
 }
+
+.fas.solid.fa-server.error {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  color: rgba(255, 0, 0, 0.2);
+}
+
+button {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.button-ok {
+  border: 1px solid #a1a1a180;
+  background-color: #a1a1a180;
+  color: white;
+}
+
+.button-ok:hover,
+.button-ok:active {
+  background-color: #a1a1a1;
+  border-color: #a1a1a1;
+}
+
 </style>
