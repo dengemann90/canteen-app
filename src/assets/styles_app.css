@@ -20,8 +20,11 @@ p.capital {
     max-width: 1024px;
     margin-top: 0px;
     margin-bottom: 2px;
+    padding-top:10px;
     /* margin: 0 auto; */
-    /* display: flex; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     /* flex-wrap: wrap; */
     font-weight: bold;
     /* font-size: 1.75rem; */
@@ -30,7 +33,7 @@ p.capital {
     font-weight: 700;
     color: rgba(0, 0, 0, 0.7);
     position: fixed;
-    max-width: 80%;
+    max-width:95%;
     top: 0px;
     /* overflow: hidden; */
 }
@@ -58,7 +61,7 @@ p.capital {
     margin-top: 1%;
     vertical-align: middle;
     width: 7%;
-    margin-left: 1%;
+    margin-left: 0.5%;
     /* transform: rotate(90deg); */
 }
 
