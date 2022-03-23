@@ -13,6 +13,7 @@
     "idb-keyval": "^6.0.3",
     "register-service-worker": "^1.7.1",
     "serve": "^13.0.2",
+    "statuses": "^2.0.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.2"
