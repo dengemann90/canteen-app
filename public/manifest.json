@@ -10,8 +10,7 @@
         {
             "src": "img/icons/app_icon_x500.png",
             "sizes": "500x500",
-            "type": "image/png",
-            "purpose" : "maskable"
+            "type": "image/png"
         }
     ]
   }
