@@ -1,5 +1,5 @@
 {
-    "name": "Eatery App",
+    "name": "Eatery",
     "theme_color": "#aad8b1",
     "background_color": "#93ccc7",
     "display": "standalone",
@@ -8,10 +8,10 @@
     "start_url": "/",
     "icons": [
         {
-            "src": "img/icons/maskable_logo.png",
+            "src": "img/icons/app_icon_x500.png",
             "sizes": "500x500",
             "type": "image/png",
-            "purpose" : "any"
+            "purpose" : "maskable"
         }
     ]
   }
