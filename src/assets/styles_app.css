@@ -131,3 +131,9 @@ b {
 .fas.solid.fa-reply {
     color: rgba(0, 0, 0, 0.15);
 }
+
+/* contain overscroll behaviour only in vertical direction */
+/* https://usefulangle.com/post/278/html-disable-pull-to-refresh-with-css */
+body {
+    overscroll-behavior: contain;
+}
