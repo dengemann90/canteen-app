@@ -12,13 +12,14 @@ const routes = [
   { path: '/locations', component: Locations },
   { path: '/plan', component: Plan },
   { path: '/favorites', component: Favorites },
-  { path: '/profile', component: Profile,
-  children:[
-    { path: 'general_settings', component: GeneralSettings },
-    { path: 'nutrition', component: Nutrition },
-    { path: 'allergens_additives', component: AllergensAdditives}
-  ]
-},
+  {
+    path: '/profile', component: Profile,
+    children: [
+      { path: 'general_settings', component: GeneralSettings },
+      { path: 'nutrition', component: Nutrition },
+      { path: 'allergens_additives', component: AllergensAdditives }
+    ]
+  },
 
 ]
 
