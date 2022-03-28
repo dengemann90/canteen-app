@@ -1,18 +1,18 @@
 <template>
   <div class="main">
     <div class="appframe">
-      <div class="capital">
-        Favoriten<img class="logo-img" src="../assets/start.jpg" />
-      </div>
+      <div class="capital"></div>
       <div class="container">
-        <div class="container_all">
-          <favorite-dish-list></favorite-dish-list>
-        </div>
+        <img class="logo-start-img" src="../assets/start.jpg" />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/*  */
+.logo-start-img {
+  margin-top: 10%;
+  vertical-align: middle;
+  width: 100%;
+}
 </style>

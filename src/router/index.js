@@ -6,12 +6,14 @@ import Profile from '../views/Profile.vue';
 import GeneralSettings from '../components/profile/GeneralSettings.vue';
 import Nutrition from '../components/profile/NutritionList.vue';
 import AllergensAdditives from '../components/profile/AllergensAdditivesList.vue';
+import Start from '../views/Start.vue';
 
 const routes = [
-  { path: '/', redirect: '/plan' },
+  { path: '/', redirect: '/start' },
   { path: '/locations', component: Locations },
   { path: '/plan', component: Plan },
   { path: '/favorites', component: Favorites },
+  { path: '/start', component: Start },
   {
     path: '/profile', component: Profile,
     children: [
