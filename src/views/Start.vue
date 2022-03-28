@@ -3,7 +3,7 @@
     <div class="appframe">
       <div class="capital"></div>
       <div class="container">
-        <img class="logo-start-img" src="../assets/start.jpg" />
+        <img class="logo-start-img" src="../assets/start_borderless.jpg" />
       </div>
     </div>
   </div>
@@ -11,7 +11,7 @@
 
 <style scoped>
 .logo-start-img {
-  margin-top: 10%;
+  margin-bottom: 10%;
   vertical-align: middle;
   width: 100%;
 }
