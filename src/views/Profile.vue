@@ -55,6 +55,7 @@ export default {
   data() {
     return {};
   },
+
   computed: {
     activeLink() {
       return this.$route.fullPath;

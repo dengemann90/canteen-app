@@ -16,11 +16,44 @@
     <router-link to="/profile">
       <i class="fas solid fa-user fa-2x"></i>
     </router-link>
+    <!-- TopPage -->
+    <i class="fade" id="pagetop" @click="toTop">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#4a5568"
+      >
+        <path d="M18 15l-6-6-6 6" />
+      </svg>
+    </i>
   </nav>
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  methods: {
+    handleScroll: function () {
+      if (this.scTimer) return;
+      this.scTimer = setTimeout(() => {
+        this.scY = window.scrollY;
+        clearTimeout(this.scTimer);
+        this.scTimer = 0;
+      }, 100);
+    },
+    toTop: function () {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -54,6 +87,14 @@ nav {
 }
 
 nav a {
+  text-decoration: none;
+  font-size: 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.fade {
   text-decoration: none;
   font-size: 12px;
   padding-left: 20px;

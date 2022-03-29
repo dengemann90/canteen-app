@@ -20,7 +20,7 @@ p.capital {
     max-width: 1024px;
     margin-top: 0px;
     margin-bottom: 2px;
-    padding-top:10px;
+    padding-top: 10px;
     /* margin: 0 auto; */
     display: flex;
     align-items: center;
@@ -33,7 +33,7 @@ p.capital {
     font-weight: 700;
     color: rgba(0, 0, 0, 0.7);
     position: fixed;
-    max-width:95%;
+    max-width: 95%;
     top: 0px;
     /* overflow: hidden; */
 }
@@ -96,6 +96,10 @@ p.capital {
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+/* .pagetop {
+    min-width: 2px;
+} */
 
 h1 {
     font-family: "Roboto", sans-serif;
