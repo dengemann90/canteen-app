@@ -20,8 +20,8 @@
     <i class="fade" id="pagetop" @click="toTop">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
+        width="30"
+        height="30"
         viewBox="0 0 24 24"
         fill="none"
         stroke="#4a5568"
@@ -94,12 +94,9 @@ nav a {
   color: rgba(0, 0, 0, 0.7);
 }
 
-.fade {
-  text-decoration: none;
-  font-size: 12px;
-  padding-left: 20px;
-  padding-right: 20px;
-  color: rgba(0, 0, 0, 0.7);
+nav .fade {
+  position: absolute;
+  right: 1%;
 }
 
 a:hover,
