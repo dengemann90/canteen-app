@@ -46,6 +46,7 @@ export default {
       dialogIsVisible: false,
       dialogErrorMessage: "",
       dialogErrorType: "",
+      userOnline: ""
     };
   },
   methods: {
@@ -56,6 +57,9 @@ export default {
       let dateIndexedDB = Date.now();
       let dishesPlan = [];
       let online = window.navigator.onLine;
+
+        for (let i = 0; i <= 7; i++) {
+          let dishes = [];
 
       if (!online) {
         this.isLoading = false;
@@ -68,8 +72,6 @@ export default {
         return;
       }
 
-      for (let i = 0; i <= 7; i++) {
-        let dishes = [];
         const response = await fetch(
           `https://openmensa.org/api/v2/canteens/${canteen.id}/days/${dateApiRequest}/meals`
         ).catch(() => {
