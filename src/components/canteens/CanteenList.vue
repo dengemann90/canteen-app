@@ -45,8 +45,7 @@ export default {
       isLoading: false,
       dialogIsVisible: false,
       dialogErrorMessage: "",
-      dialogErrorType: "",
-      userOnline: ""
+      dialogErrorType: ""
     };
   },
   methods: {

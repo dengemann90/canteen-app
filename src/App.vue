@@ -1,4 +1,13 @@
 <template>
+  <base-error-dialog
+    v-if="dialogIsVisible"
+    :open="dialogIsVisible"
+    :type="this.dialogErrorType"
+    :message="this.dialogErrorMessage"
+  >
+    <button class="button-load" @click="reload">laden</button>
+    <button class="button-next" @click="closeDialog">weiter</button>
+  </base-error-dialog>
   <main>
     <router-view></router-view>
   </main>
@@ -19,6 +28,9 @@ export default {
   data() {
     return {
       apiDataCanteens: [],
+      dialogIsVisible: true,
+      dialogErrorMessage: "Du bist offline! Klicke weiter, um die App mit vorhandenen offline-Daten zu nutzen oder aktiviere dein Internet und lade die App neu.",
+      dialogErrorType: "network",
     };
   },
   watch: {
@@ -38,7 +50,19 @@ export default {
       const lastUpdate = await get("dishesUpdated");
       if (canteen != null && lastUpdate != today) {
         for (let i = 0; i <= 7; i++) {
+          let online = window.navigator.onLine;
           let dishes = [];
+
+          if (!online) {
+            this.isLoading = false;
+            const dialogContent = {
+              message:
+                "Du bist offline. Klicke weiter, um die App offline zu nutzen oder aktiviere dein Internet und lade die App neu.",
+              type: "network",
+            };
+            this.openDialog(dialogContent);
+            return;
+          }
 
           const response = await fetch(
             `https://openmensa.org/api/v2/canteens/${canteen.id}/days/${dateApiRequest}/meals`
@@ -132,6 +156,20 @@ export default {
       }
       set("locationAllCanteens", JSON.parse(JSON.stringify(canteens)));
     },
+    openDialog(dialogContent) {
+      this.dialogErrorMessage = dialogContent.message;
+      this.dialogErrorType = dialogContent.type;
+      this.dialogIsVisible = true;
+    },
+    closeDialog() {
+      this.dialogErrorMessage = "";
+      this.dialogErrorType = "";
+      this.dialogIsVisible = false;
+    },
+    reload(){
+      this.fetchData();
+      this.dialogIsVisible = false;
+    }
   },
   created() {
     this.fetchData();
@@ -143,3 +181,39 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.button-load {
+  border: 1px solid #a1a1a180;
+  background-color: #a1a1a180;
+  color: white;
+}
+
+.button-next {
+  border: 1px solid rgba(255, 0, 0, 0.25);
+  background-color: rgba(255, 0, 0, 0.25);
+  color: white;
+}
+
+button {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
+  padding: 0.5rem 2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-left: 2.5rem;
+  margin-right: 0.5rem;
+}
+
+.button-load:hover{
+  background-color: #a1a1a1b0;
+  border-color: #a1a1a1b0;
+}
+
+.button-next:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+  border-color: rgba(255, 0, 0, 0.5);
+}
+</style>

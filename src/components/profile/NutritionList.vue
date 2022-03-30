@@ -130,14 +130,12 @@ button {
   margin-right: 0.5rem;
 }
 
-.button-cancel:hover,
-.button-cancel:active {
+.button-cancel:hover{
   background-color: #a1a1a1;
   border-color: #a1a1a1;
 }
 
-.button-confirm:hover,
-.button-confirm:active {
+.button-confirm:hover{
   background-color: rgba(255, 0, 0, 0.75);
   border-color: rgba(255, 0, 0, 0.75);
 }
