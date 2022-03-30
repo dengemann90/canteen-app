@@ -56,9 +56,9 @@ export default {
       let dateApiRequest = format(Date.now(), "yyyy-MM-dd");
       let dateIndexedDB = Date.now();
       let dishesPlan = [];
-      let online = window.navigator.onLine;
 
         for (let i = 0; i <= 7; i++) {
+          let online = window.navigator.onLine;
           let dishes = [];
 
       if (!online) {
