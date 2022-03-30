@@ -34,44 +34,49 @@ export default {
 
       const canteen = await get("selectedCanteen");
       if (canteen != null) {
-        for (let i = 0; i <= 2; i++) {
+        for (let i = 0; i <= 7; i++) {
           let dishes = [];
 
           const response = await fetch(
             `https://openmensa.org/api/v2/canteens/${canteen.id}/days/${dateApiRequest}/meals`
-          );
-          const responseData = await response.json();
+          ).catch((error) => {
+            console.log(error);
+          });
+          const responseData = await response.json().catch((error) => {
+            console.log(error);
+          });
 
-          if (!response.ok) {
-            const error = new Error(
-              responseData.message || "failed to fetch request!"
-            );
-            throw error;
-          }
-          console.log("fetch Gerichte openmensa api successful!");
+          if (response.ok) {
+            console.log("fetch Gerichte openmensa api successful!");
 
-          for (const key in responseData) {
-            const dish = {
-              id: responseData[key].name,
-              category: responseData[key].category,
-              prices: responseData[key].prices,
-              notes: responseData[key].notes,
+            for (const key in responseData) {
+              const dish = {
+                id: responseData[key].name,
+                category: responseData[key].category,
+                prices: responseData[key].prices,
+                notes: responseData[key].notes,
+              };
+              dishes.push(dish);
+            }
+
+            let dishesPerDay = {
+              date: format(dateIndexedDB, "d.M.yyyy"),
+              dishes: dishes,
             };
-            dishes.push(dish);
+
+            if (dishesPerDay.dishes.length > 0) {
+              dishesPlan.push(dishesPerDay);
+            }
+
+            dateApiRequest = format(addDays(Date.now(), i + 1), "yyyy-MM-dd");
+            dateIndexedDB = addDays(dateIndexedDB, 1);
+          
+          } else{
+            dateApiRequest = format(addDays(Date.now(), i + 1), "yyyy-MM-dd");
+            dateIndexedDB = addDays(dateIndexedDB, 1);
           }
-
-          let dishesPerDay = {
-            date: format(dateIndexedDB, "d.M.yyyy"),
-            dishes: dishes,
-          };
-
-          if (dishesPerDay.dishes.length > 0) {
-            dishesPlan.push(dishesPerDay);
-          }
-
-          dateApiRequest = format(addDays(Date.now(), i + 1), "yyyy-MM-dd");
-          dateIndexedDB = addDays(dateIndexedDB, 1);
         }
+
         console.log(dishesPlan);
         set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
       }

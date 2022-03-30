@@ -4,8 +4,11 @@
     <p>Daten werden geladen...</p>
   </base-dialog>
   <base-dialog v-if="fetchFailed" :open="fetchFailed">
-    <p><i class="fas solid fa-server error"></i>Die Daten konnten vom Server nicht geladen werden.</p>
-    <p>{{errorCode}}</p>
+    <p>
+      <i class="fas solid fa-server error"></i>Die Daten konnten vom Server
+      nicht geladen werden.
+    </p>
+    <p>{{ errorCode }}</p>
     <button class="button-ok" @click="confirmFailedFetch">ok</button>
   </base-dialog>
 
@@ -39,7 +42,7 @@ export default {
       selectedCanteen: "",
       isLoading: false,
       fetchFailed: false,
-      errorCode: ""
+      errorCode: "",
     };
   },
   methods: {
@@ -50,67 +53,77 @@ export default {
       let dateIndexedDB = Date.now();
       let dishesPlan = [];
 
-      for (let i = 0; i <= 2; i++) {
+      for (let i = 0; i <= 7; i++) {
         let dishes = [];
         console.log("canteen id fetch ", canteen.id);
         const response = await fetch(
           `https://openmensa.org/api/v2/canteens/${canteen.id}/days/${dateApiRequest}/meals`
         ).catch(() => {
-          this.isLoading = false;
-          this.fetchFailed = true;
+          // this.isLoading = false;
+          // this.fetchFailed = true;
         });
 
         const responseData = await response.json().catch(() => {
-          this.isLoading = false;
-          this.fetchFailed = true;
+          // this.isLoading = false;
+          // this.fetchFailed = true;
           this.errorCode = response.status + " - " + status(response.status);
           console.log(
             "error: " + response.status + " - " + status(response.status)
           );
         });
 
-        if (!response.ok) {
-          this.fetchFailed = true;
-          this.errorCode = response.status + " - " + status(response.status);
-          const error = new Error("failed to fetch request! " + response.status + " - " + status(response.status));
-          throw error;
-        }
+        // if (!response.ok) {
+        //   this.fetchFailed = true;
+        //   this.errorCode = response.status + " - " + status(response.status);
+        //   const error = new Error("failed to fetch request! " + response.status + " - " + status(response.status));
+        //   throw error;
+        // }
 
-        for (const key in responseData) {
-          const dish = {
-            id: responseData[key].name,
-            category: responseData[key].category,
-            prices: responseData[key].prices,
-            notes: responseData[key].notes,
+        if (response.ok) {
+          for (const key in responseData) {
+            const dish = {
+              id: responseData[key].name,
+              category: responseData[key].category,
+              prices: responseData[key].prices,
+              notes: responseData[key].notes,
+            };
+            dishes.push(dish);
+          }
+
+          let dishesPerDay = {
+            date: format(dateIndexedDB, "d.M.yyyy"),
+            dishes: dishes,
           };
-          dishes.push(dish);
+
+          if (dishesPerDay.dishes.length > 0) {
+            dishesPlan.push(dishesPerDay);
+          }
+
+          dateApiRequest = format(addDays(Date.now(), i + 1), "yyyy-MM-dd");
+          dateIndexedDB = addDays(dateIndexedDB, 1);
+        } else {
+          dateApiRequest = format(addDays(Date.now(), i + 1), "yyyy-MM-dd");
+          dateIndexedDB = addDays(dateIndexedDB, 1);
         }
-
-        let dishesPerDay = {
-          date: format(dateIndexedDB, "d.M.yyyy"),
-          dishes: dishes,
-        };
-
-        if (dishesPerDay.dishes.length > 0) {
-          dishesPlan.push(dishesPerDay);
-        }
-
-        dateApiRequest = format(addDays(Date.now(), i + 1), "yyyy-MM-dd");
-        dateIndexedDB = addDays(dateIndexedDB, 1);
       }
-      console.log("Gerichte geladen: ", dishesPlan);
-      set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
-      this.setSelectedCanteen(canteen);
-      this.selectedCanteen = canteen;
-      this.isLoading = false;
+      if (dishesPlan.length > 0) {
+        console.log("Gerichte geladen: ", dishesPlan);
+        set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
+        this.setSelectedCanteen(canteen);
+        this.selectedCanteen = canteen;
+        this.isLoading = false;
+      } else {
+        this.isLoading = false;
+        this.fetchFailed = true;
+      }
     },
     setSelectedCanteen(canteen) {
       set("selectedCanteen", JSON.parse(JSON.stringify(canteen)));
     },
-    confirmFailedFetch(){
+    confirmFailedFetch() {
       this.fetchFailed = false;
       this.errorCode = "";
-    }
+    },
   },
   created() {
     get("selectedCanteen").then((data) => {
@@ -171,5 +184,4 @@ button {
   background-color: #a1a1a1;
   border-color: #a1a1a1;
 }
-
 </style>
