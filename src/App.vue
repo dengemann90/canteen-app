@@ -28,22 +28,37 @@ export default {
   },
   methods: {
     async fetchData() {
+      var status = require("statuses");
       let dateApiRequest = format(Date.now(), "yyyy-MM-dd");
       let dateIndexedDB = Date.now();
+      let today = format(Date.now(), "dd-MM-yyyy");
       let dishesPlan = [];
 
       const canteen = await get("selectedCanteen");
-      if (canteen != null) {
+      const lastUpdate = await get("dishesUpdated");
+      if (canteen != null && lastUpdate != today) {
         for (let i = 0; i <= 7; i++) {
           let dishes = [];
 
           const response = await fetch(
             `https://openmensa.org/api/v2/canteens/${canteen.id}/days/${dateApiRequest}/meals`
-          ).catch((error) => {
-            console.log(error);
+          ).catch(() => {
+            console.log(
+              `error ${response.status} - ${status(
+                response.status
+              )} : Data for the canteen with the Id ${
+                canteen.id
+              } for the day ${dateApiRequest} could not be loaded from open mensa api!`
+            );
           });
-          const responseData = await response.json().catch((error) => {
-            console.log(error);
+          const responseData = await response.json().catch(() => {
+            console.log(
+              `error ${response.status} - ${status(
+                response.status
+              )} : Data for the canteen with the Id ${
+                canteen.id
+              } for the day ${dateApiRequest} could not be loaded from open mensa api!`
+            );
           });
 
           if (response.ok) {
@@ -70,15 +85,16 @@ export default {
 
             dateApiRequest = format(addDays(Date.now(), i + 1), "yyyy-MM-dd");
             dateIndexedDB = addDays(dateIndexedDB, 1);
-          
-          } else{
+          } else {
             dateApiRequest = format(addDays(Date.now(), i + 1), "yyyy-MM-dd");
             dateIndexedDB = addDays(dateIndexedDB, 1);
           }
         }
 
         console.log(dishesPlan);
-        set("dishes", JSON.parse(JSON.stringify(dishesPlan)));
+        set("dishes", JSON.parse(JSON.stringify(dishesPlan))).then(() => {
+          set("dishesUpdated", JSON.parse(JSON.stringify(today)));
+        });
       }
     },
     getCanteens() {
