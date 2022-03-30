@@ -128,9 +128,9 @@ li h1 {
   margin: 0.5rem 0;
 }
 
-.fas.fa-heart:hover {
+/* .fas.fa-heart:hover {
   color: red;
-}
+} */
 .fas.fa-heart {
   color: rgba(248, 191, 191, 0.596);
 }

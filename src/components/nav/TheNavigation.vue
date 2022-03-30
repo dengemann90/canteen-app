@@ -59,6 +59,7 @@ nav a {
   padding-left: 20px;
   padding-right: 20px;
   color: rgba(0, 0, 0, 0.7);
+  cursor: none;
 }
 
 a:hover,
