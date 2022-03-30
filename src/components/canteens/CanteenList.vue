@@ -3,14 +3,16 @@
     <base-spinner></base-spinner>
     <p>Daten werden geladen...</p>
   </base-dialog>
-  <base-dialog v-if="fetchFailed" :open="fetchFailed">
-    <p>
-      <i class="fas solid fa-server error"></i>Die Daten konnten vom Server
-      nicht geladen werden.
-    </p>
-    <p>{{ errorCode }}</p>
-    <button class="button-ok" @click="confirmFailedFetch">ok</button>
-  </base-dialog>
+
+  <base-error-dialog
+    v-if="dialogIsVisible"
+    @close="closeDialog"
+    :open="dialogIsVisible"
+    :type="this.dialogErrorType"
+    :message="this.dialogErrorMessage"
+  >
+    <button class="button-ok" @click="closeDialog">ok</button>
+  </base-error-dialog>
 
   <div class="canteen-list">
     <p class="activeCanteen">Aktiv: {{ selectedCanteen.name }}</p>
@@ -41,8 +43,9 @@ export default {
     return {
       selectedCanteen: "",
       isLoading: false,
-      fetchFailed: false,
-      errorCode: "",
+      dialogIsVisible: false,
+      dialogErrorMessage: "",
+      dialogErrorType: "",
     };
   },
   methods: {
@@ -52,32 +55,30 @@ export default {
       let dateApiRequest = format(Date.now(), "yyyy-MM-dd");
       let dateIndexedDB = Date.now();
       let dishesPlan = [];
+      let online = window.navigator.onLine;
+
+      if (!online) {
+        this.isLoading = false;
+        const dialogContent = {
+          message:
+            "Du bist offline. Gehe online, um neue Daten laden zu können.",
+          type: "network",
+        };
+        this.openDialog(dialogContent);
+        return;
+      }
 
       for (let i = 0; i <= 7; i++) {
         let dishes = [];
-        console.log("canteen id fetch ", canteen.id);
         const response = await fetch(
           `https://openmensa.org/api/v2/canteens/${canteen.id}/days/${dateApiRequest}/meals`
         ).catch(() => {
-          // this.isLoading = false;
-          // this.fetchFailed = true;
+          console.log(`error ${response.status} - ${status(response.status)} : Data for the canteen with the Id ${canteen.id} for the day ${dateApiRequest} could not be loaded from open mensa api!`);
         });
 
         const responseData = await response.json().catch(() => {
-          // this.isLoading = false;
-          // this.fetchFailed = true;
-          this.errorCode = response.status + " - " + status(response.status);
-          console.log(
-            "error: " + response.status + " - " + status(response.status)
-          );
+          console.log(`error ${response.status} - ${status(response.status)} : Data for the canteen with the Id ${canteen.id} for the day ${dateApiRequest} could not be loaded from open mensa api!`);
         });
-
-        // if (!response.ok) {
-        //   this.fetchFailed = true;
-        //   this.errorCode = response.status + " - " + status(response.status);
-        //   const error = new Error("failed to fetch request! " + response.status + " - " + status(response.status));
-        //   throw error;
-        // }
 
         if (response.ok) {
           for (const key in responseData) {
@@ -114,15 +115,26 @@ export default {
         this.isLoading = false;
       } else {
         this.isLoading = false;
-        this.fetchFailed = true;
+        const dialogContent = {
+          message:
+            "Für die ausgewählte Mensa gibt es keine aktuellen Daten.",
+          type: "server",
+        };
+        this.openDialog(dialogContent);
       }
     },
     setSelectedCanteen(canteen) {
       set("selectedCanteen", JSON.parse(JSON.stringify(canteen)));
     },
-    confirmFailedFetch() {
-      this.fetchFailed = false;
-      this.errorCode = "";
+    openDialog(dialogContent) {
+      this.dialogErrorMessage = dialogContent.message;
+      this.dialogErrorType = dialogContent.type;
+      this.dialogIsVisible = true;
+    },
+    closeDialog() {
+      this.dialogErrorMessage = "";
+      this.dialogErrorType = "";
+      this.dialogIsVisible = false;
     },
   },
   created() {

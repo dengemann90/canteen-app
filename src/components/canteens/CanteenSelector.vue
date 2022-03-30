@@ -1,16 +1,13 @@
 <template>
-  <base-dialog
+<base-error-dialog
     v-if="dialogIsVisible"
     @close="closeDialog"
     :open="dialogIsVisible"
-  >
-    <p>
-      <i :class="iconDialog"></i>
-      {{ dialogErrorMessage }}
-    </p>
+    :type= this.dialogErrorType
+    :message = this.dialogErrorMessage
+    >
     <button class="button-ok" @click="closeDialog">ok</button>
-  </base-dialog>
-
+</base-error-dialog>
   <div class="input-city-field">
     <input
       class="input-city"
@@ -97,19 +94,7 @@ export default {
         return { "disabled-input": true };
       }
       return null;
-    },
-    iconDialog() {
-      if (this.dialogErrorType == "gps") {
-        return "fas solid fa-compass error";
-      }
-      if (this.dialogErrorType == "network") {
-        return "fas solid fa-signal error";
-      }
-      if (this.dialogErrorType == "server") {
-        return "fas solid fa-server error";
-      }
-      return null;
-    },
+    }
   },
   watch: {
     selectedCity() {
@@ -186,12 +171,11 @@ export default {
       console.log("input valid:", inputValid && rangeValid);
       return inputValid && rangeValid;
     },
-    userOnline() {
-      console.log("user online: ", window.navigator.onLine);
-      return window.navigator.onLine;
-    },
     getGeoLocation() {
-      if (this.userOnline() == false) {
+
+      let userOnline = window.navigator.onLine;
+
+      if (!userOnline) {
         const dialogContent = {
           message: "Du bist offline! Gehe online, um diese Funktion zu nutzen.",
           type: "network",
@@ -305,9 +289,9 @@ export default {
       this.errorMessage = null;
     },
     openDialog(dialogContent) {
-      this.dialogIsVisible = true;
       this.dialogErrorMessage = dialogContent.message;
       this.dialogErrorType = dialogContent.type;
+      this.dialogIsVisible = true;
     },
     closeDialog() {
       this.selectedRadius = "";
@@ -388,12 +372,6 @@ export default {
 
 .fas.solid.fa-compass:active {
   color: rgba(0, 0, 0, 0.5);
-}
-.fas.solid.fa-compass.error,
-.fas.solid.fa-signal.error,
-.fas.solid.fa-server.error {
-  margin-left: 0.25rem;
-  color: rgba(255, 0, 0, 0.2);
 }
 
 input:focus {
