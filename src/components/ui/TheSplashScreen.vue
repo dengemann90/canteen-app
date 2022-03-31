@@ -10,8 +10,14 @@
 </template>
 
 <style scoped>
+
+.container{
+    display: flex;
+    align-items: center;
+}
 .logo-start-img {
   vertical-align: middle;
   width: 100%;
 }
+
 </style>
