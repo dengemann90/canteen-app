@@ -1,4 +1,5 @@
 /* eslint-disable */
+// https://developer.chrome.com/docs/
 
 workbox.routing.registerRoute(
    /\.(?:css|js)$/,
@@ -8,12 +9,11 @@ workbox.routing.registerRoute(
 )
 
 workbox.routing.registerRoute(
-    /\.(?:png|jpg|jpeg|svg|gif)$/,
+    /\.(?:png|jpg|jpeg|svg)$/,
     new workbox.strategies.CacheFirst({
         "cacheName":"images",
         plugins: [
           new workbox.expiration.Plugin({
-              maxEntries: 60,
               maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
           })
      ]
@@ -29,7 +29,7 @@ workbox.routing.registerRoute(
  workbox.routing.registerRoute(
     ({ url }) => url.host.startsWith('fonts.g'),
     new workbox.strategies.CacheFirst({
-        "cacheName":"fonts",
+        "cacheName":"google fonts",
         plugins: [
             new workbox.expiration.Plugin({
               maxEntries: 30,
@@ -40,13 +40,6 @@ workbox.routing.registerRoute(
           ],
     })
  )
-
-
-
-self.addEventListener('install', (event) => {
-    console.log(event);
-    console.log("Installing ....................");
-  });
 
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
