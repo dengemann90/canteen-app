@@ -1,21 +1,32 @@
 <template>
   <base-error-dialog
-    v-if="dialogIsVisible"
-    :open="dialogIsVisible"
+    v-if="errorDialogIsVisible"
+    :open="errorDialogIsVisible"
     :type="this.dialogErrorType"
     :message="this.dialogErrorMessage"
   >
     <button class="button-load" @click="reload">laden</button>
     <button class="button-next" @click="closeDialog">weiter</button>
   </base-error-dialog>
+  <base-error-dialog
+    v-if="slowConnectionDialogIsVisible"
+    :open="slowConnectionDialogIsVisible"
+    :type="this.dialogErrorType"
+    :message="this.dialogErrorMessage"
+    @close="closeDialog"
+  >
+  </base-error-dialog>
+
+  <the-splash-screen v-if="!readyToLaunch"></the-splash-screen>
   <main>
-    <router-view></router-view>
+    <router-view v-if="readyToLaunch"></router-view>
   </main>
-  <the-navigation></the-navigation>
+  <the-navigation v-if="readyToLaunch"></the-navigation>
 </template>
 
 <script>
 import TheNavigation from "./components/nav/TheNavigation.vue";
+import TheSplashScreen from "./components/ui/TheSplashScreen.vue";
 import { set, get } from "idb-keyval";
 import addDays from "date-fns/addDays";
 import format from "date-fns/format";
@@ -24,13 +35,16 @@ import "./assets/styles_app.css";
 export default {
   components: {
     TheNavigation,
+    TheSplashScreen,
   },
   data() {
     return {
       apiDataCanteens: [],
-      dialogIsVisible: true,
-      dialogErrorMessage: "Du bist offline! Klicke weiter, um die App mit vorhandenen offline-Daten zu nutzen oder aktiviere dein Internet und lade die App neu.",
-      dialogErrorType: "network",
+      errorDialogIsVisible: false,
+      slowConnectionDialogIsVisible: false,
+      dialogErrorMessage: "",
+      dialogErrorType: "",
+      readyToLaunch: false,
     };
   },
   watch: {
@@ -44,23 +58,44 @@ export default {
       let dateApiRequest = format(Date.now(), "yyyy-MM-dd");
       let dateIndexedDB = Date.now();
       let today = format(Date.now(), "dd-MM-yyyy");
+      let timerStart = Date.now();
       let dishesPlan = [];
 
       const canteen = await get("selectedCanteen");
       const lastUpdate = await get("dishesUpdated");
       if (canteen != null && lastUpdate != today) {
+        setTimeout(() => {
+          if (!this.readyToLaunch) {
+            const dialog = {
+              type: "slow",
+              message: {
+                text: "Dein Internet ist langsam! Daten werden im Hintergrund bei geöffneter App geladen und werden zu einem späteren Zeitpunkt angezeigt.",
+                type: "network",
+              },
+            };
+            this.openDialog(dialog);
+          }
+        }, 5000);
+
+        setTimeout(() => {
+          if (!this.readyToLaunch) {
+            this.closeDialog();
+          }
+        }, 8000);
+
         for (let i = 0; i <= 7; i++) {
           let online = window.navigator.onLine;
           let dishes = [];
 
           if (!online) {
-            this.isLoading = false;
-            const dialogContent = {
-              message:
-                "Du bist offline. Klicke weiter, um die App offline zu nutzen oder aktiviere dein Internet und lade die App neu.",
-              type: "network",
+            const dialog = {
+              type: "offline",
+              message: {
+                text: "Du bist offline! Klicke weiter, um die App mit vorhandenen offline-Daten zu nutzen oder aktiviere dein Internet und lade die App neu.",
+                type: "network",
+              },
             };
-            this.openDialog(dialogContent);
+            this.openDialog(dialog);
             return;
           }
 
@@ -119,6 +154,24 @@ export default {
         set("dishes", JSON.parse(JSON.stringify(dishesPlan))).then(() => {
           set("dishesUpdated", JSON.parse(JSON.stringify(today)));
         });
+        let timerEnd = Date.now();
+        let timeRetrieveData = timerEnd - timerStart;
+        console.log("fetching time: ", timeRetrieveData);
+        if (timeRetrieveData < 1000) {
+          setTimeout(() => {
+            this.readyToLaunch = true;
+            console.log("timer1 verzögert");
+          }, 1000 - timeRetrieveData);
+        }
+        // else{
+        //   this.readyToLaunch = true;
+        //   console.log('timer1 nicht verzögert')
+        // }
+      } else {
+        setTimeout(() => {
+          console.log("timer2");
+          this.readyToLaunch = true;
+        }, 1000);
       }
     },
     getCanteens() {
@@ -156,20 +209,32 @@ export default {
       }
       set("locationAllCanteens", JSON.parse(JSON.stringify(canteens)));
     },
-    openDialog(dialogContent) {
-      this.dialogErrorMessage = dialogContent.message;
-      this.dialogErrorType = dialogContent.type;
-      this.dialogIsVisible = true;
+    openDialog(dialog) {
+      console.log("dialog - message:", dialog);
+      this.dialogErrorMessage = dialog.message.text;
+      this.dialogErrorType = dialog.message.type;
+
+      if (dialog.type == "slow") {
+        this.slowConnectionDialogIsVisible = true;
+      }
+      if (dialog.type == "offline") {
+        this.errorDialogIsVisible = true;
+      }
     },
     closeDialog() {
       this.dialogErrorMessage = "";
       this.dialogErrorType = "";
-      this.dialogIsVisible = false;
+      if (this.errorDialogIsVisible) {
+        this.errorDialogIsVisible = false;
+      } else {
+        this.slowConnectionDialogIsVisible = false;
+      }
+      this.readyToLaunch = true;
     },
-    reload(){
+    reload() {
       this.fetchData();
-      this.dialogIsVisible = false;
-    }
+      this.errorDialogIsVisible = false;
+    },
   },
   created() {
     this.fetchData();
@@ -183,7 +248,6 @@ export default {
 </script>
 
 <style scoped>
-
 .button-load {
   border: 1px solid #a1a1a180;
   background-color: #a1a1a180;
@@ -207,7 +271,7 @@ button {
   margin-right: 0.5rem;
 }
 
-.button-load:hover{
+.button-load:hover {
   background-color: #a1a1a1b0;
   border-color: #a1a1a1b0;
 }
