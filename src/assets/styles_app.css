@@ -67,6 +67,8 @@ p.capital {
 
 .content {
     padding: 16px;
+    align-items: center;
+    display: inline-block;
 }
 
 .appframe {
