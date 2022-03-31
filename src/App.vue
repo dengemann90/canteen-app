@@ -60,12 +60,12 @@ export default {
       let today = format(Date.now(), "dd-MM-yyyy");
       let timerStart = Date.now();
       let dishesPlan = [];
-      let userOnline = window.navigator.onLine;
+      let userOnline = await this.isOnline();
 
+      console.log('userOnine new:' , userOnline);
       const canteen = await get("selectedCanteen");
       const lastUpdate = await get("dishesUpdated");
       if (canteen != null && lastUpdate != today) {
-        userOnline = 
         setTimeout(() => {
           if (!this.readyToLaunch && userOnline) {
             const dialog = {
@@ -86,7 +86,6 @@ export default {
         }, 9000);
 
         for (let i = 0; i <= 7; i++) {
-          userOnline = window.navigator.onLine;
           let dishes = [];
 
           if (!userOnline) {
@@ -165,10 +164,6 @@ export default {
             console.log("timer1 verzögert");
           }, 1000 - timeRetrieveData);
         }
-        // else{
-        //   this.readyToLaunch = true;
-        //   console.log('timer1 nicht verzögert')
-        // }
       } else {
         setTimeout(() => {
           console.log("timer2");
@@ -237,6 +232,27 @@ export default {
       this.fetchData();
       this.errorDialogIsVisible = false;
     },
+    async isOnline () {
+  //https://dev.to/maxmonteil/is-your-app-online-here-s-how-to-reliably-know-in-just-10-lines-of-js-guide-3in7
+  if (!window.navigator.onLine) return false
+
+  // avoid CORS errors with a request to your own origin
+  const url = new URL(window.location.origin)
+
+  // value to prevent cached responses
+  url.searchParams.set('rand', Date.now())
+
+  try {
+    const response = await fetch(
+      url.toString(),
+      { method: 'HEAD' },
+    )
+
+    return response.ok
+  } catch {
+    return false
+  }
+}
   },
   created() {
     this.fetchData();
