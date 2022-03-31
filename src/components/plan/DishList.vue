@@ -89,7 +89,8 @@ export default {
       }
       if (this.selectedNutrition == "Vegan") {
         for (let dish of unfilteredDishes) {
-          if (dish.notes[1] == "vegetarisch" || dish.notes[1] == "vegan") {
+         // if (dish.notes[1] == "vegetarisch" || dish.notes[1] == "vegan") {
+            if (dish.notes[1] == "vegan") {
             if (!this.excludedIngredientFound(dish)) {
               filteredDishes.push(dish);
             }
