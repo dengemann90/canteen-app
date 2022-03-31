@@ -45,7 +45,7 @@ export default {
       isLoading: false,
       dialogIsVisible: false,
       dialogErrorMessage: "",
-      dialogErrorType: ""
+      dialogErrorType: "",
     };
   },
   methods: {
@@ -56,29 +56,41 @@ export default {
       let dateIndexedDB = Date.now();
       let dishesPlan = [];
 
-        for (let i = 0; i <= 7; i++) {
-          let userOnline = window.navigator.onLine;
-          let dishes = [];
+      for (let i = 0; i <= 7; i++) {
+        let userOnline = window.navigator.onLine;
+        let dishes = [];
 
-      if (!userOnline) {
-        this.isLoading = false;
-        const dialogContent = {
-          message:
-            "Du bist offline. Gehe online, um neue Daten laden zu können.",
-          type: "network",
-        };
-        this.openDialog(dialogContent);
-        return;
-      }
+        if (!userOnline) {
+          this.isLoading = false;
+          const dialogContent = {
+            message:
+              "Du bist offline. Gehe online, um neue Daten laden zu können.",
+            type: "network",
+          };
+          this.openDialog(dialogContent);
+          return;
+        }
 
         const response = await fetch(
           `https://openmensa.org/api/v2/canteens/${canteen.id}/days/${dateApiRequest}/meals`
         ).catch(() => {
-          console.log(`error ${response.status} - ${status(response.status)} : Data for the canteen with the Id ${canteen.id} for the day ${dateApiRequest} could not be loaded from open mensa api!`);
+          console.log(
+            `error ${response.status} - ${status(
+              response.status
+            )} : Data for the canteen with the Id ${
+              canteen.id
+            } for the day ${dateApiRequest} could not be loaded from open mensa api!`
+          );
         });
 
         const responseData = await response.json().catch(() => {
-          console.log(`error ${response.status} - ${status(response.status)} : Data for the canteen with the Id ${canteen.id} for the day ${dateApiRequest} could not be loaded from open mensa api!`);
+          console.log(
+            `error ${response.status} - ${status(
+              response.status
+            )} : Data for the canteen with the Id ${
+              canteen.id
+            } for the day ${dateApiRequest} could not be loaded from open mensa api!`
+          );
         });
 
         if (response.ok) {
@@ -117,8 +129,7 @@ export default {
       } else {
         this.isLoading = false;
         const dialogContent = {
-          message:
-            "Für die ausgewählte Mensa gibt es keine aktuellen Daten.",
+          message: "Für die ausgewählte Mensa gibt es keine aktuellen Daten.",
           type: "server",
         };
         this.openDialog(dialogContent);
@@ -126,9 +137,9 @@ export default {
     },
     setSelectedCanteen(canteen) {
       let today = format(Date.now(), "dd-MM-yyyy");
-      set("selectedCanteen", JSON.parse(JSON.stringify(canteen))).then(() =>{
+      set("selectedCanteen", JSON.parse(JSON.stringify(canteen))).then(() => {
         set("dishesUpdated", JSON.parse(JSON.stringify(today)));
-      })
+      });
     },
     openDialog(dialogContent) {
       this.dialogErrorMessage = dialogContent.message;

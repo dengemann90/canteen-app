@@ -140,7 +140,6 @@ export default {
     },
   },
   created() {
-    // load selectedNutrition from indexedDB
     get("selectedNutrition").then((data) => {
       if (data != null) {
         this.selectedNutrition = data;
@@ -152,7 +151,6 @@ export default {
       }
     });
 
-    // load excludedAllergensAdditives from indexedDB
     get("excludedAllergensAdditives").then((data) => {
       if (data != null) {
         this.ingredientsExcluded = data;

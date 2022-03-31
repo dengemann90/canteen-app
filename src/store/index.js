@@ -12,7 +12,7 @@ const store = createStore({
     };
   },
   mutations: {
-    setUserTypeDB(state, payload){
+    setUserTypeDB(state, payload) {
       set("userType", JSON.parse(JSON.stringify(payload)))
         .then(() => {
           state.userType = payload;
@@ -23,7 +23,7 @@ const store = createStore({
         })
         .catch(console.warn);
     },
-    setUserTypeState(state, payload){
+    setUserTypeState(state, payload) {
       state.userType = payload;
     },
 
@@ -72,19 +72,19 @@ const store = createStore({
     }
   },
   actions: {
-    loadUserType(context){
+    loadUserType(context) {
       get("userType").then((data) => {
-        if(data ==null){
+        if (data == null) {
           //students as default value
           context.commit('setUserTypeDB', 'students');
           console.log("No user Type entry in indexedDB")
-        } else{
+        } else {
           context.commit('setUserTypeState', data);
           console.log("User type loaded from indexedDB into vuex store");
         }
       })
     },
-    updateUserType(context, payload){
+    updateUserType(context, payload) {
       context.commit('setUserTypeDB', payload)
     },
     loadFavorites(context) {

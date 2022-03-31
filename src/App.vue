@@ -62,7 +62,7 @@ export default {
       let dishesPlan = [];
       let userOnline = await this.isOnline();
 
-      console.log('userOnine new:' , userOnline);
+      console.log("userOnine new:", userOnline);
       const canteen = await get("selectedCanteen");
       const lastUpdate = await get("dishesUpdated");
       if (canteen != null && lastUpdate != today) {
@@ -178,7 +178,7 @@ export default {
         }
       });
     },
-    // json locals
+
     async fetchLocationCanteens() {
       try {
         const responseFetch = await fetch(
@@ -232,27 +232,24 @@ export default {
       this.fetchData();
       this.errorDialogIsVisible = false;
     },
-    async isOnline () {
-  //https://dev.to/maxmonteil/is-your-app-online-here-s-how-to-reliably-know-in-just-10-lines-of-js-guide-3in7
-  if (!window.navigator.onLine) return false
+    async isOnline() {
+      //https://dev.to/maxmonteil/is-your-app-online-here-s-how-to-reliably-know-in-just-10-lines-of-js-guide-3in7
+      if (!window.navigator.onLine) return false;
 
-  // avoid CORS errors with a request to your own origin
-  const url = new URL(window.location.origin)
+      // avoid CORS errors with a request to your own origin
+      const url = new URL(window.location.origin);
 
-  // value to prevent cached responses
-  url.searchParams.set('rand', Date.now())
+      // value to prevent cached responses
+      url.searchParams.set("rand", Date.now());
 
-  try {
-    const response = await fetch(
-      url.toString(),
-      { method: 'HEAD' },
-    )
+      try {
+        const response = await fetch(url.toString(), { method: "HEAD" });
 
-    return response.ok
-  } catch {
-    return false
-  }
-}
+        return response.ok;
+      } catch {
+        return false;
+      }
+    },
   },
   created() {
     this.fetchData();

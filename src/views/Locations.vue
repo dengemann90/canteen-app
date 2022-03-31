@@ -2,7 +2,10 @@
   <div class="main">
     <div class="appframe">
       <div class="capital">
-        Mensen-Auswahl<img class="logo-img" src="../assets/LogoTransparent.png" />
+        Mensen-Auswahl<img
+          class="logo-img"
+          src="../assets/LogoTransparent.png"
+        />
       </div>
       <div class="container">
         <div class="content">
@@ -38,7 +41,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/*  */
-</style>

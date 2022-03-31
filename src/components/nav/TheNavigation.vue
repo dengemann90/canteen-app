@@ -73,10 +73,6 @@ nav {
   position: fixed;
   bottom: 0;
   background-size: cover;
-  /*background-repeat: no-repeat;*/
-  /*background-color: #e1a100;*/
-  /*background-color: #ebeded;*/
-  /* background-color: #8aa969; */
   background-image: url("../../assets/background.png");
   width: 76%;
   margin-left: 10%;

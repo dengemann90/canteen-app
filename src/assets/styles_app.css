@@ -1,13 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;1,700&family=Space+Mono:wght@700&display=swap");
 
 .main {
-    /*background-image: url(/Project%202/images/main_background_II.jpg);*/
-    /*background-color: #ebeded;*/
-    /*background-color: #e1a100;*/
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    /*background-image: url('./images/nutrition.jpg');*/
     height: 100%;
 }
 
@@ -21,13 +17,10 @@ p.capital {
     margin-top: 0px;
     margin-bottom: 2px;
     padding-top: 10px;
-    /* margin: 0 auto; */
     display: flex;
     align-items: center;
     justify-content: center;
-    /* flex-wrap: wrap; */
     font-weight: bold;
-    /* font-size: 1.75rem; */
     background-color: rgba(255, 255, 255, 0.95);
     font-family: "Space Mono", monospace;
     font-weight: 700;
@@ -35,7 +28,6 @@ p.capital {
     position: fixed;
     max-width: 95%;
     top: 0px;
-    /* overflow: hidden; */
 }
 
 @media screen and (min-width: 501px) {
@@ -52,8 +44,6 @@ p.capital {
 
 .container {
     float: left;
-    /* overflow: hidden; */
-    /* background-color: #ddd; */
     margin-top: 8%;
 }
 
@@ -62,7 +52,6 @@ p.capital {
     vertical-align: middle;
     width: 7%;
     margin-left: 0.5%;
-    /* transform: rotate(90deg); */
 }
 
 .content {
@@ -82,12 +71,10 @@ p.capital {
     flex-wrap: wrap;
     justify-content: space-between;
     text-align: center;
-    /* align-items: center; */
     justify-content: center;
     margin: top 25px;
     min-height: 100vh;
     height: 100%;
-    /* background-color: #eee; */
 }
 
 .container_all {
@@ -98,10 +85,6 @@ p.capital {
     flex-wrap: wrap;
     justify-content: space-between;
 }
-
-/* .pagetop {
-    min-width: 2px;
-} */
 
 h1 {
     font-family: "Roboto", sans-serif;

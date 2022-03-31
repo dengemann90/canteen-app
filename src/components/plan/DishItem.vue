@@ -91,7 +91,6 @@ export default {
       let notesLength = this.dishItem.notes.length;
       let information = [];
       let startingIndex = 1;
-      //this.isVegetarienVegan ? 2 : 1; // vegetarisch/vegan wird nicht in die Liste aufgenommen
 
       for (const [i, v] of this.dishItem.notes.entries()) {
         if (i >= startingIndex && i < notesLength) {
@@ -116,7 +115,6 @@ export default {
 </script>
 
 <style scoped>
-
 li {
   margin: 1rem 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
@@ -128,9 +126,6 @@ li h1 {
   margin: 0.5rem 0;
 }
 
-/* .fas.fa-heart:hover {
-  color: red;
-} */
 .fas.fa-heart {
   color: rgba(248, 191, 191, 0.596);
 }

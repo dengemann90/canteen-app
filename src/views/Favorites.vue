@@ -6,7 +6,6 @@
       </div>
       <div class="container">
         <div class="container_all">
-          <!-- Hier content -->
           <favorite-dish-list></favorite-dish-list>
         </div>
       </div>
@@ -22,7 +21,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/*  */
-</style>

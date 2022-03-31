@@ -321,7 +321,6 @@ export default {
 .input-city {
   display: flex;
   margin-top: 2rem;
-  /* margin-left: 1rem; */
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1rem;
@@ -337,7 +336,6 @@ export default {
 }
 .input-radius {
   margin-top: 1rem;
-  /* margin-left: 1rem; */
   margin-right: 0.75rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;

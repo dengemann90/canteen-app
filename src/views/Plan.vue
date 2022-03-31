@@ -37,7 +37,6 @@
               <filter-active-card v-if="showFilterCard"></filter-active-card>
             </transition>
             <div class="container_all">
-              <!-- Hier content -->
               <dishes-list :date-Selected="dateSelected"></dishes-list>
             </div>
           </div>
@@ -96,17 +95,18 @@ export default {
         })
         .catch(console.warn);
     },
-    checkDishesAvailable(){
-      get("dishes")
-        .then((data) => {
-          if(data){
-          let dishesUpToDate = data.some(dish => dish.date.includes(Intl.DateTimeFormat().format(Date.now())))
-            if(dishesUpToDate){
-              this.dishesAvailable = true;
-            }
+    checkDishesAvailable() {
+      get("dishes").then((data) => {
+        if (data) {
+          let dishesUpToDate = data.some((dish) =>
+            dish.date.includes(Intl.DateTimeFormat().format(Date.now()))
+          );
+          if (dishesUpToDate) {
+            this.dishesAvailable = true;
           }
-    });
-  }
+        }
+      });
+    },
   },
   created() {
     this.getCanteenName();

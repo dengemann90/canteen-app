@@ -73,14 +73,12 @@ dialog {
 }
 
 @keyframes modal {
-  /* from -> to anstatt 0% -> 100% */
   from {
     opacity: 0;
     transform: translateY(-50px) scale(0.9);
   }
 
   to {
-    /* real state and position when animation is finished */
     opacity: 1;
     transform: translateY(0) scale(1);
   }

@@ -1,6 +1,6 @@
 <template>
   <div @click="updateCanteen">
-    <li :class="{active : highlightCanteen}">
+    <li :class="{ active: highlightCanteen }">
       <h1>
         {{ canteen.name }}
       </h1>
@@ -14,27 +14,25 @@
 <script>
 export default {
   props: ["canteen", "selectedCanteenId"],
-  emits:["update-selected-canteen"],
+  emits: ["update-selected-canteen"],
   data() {
-    return {
-
-    };
+    return {};
   },
-  computed:{
-      highlightCanteen(){
-          if(this.canteen.id == this.selectedCanteenId){
-              return true;
-          }
-            return false;
+  computed: {
+    highlightCanteen() {
+      if (this.canteen.id == this.selectedCanteenId) {
+        return true;
       }
+      return false;
+    },
   },
-  methods:{
-      updateCanteen(){
-          if(this.canteen.id != this.selectedCanteenId){
-              this.$emit("update-selected-canteen", this.canteen)
-          }
+  methods: {
+    updateCanteen() {
+      if (this.canteen.id != this.selectedCanteenId) {
+        this.$emit("update-selected-canteen", this.canteen);
       }
-  }
+    },
+  },
 };
 </script>
 

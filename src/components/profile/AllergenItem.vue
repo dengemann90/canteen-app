@@ -6,45 +6,58 @@
 
 <script>
 export default {
-  props: ['allergen', 'ingredientsExcluded', 'ingredientsDisabled', 'selectedNutrition'],
-  emits:['update-allergens', 'update-rejected'],
+  props: [
+    "allergen",
+    "ingredientsExcluded",
+    "ingredientsDisabled",
+    "selectedNutrition",
+  ],
+  emits: ["update-allergens", "update-rejected"],
   data() {
     return {};
   },
   computed: {
     mode() {
-        if(this.ingredientsExcluded.includes(this.allergen)){
-            return {avoid: true}
-        }
-        if(this.ingredientsDisabled.includes(this.allergen)){
-            return {disabled:true}
-        }
-        else return null
+      if (this.ingredientsExcluded.includes(this.allergen)) {
+        return { avoid: true };
+      }
+      if (this.ingredientsDisabled.includes(this.allergen)) {
+        return { disabled: true };
+      } else return null;
     },
   },
-  methods:{
-    changeDenied(){
-      if(this.selectedNutrition == "Omnivore"){
+  methods: {
+    changeDenied() {
+      if (this.selectedNutrition == "Omnivore") {
         return false;
       }
-      if (this.selectedNutrition == "Pescetarisch" || this.selectedNutrition == "Vegetarisch") {
+      if (
+        this.selectedNutrition == "Pescetarisch" ||
+        this.selectedNutrition == "Vegetarisch"
+      ) {
         let ingredientsRestricted = ["Krebstiere", "Weichtiere", "Fisch"];
         return ingredientsRestricted.includes(this.allergen);
       }
       if (this.selectedNutrition == "Vegan") {
-       let ingredientsRestricted = ["Krebstiere", "Weichtiere", "Fisch", "Eier", "Milch und Milchprodukte (inkl. Laktose)"];
-       return ingredientsRestricted.includes(this.allergen);
+        let ingredientsRestricted = [
+          "Krebstiere",
+          "Weichtiere",
+          "Fisch",
+          "Eier",
+          "Milch und Milchprodukte (inkl. Laktose)",
+        ];
+        return ingredientsRestricted.includes(this.allergen);
       }
     },
-    update(){
+    update() {
       let changeDenied = this.changeDenied();
-      if(changeDenied){
-        this.$emit('update-rejected');
-      } else{
-        this.$emit('update-allergens', this.allergen);
-     }
-    }
-  }
+      if (changeDenied) {
+        this.$emit("update-rejected");
+      } else {
+        this.$emit("update-allergens", this.allergen);
+      }
+    },
+  },
 };
 </script>
 
@@ -58,10 +71,10 @@ export default {
 
 .disabled {
   background: rgba(195, 195, 195, 0.25);
-  color: rgba(0, 0, 0, 0.50);
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .avoid {
-    background: rgba(224, 124, 124, 0.50);
+  background: rgba(224, 124, 124, 0.5);
 }
 </style>

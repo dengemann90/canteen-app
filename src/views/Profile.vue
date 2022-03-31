@@ -36,7 +36,6 @@
             v-if="activeLink === '/profile/allergens_additives'"
           ></allergens-additives-list>
         </div>
-        <!-- <button @click="activeLink">up</button> -->
       </div>
     </div>
   </div>
@@ -89,9 +88,6 @@ export default {
     },
   },
   methods: {
-    // scrollToTop() {
-    //   window.scrollTo(0, 0);
-    // },
     returnToProfileSettings() {
       this.$router.push("/profile");
     },
@@ -125,10 +121,6 @@ a {
   margin-left: 0.5rem;
   display: flex;
 }
-
-/* .fas.solid.fa-reply {
-  color: rgba(0, 0, 0, 0.15);
-} */
 
 li:hover {
   background-color: rgba(138, 169, 105, 0.2);

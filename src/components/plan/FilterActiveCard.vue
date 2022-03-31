@@ -1,13 +1,18 @@
 <template>
   <div class="filter-active-box">
     <div class="filter-active-card">
-    <p>
-      gewählte Ernährungsform: <b>{{ selectedNutrition }}</b>
-    </p>
-    <p>Gerichte mit folgende Zutaten/Inhaltsstoffe werden nicht angezeigt:</p>
-    <ul>
-      <base-tag v-for="item in excluded" :key="item" :tag="item" :color="'light-rose'"></base-tag>
-    </ul>
+      <p>
+        gewählte Ernährungsform: <b>{{ selectedNutrition }}</b>
+      </p>
+      <p>Gerichte mit folgende Zutaten/Inhaltsstoffe werden nicht angezeigt:</p>
+      <ul>
+        <base-tag
+          v-for="item in excluded"
+          :key="item"
+          :tag="item"
+          :color="'light-rose'"
+        ></base-tag>
+      </ul>
     </div>
   </div>
 </template>
@@ -21,13 +26,13 @@ export default {
   data() {
     return {
       selectedNutrition: "",
-      excluded: []
+      excluded: [],
     };
   },
-  created(){
+  created() {
     this.selectedNutrition = this.$store.getters.getSelectedNutrition;
     this.excluded = this.$store.getters.getExcludedAllergensAdditives;
-  }
+  },
 };
 </script>
 
@@ -39,10 +44,9 @@ export default {
   border: solid 1px rgba(138, 169, 105, 0.3);
 }
 
-.filter-active-card{
-  margin-left:1rem;
-  margin-right:1rem;
+.filter-active-card {
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
-
 </style>
 

@@ -1,5 +1,5 @@
 <template>
-<p v-if="favorites.length === 0">Bisher keine Favoriten gespeichert!</p>
+  <p v-if="favorites.length === 0">Bisher keine Favoriten gespeichert!</p>
   <ul v-else>
     <dish-item
       v-for="dish in favorites"
@@ -20,26 +20,24 @@ export default {
   },
   data() {
     return {
-      favorites: []
+      favorites: [],
     };
   },
   methods: {
     changeFavoriteStatus(item) {
-      this.$store.dispatch('updateFavorites', item);
+      this.$store.dispatch("updateFavorites", item);
       this.getFavorites();
-
     },
     getFavorites() {
       this.favorites = this.$store.getters.getFavorites;
     },
   },
   created() {
-      get("favorites")
-        .then((data) => {
-          if(data != null){
-            this.favorites = data;
-          }
-        })
+    get("favorites").then((data) => {
+      if (data != null) {
+        this.favorites = data;
+      }
+    });
   },
 };
 </script>

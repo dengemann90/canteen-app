@@ -1,26 +1,25 @@
 <template>
-<li class="li-additives" :class="mode" @click.stop="update">
-    <p>{{additive}}</p>
-</li>
+  <li class="li-additives" :class="mode" @click.stop="update">
+    <p>{{ additive }}</p>
+  </li>
 </template>
 
 <script>
 export default {
-    props:['additive','ingredientsExcluded'],
-      computed: {
+  props: ["additive", "ingredientsExcluded"],
+  computed: {
     mode() {
-        if(this.ingredientsExcluded.includes(this.additive)){
-            return {avoid: true}
-        }
-        else return null
+      if (this.ingredientsExcluded.includes(this.additive)) {
+        return { avoid: true };
+      } else return null;
     },
   },
-    methods:{
-      update(){
-      this.$emit('update-additives', this.additive);
-    }
-  }
-}
+  methods: {
+    update() {
+      this.$emit("update-additives", this.additive);
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -31,6 +30,6 @@ export default {
   padding: 0.25rem;
 }
 .avoid {
-    background: rgba(224, 124, 124, 0.50);
+  background: rgba(224, 124, 124, 0.5);
 }
 </style>
