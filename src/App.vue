@@ -60,12 +60,14 @@ export default {
       let today = format(Date.now(), "dd-MM-yyyy");
       let timerStart = Date.now();
       let dishesPlan = [];
+      let userOnline = window.navigator.onLine;
 
       const canteen = await get("selectedCanteen");
       const lastUpdate = await get("dishesUpdated");
       if (canteen != null && lastUpdate != today) {
+        userOnline = 
         setTimeout(() => {
-          if (!this.readyToLaunch) {
+          if (!this.readyToLaunch && userOnline) {
             const dialog = {
               type: "slow",
               message: {
@@ -78,16 +80,16 @@ export default {
         }, 5000);
 
         setTimeout(() => {
-          if (!this.readyToLaunch) {
+          if (!this.readyToLaunch && userOnline) {
             this.closeDialog();
           }
-        }, 8000);
+        }, 9000);
 
         for (let i = 0; i <= 7; i++) {
-          let online = window.navigator.onLine;
+          userOnline = window.navigator.onLine;
           let dishes = [];
 
-          if (!online) {
+          if (!userOnline) {
             const dialog = {
               type: "offline",
               message: {
