@@ -62,7 +62,6 @@ export default {
       let dishesPlan = [];
       let userOnline = await this.isOnline();
 
-      console.log("userOnine new:", userOnline);
       const canteen = await get("selectedCanteen");
       const lastUpdate = await get("dishesUpdated");
       if (canteen != null && lastUpdate != today) {
@@ -122,7 +121,6 @@ export default {
           });
 
           if (response.ok) {
-            console.log("fetch Gerichte openmensa api successful!");
 
             for (const key in responseData) {
               const dish = {
@@ -157,16 +155,13 @@ export default {
         });
         let timerEnd = Date.now();
         let timeRetrieveData = timerEnd - timerStart;
-        console.log("fetching time: ", timeRetrieveData);
         if (timeRetrieveData < 1000) {
           setTimeout(() => {
             this.readyToLaunch = true;
-            console.log("timer1 verzögert");
           }, 1000 - timeRetrieveData);
         }
       } else {
         setTimeout(() => {
-          console.log("timer2");
           this.readyToLaunch = true;
         }, 1000);
       }
@@ -185,7 +180,6 @@ export default {
           "https://openmensa.org/api/v2/canteens"
         );
         this.apiDataCanteens = await responseFetch.json();
-        console.log("fetch aller Kantinen openmensa api erfolgreich");
       } catch (error) {
         console.log("error fetch: ", error);
       }

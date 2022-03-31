@@ -70,10 +70,8 @@ export default {
         (fav) => fav.id === this.dishItem.id
       );
       if (indexFavorites === -1) {
-        console.log("dish with id " + this.dishItem.id + " is not a favorite");
         return false;
       } else {
-        console.log("dish with id " + this.dishItem.id + " is a favorite");
         return true;
       }
     },

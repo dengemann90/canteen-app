@@ -105,9 +105,6 @@ export default {
     },
     position() {
       if (this.position.coords.accuracy <= 200) {
-        console.log(
-          "GeoLocation Daten geladen -> Fetch open mensa api ausführen"
-        );
         this.fetchDataGeoLocation();
       } else {
         const dialogContent = {
@@ -118,8 +115,6 @@ export default {
       }
     },
     apiData() {
-      console.log("Fetch erfolgreich -> Daten aufbereiten");
-      console.log("API response: ", this.apiData);
       this.prepareFetchedData();
     },
   },
@@ -131,7 +126,6 @@ export default {
 
       const inputValid = regex1.test(this.selectedCity);
       const containsBrackets = regex2.test(this.selectedCity);
-      console.log("inputValid", inputValid);
       if (inputValid && !containsBrackets) {
         let filteredCanteenList = this.canteenListDB.filter((canteen) =>
           canteen.city.toLowerCase().match(this.selectedCity.toLowerCase())
@@ -168,7 +162,6 @@ export default {
       } else {
         rangeValid = false;
       }
-      console.log("input valid:", inputValid && rangeValid);
       return inputValid && rangeValid;
     },
     getGeoLocation() {
@@ -187,12 +180,7 @@ export default {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             this.latitude = position.coords.latitude;
-            console.log("latitude : ", this.latitude);
             this.longitude = position.coords.longitude;
-            console.log("longitude : ", this.longitude);
-            console.log("accuracy : ", position.coords.accuracy);
-            console.log("all position data: ", position);
-            console.log("selected radius: ", this.selectedRadius);
             this.position = position;
           },
           (error) => {
@@ -269,13 +257,11 @@ export default {
       }
       if (canteens.length > 0) {
         this.canteenList = canteens;
-        console.log("output -fetch : ", canteens);
       } else {
         this.canteenList = [];
         const message =
           "Keine Mensa im Umkreis von " + this.selectedRadius + " km gefunden!";
         this.setErrorMessage(message);
-        console.log("Keine Mensen im angegebenen Umkreis gefunden!");
       }
     },
     transmitCanteenList() {
@@ -303,10 +289,6 @@ export default {
     get("locationAllCanteens").then((data) => {
       if (data != null) {
         this.canteenListDB = data;
-      } else {
-        console.log(
-          "Standorte aller Kantinen sind nicht in der indexedDB gespeichert"
-        );
       }
     });
   },

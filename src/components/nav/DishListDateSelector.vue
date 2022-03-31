@@ -52,8 +52,6 @@ export default {
         this.indexDateSelector++;
 
         this.dateSelected = this.loadedDays[this.indexDateSelector];
-        console.log("next day clicked - dateSelected: " + this.dateSelected);
-        console.log("IndexDateSelector Index: " + this.indexDateSelector);
       }
     },
     previousDay() {
@@ -61,11 +59,6 @@ export default {
         this.indexDateSelector--;
 
         this.dateSelected = this.loadedDays[this.indexDateSelector];
-        console.log(
-          "previous day clicked - dateSelected: " + this.dateSelected
-        );
-
-        console.log("IndexDateSelector Index: " + this.indexDateSelector);
       }
     },
     getLoadedDays() {
@@ -79,7 +72,6 @@ export default {
               dateArrayToday[1] - 1, //The month parameter in the Date() constructor is 0-based.
               dateArrayToday[0]
           );
-          console.log('todayConverted',todayConverted);
           for (let i in data) {
             let dateArray = data[i].date.split('.');
             let dateConverted = new Date(
@@ -94,8 +86,6 @@ export default {
           }
           this.loadedDays = arrayDays;
           this.dateSelected = arrayDays[0]
-          console.log('loaded days >= today',  this.loadedDays);
-          console.log('dateSelected', this.dateSelected);
         })
         .catch(console.warn);
     },
@@ -123,7 +113,6 @@ export default {
   },
   mounted() {
     this.getLoadedDays();
-    console.log("selected Day: " + this.dateSelected);
   },
 };
 </script>

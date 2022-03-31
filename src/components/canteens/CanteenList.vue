@@ -156,8 +156,6 @@ export default {
     get("selectedCanteen").then((data) => {
       if (data != null) {
         this.selectedCanteen = data;
-      } else {
-        console.log("kein ausgewählte Kantine in der indexedDB");
       }
     });
   },

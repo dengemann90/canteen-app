@@ -16,7 +16,6 @@ const store = createStore({
       set("userType", JSON.parse(JSON.stringify(payload)))
         .then(() => {
           state.userType = payload;
-          console.log("UserType updated in indexedDB: ");
         })
         .then(() => {
           console.log('userType: ', state.userType);

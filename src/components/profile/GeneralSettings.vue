@@ -44,7 +44,6 @@ export default {
     userType(_, oldValue) {
       if (oldValue != "") {
         this.$store.dispatch("updateUserType", this.userType);
-        console.log("userType geändert, neu: ", this.userType);
       }
     },
   },

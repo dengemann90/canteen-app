@@ -43,20 +43,13 @@ export default {
             (request) => request.date === this.dateSelected
           );
           this.dishes = this.filterDishes(result.dishes);
-          console.log("filteredDishes:", this.dishes);
-          console.log("props date " + this.dateSelected);
-          console.log("dishes loaded from indexedDB");
-          console.log(result.dishes);
           this.getCategories();
-          console.log("catgeories:");
-          console.dir(this.categories);
           this.getDishListCategories();
         })
         .catch(console.warn);
     },
     filterDishes(unfilteredDishes) {
       let filteredDishes = [];
-      console.log("method filter dishes Nutrition", this.selectedNutrition);
 
       if (this.selectedNutrition == "Omnivore") {
         for (let dish of unfilteredDishes) {
@@ -130,8 +123,6 @@ export default {
         });
         dishes = [];
       }
-      console.log("dishListCategories:");
-      console.dir(this.dishListCategories);
     },
     getEntries() {
       get("selectedNutrition")
