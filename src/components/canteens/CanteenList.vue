@@ -57,10 +57,10 @@ export default {
       let dishesPlan = [];
 
         for (let i = 0; i <= 7; i++) {
-          let online = window.navigator.onLine;
+          let userOnline = window.navigator.onLine;
           let dishes = [];
 
-      if (!online) {
+      if (!userOnline) {
         this.isLoading = false;
         const dialogContent = {
           message:
@@ -125,7 +125,10 @@ export default {
       }
     },
     setSelectedCanteen(canteen) {
-      set("selectedCanteen", JSON.parse(JSON.stringify(canteen)));
+      let today = format(Date.now(), "dd-MM-yyyy");
+      set("selectedCanteen", JSON.parse(JSON.stringify(canteen))).then(() =>{
+        set("dishesUpdated", JSON.parse(JSON.stringify(today)));
+      })
     },
     openDialog(dialogContent) {
       this.dialogErrorMessage = dialogContent.message;
