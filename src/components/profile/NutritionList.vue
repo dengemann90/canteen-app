@@ -36,22 +36,26 @@ export default {
           type: "Omnivore",
           description: "Du isst sowohl pflanzliche als auch tierische Produkte",
           imageName: "Omnivore",
+          alt: "Omnivore"
         },
         {
           type: "Pescetarisch",
           description:
             "Du isst eigentlich veggie, machst bei Fisch aber eine Ausnahme",
           imageName: "Pescetarisch",
+          alt: "Pescetarisch"
         },
         {
           type: "Vegetarisch",
           description: "Du verzichtest auf Fleisch und Fisch",
           imageName: "Vegetarisch",
+          alt: "Vegetarisch"
         },
         {
           type: "Vegan",
           description: "Du verzichtest auf alle tierischen Produkte",
           imageName: "Vegan",
+          alt: "Vegan"
         },
       ],
     };

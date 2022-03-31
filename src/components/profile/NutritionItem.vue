@@ -10,7 +10,7 @@
       <div>
         <img
           :src="require(`../../assets/${nutrition.imageName}.png`)"
-          alt="vegan"
+          alt="Bild Ernährungsform"
           width="150"
           height="150 "
         />

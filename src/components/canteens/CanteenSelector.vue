@@ -1,13 +1,13 @@
 <template>
-<base-error-dialog
+  <base-error-dialog
     v-if="dialogIsVisible"
     @close="closeDialog"
     :open="dialogIsVisible"
-    :type= this.dialogErrorType
-    :message = this.dialogErrorMessage
-    >
+    :type="this.dialogErrorType"
+    :message="this.dialogErrorMessage"
+  >
     <button class="button-ok" @click="closeDialog">ok</button>
-</base-error-dialog>
+  </base-error-dialog>
   <div class="input-city-field">
     <input
       class="input-city"
@@ -94,7 +94,7 @@ export default {
         return { "disabled-input": true };
       }
       return null;
-    }
+    },
   },
   watch: {
     selectedCity() {
@@ -172,7 +172,6 @@ export default {
       return inputValid && rangeValid;
     },
     getGeoLocation() {
-
       let userOnline = window.navigator.onLine;
 
       if (!userOnline) {
@@ -301,14 +300,16 @@ export default {
     },
   },
   created() {
-          get("locationAllCanteens").then((data) => {
-        if (data != null) {
-          this.canteenListDB = data;
-        } else {
-          console.log('Standorte aller Kantinen sind nicht in der indexedDB gespeichert');
-        }
-      });
-  }
+    get("locationAllCanteens").then((data) => {
+      if (data != null) {
+        this.canteenListDB = data;
+      } else {
+        console.log(
+          "Standorte aller Kantinen sind nicht in der indexedDB gespeichert"
+        );
+      }
+    });
+  },
 };
 </script>
 
@@ -368,6 +369,7 @@ export default {
   margin-top: 1.7rem;
   margin-left: -2.5rem;
   color: rgba(0, 0, 0, 0.2);
+  background:transparent;
 }
 
 .fas.solid.fa-compass:active {
@@ -375,6 +377,9 @@ export default {
 }
 
 input:focus {
+  /* hide blinking cursor*/
+  color: transparent;
+  text-shadow: 0 0 0 #000000;
   outline: none !important;
   border: solid 1.5px rgba(128, 128, 128, 0.5);
 }
