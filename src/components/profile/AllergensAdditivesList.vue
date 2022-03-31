@@ -85,6 +85,7 @@ export default {
         "Lupine",
         "Macadamia",
         "Mandeln",
+        "mit Knoblauch",
         "Milch und Milchprodukte (inkl. Laktose)",
         "Nitritpökelsalz",
         "Pacannuss",
