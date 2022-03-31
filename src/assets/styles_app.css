@@ -67,6 +67,8 @@ p.capital {
 
 .content {
     padding: 16px;
+    align-items: center;
+    display: inline-block;
 }
 
 .appframe {
@@ -80,7 +82,7 @@ p.capital {
     flex-wrap: wrap;
     justify-content: space-between;
     text-align: center;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     margin: top 25px;
     min-height: 100vh;
