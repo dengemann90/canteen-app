@@ -23,7 +23,7 @@
             <dish-list-date-selector
               @setDate="setDate"
             ></dish-list-date-selector>
-            <p v-if="dataCanteenFetched && dataDishesFetched" class="activeCanteen">{{ canteenName }}</p>
+            <p class="activeCanteen">{{ canteenName }}</p>
             <div
               v-if="filterActive"
               class="filter-active-badge"
