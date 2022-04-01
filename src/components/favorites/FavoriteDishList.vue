@@ -1,5 +1,5 @@
 <template>
-  <p v-if="dataFetched && favorites.length === 0">Bisher keine Favoriten gespeichert!</p>
+  <p v-if="favorites.length === 0">Bisher keine Favoriten gespeichert!</p>
   <ul v-else>
     <dish-item
       v-for="dish in favorites"
@@ -21,7 +21,6 @@ export default {
   data() {
     return {
       favorites: [],
-      dataFetched: false
     };
   },
   methods: {
@@ -36,10 +35,7 @@ export default {
   created() {
     get("favorites").then((data) => {
       if (data != null) {
-        this.dataFetched = true;
         this.favorites = data;
-      } else{
-        this.dataFetched = true;
       }
     });
   },

@@ -7,13 +7,13 @@
       </div>
       <div class="container">
         <div class="content">
-          <div v-if="dataCanteenFetched && !canteenSelected">
+          <div v-if="!canteenSelected">
             <p>
               Wähle eine <router-link to="/locations">Mensa</router-link>, um
               den Speiseplan anzuzeigen.
             </p>
           </div>
-          <div v-else-if="dataCanteenFetched && canteenSelected && dataDishesFetched && !dishesAvailable">
+          <div v-else-if="canteenSelected && !dishesAvailable">
             <p>
               Für die Mensa <b>{{ canteenName }}</b> konnte kein aktueller
               Speiseplan geladen werden.
@@ -61,9 +61,7 @@ export default {
     return {
       dateSelected: Intl.DateTimeFormat().format(Date.now()),
       showFilterCard: false,
-      dataCanteenFetched: false,
       canteenSelected: false,
-      dataDishesFetched: false,
       dishesAvailable: false,
       canteenName: "",
     };
@@ -94,7 +92,6 @@ export default {
             this.canteenSelected = true;
             this.canteenName = data.name;
           }
-          this.dataCanteenFetched = true;
         })
         .catch(console.warn);
     },
@@ -108,7 +105,6 @@ export default {
             this.dishesAvailable = true;
           }
         }
-        this.dataDishesFetched = true;
       });
     },
   },
