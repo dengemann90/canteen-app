@@ -13,7 +13,14 @@
               den Speiseplan anzuzeigen.
             </p>
           </div>
-          <div v-else-if="dataCanteenFetched && canteenSelected && dataDishesFetched && !dishesAvailable">
+          <div
+            v-else-if="
+              dataCanteenFetched &&
+              canteenSelected &&
+              dataDishesFetched &&
+              !dishesAvailable
+            "
+          >
             <p>
               Für die Mensa <b>{{ canteenName }}</b> konnte kein aktueller
               Speiseplan geladen werden.
@@ -23,7 +30,12 @@
             <dish-list-date-selector
               @setDate="setDate"
             ></dish-list-date-selector>
-            <p v-if="dataCanteenFetched && dataDishesFetched" class="activeCanteen">{{ canteenName }}</p>
+            <p
+              v-if="dataCanteenFetched && dataDishesFetched"
+              class="activeCanteen"
+            >
+              {{ canteenName }}
+            </p>
             <div
               v-if="filterActive"
               class="filter-active-badge"
@@ -101,9 +113,22 @@ export default {
     checkDishesAvailable() {
       get("dishes").then((data) => {
         if (data) {
-          let dishesUpToDate = data.some((dish) =>
-            dish.date.includes(Intl.DateTimeFormat().format(Date.now()))
+          let datesConverted = [];
+
+          for (let i in data) {
+            let dateArray = data[i].date.split(".");
+            let dateConverted = new Date(
+              dateArray[2],
+              dateArray[1] - 1, //The month parameter in the Date() constructor is 0-based.
+              dateArray[0]
+            );
+            datesConverted.push(dateConverted);
+          }
+
+          let dishesUpToDate = datesConverted.some(
+            (date) => date >= Date.now()
           );
+
           if (dishesUpToDate) {
             this.dishesAvailable = true;
           }
