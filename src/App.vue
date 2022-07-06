@@ -121,7 +121,6 @@ export default {
           });
 
           if (response.ok) {
-
             for (const key in responseData) {
               const dish = {
                 id: responseData[key].name,
@@ -148,20 +147,26 @@ export default {
             dateIndexedDB = addDays(dateIndexedDB, 1);
           }
         }
-
         console.log(dishesPlan);
         set("dishes", JSON.parse(JSON.stringify(dishesPlan))).then(() => {
           set("dishesUpdated", JSON.parse(JSON.stringify(today)));
         });
+   
         let timerEnd = Date.now();
         let timeRetrieveData = timerEnd - timerStart;
         if (timeRetrieveData < 1000) {
           setTimeout(() => {
+            console.log("time retrieveData: executed with timeout ", timeRetrieveData);
+            console.log("remaining time to launch:" ,1000 - timeRetrieveData)
             this.readyToLaunch = true;
           }, 1000 - timeRetrieveData);
+        } else {
+          console.log("time retrieveData: executed without timeout", timeRetrieveData);
+          this.readyToLaunch = true;
         }
       } else {
         setTimeout(() => {
+          console.log("launch without fetch")
           this.readyToLaunch = true;
         }, 1000);
       }

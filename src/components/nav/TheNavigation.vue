@@ -17,7 +17,7 @@
       <i class="fas solid fa-user fa-2x"></i>
     </router-link>
     <!-- TopPage -->
-    <i class="fade" id="pagetop" @click="toTop">
+    <!-- <i class="fade" id="pagetop" @click="toTop">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="30"
@@ -28,7 +28,7 @@
       >
         <path d="M18 15l-6-6-6 6" />
       </svg>
-    </i>
+    </i> -->
   </nav>
 </template>
 

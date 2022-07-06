@@ -1,4 +1,18 @@
 <template>
+  <base-dialog
+    v-if="dialogCanteensNotSupported"
+    @close="dialogCanteensNotSupported = false"
+    :open="true"
+  >
+    <p>
+      Die Mensen in Berlin und Brandenburg werden leider nicht mehr von der OpenMensa API unterstützt!
+    </p>
+
+    <button class="button-ok" @click="dialogCanteensNotSupported = false">
+      ok
+    </button>
+
+  </base-dialog>
   <base-error-dialog
     v-if="dialogIsVisible"
     @close="closeDialog"
@@ -61,6 +75,7 @@ export default {
       dialogErrorMessage: "",
       canteenList: [],
       canteenListDB: [],
+      dialogCanteensNotSupported: true
     };
   },
   computed: {
